@@ -1,0 +1,263 @@
+/* Основен стил */
+body {
+  margin: 0;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- TOP BAR --- */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: #fff;
+}
+
+/* Лого */
+.logo img {
+  height: 50px;
+}
+
+/* Търсачка */
+.search-bar {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  border: 1px solid #eee;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 12px 18px;
+  outline: none;
+  font-size: 15px;
+}
+
+.search-bar button {
+  background: powderblue;
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Телефон */
+.contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+}
+
+.contact-phone i {
+  font-size: 22px;
+}
+
+.phone-number {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* --- MAIN NAV --- */
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: paleturquoise;
+  color: black;
+  padding: 10px 40px;
+}
+
+li ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    display: none;
+    position: relative;
+    
+}
+ul li:hover ul{
+    display: flex;
+    flex-direction: column;
+    margin-left: -20px;
+    background-color: red;
+    position: absolute;
+    width: 800px;
+    height: 450px;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+}
+
+.menu a {
+  position: relative;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.menu a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;               
+  width: 0;
+  height: 2px;
+  background-color: #000;
+  transition: width 0.3s ease;
+}
+
+.menu a:hover::after {
+  width: 100%;             /* grow underline to full width */
+}
+/* Икони вдясно */
+.nav-icons {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-icons a {
+  color: white;
+  font-size: 18px;
+  position: relative;
+}
+
+.nav-icons a:hover {
+  opacity: 0.8;
+}
+
+
+/* Hero секция */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+              url('images/hero-bg.jpg') center/cover no-repeat;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.cta-btn {
+  background: powderblue;
+  border: none;
+  color: black;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.cta-btn:hover {
+  background: deepskyblue;
+  color: white;
+}
+
+/* Категории */
+.categories {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.cat {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 15px;
+  width: 250px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cat img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.cat:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+.footer {
+  background: paleturquoise;
+  color: black;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Dropdown анимация */
+.menu ul {
+  display: none;
+  position: absolute;
+  background: powderblue;
+  padding: 25px;
+  border-radius: 5px;
+  animation: dropdown 0.35s ease;
+}
+
+@keyframes dropdown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+.nav-toggle {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    display: none;
+    flex-direction: column;
+    background: paleturquoise;
+    padding: 20px;
+  }
+
+  .menu.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: block;
+    margin-right: auto;
+    color: black;
+  }
+
+  .nav-icons {
+    display: none;
+  }
+}

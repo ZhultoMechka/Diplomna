@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Климатици ЕООД - Доставка, монтаж и ремонт</title>
+    
+    <!-- Font Awesome - библиотека с икони (зарежда се от CDN) -->
+    <!-- CDN = Content Delivery Network - сървъри които съхраняват библиотеки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Как се използват Font Awesome икони:
+         1. Отиваш на fontawesome.com/icons
+         2. Търсиш икона (например "phone")
+         3. Копираш кода: <i class="fas fa-phone"></i>
+         4. Слагаш го където искаш в HTML-а
+         
+         Примери в този сайт:
+         - <i class="fas fa-wind"></i> = икона на вятър (климатик)
+         - <i class="fas fa-phone-alt"></i> = телефон
+         - <i class="fas fa-shopping-cart"></i> = количка
+         - "fas" означава Font Awesome Solid (има и far, fab, fal)
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #0891b2;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+            margin: 0 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus-within {
+            border-color: #0891b2;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 12px 20px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .search-bar button {
+            background: #0891b2;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #0e7490;
+        }
+
+        .contact-phone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .contact-phone i {
+            font-size: 28px;
+            color: #0891b2;
+        }
+
+        .phone-number {
+            font-weight: bold;
+            font-size: 20px;
+            color: #0891b2;
+        }
+
+        .contact-phone small {
+            color: #666;
+        }
+
+        /* MAIN NAV */
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            padding: 0 60px;
+            position: relative;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .menu > li {
+            position: relative;
+        }
+
+        .menu > li > a {
+            display: block;
+            padding: 18px 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+
+        .menu > li > a:hover {
+            background: rgba(255,255,255,0.15);
+            
+        }
+
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-radius: 0 0 8px 8px;
+            z-index: 1000;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown.brands {
+            min-width: 250px;
+        }
+
+        .menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9ff;
+            color: #0891b2;
+            padding-left: 25px;
+        }
+
+        /* Nav Icons */
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .nav-icons a:hover {
+            transform: scale(1.15);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%230891b2" width="1200" height="600"/><path fill="%2306b6d4" opacity="0.3" d="M0 300 Q300 200 600 300 T1200 300 V600 H0 Z"/></svg>') center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #0891b2;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-btn:hover {
+            background: #0891b2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* SERVICES SECTION */
+        .services {
+            padding: 60px 40px;
+            background: white;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(8,145,178,0.2);
+            border-color: #0891b2;
+        }
+
+        .service-card i {
+            font-size: 50px;
+            color: #0891b2;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            padding: 60px 40px;
+            background: #f5f5f5;
+        }
+
+        .categories h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cat {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .cat:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .cat-image {
+            height: 250px;
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cat-image i {
+            font-size: 80px;
+            color: white;
+        }
+
+        .cat h3 {
+            padding: 25px;
+            text-align: center;
+            font-size: 1.4em;
+            color: #333;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 40px 60px;
+        }
+        .footer-content {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.9;
+        }
+
+        /* Mobile Toggle */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            .top-bar {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                display: flex;
+                flex-direction: column;
+
+            }
+            .phone-label {
+                display: none;
+            }
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin: 15px 0 0 0;
+            }
+            
+            .main-nav {
+                padding: 0 20px;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .nav-toggle {
+                display: flex;
+                align-self: flex-top;
+                margin: 17px 0;
+            }
+
+            .menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+            }
+
+            .menu.open {
+                display: flex;
+            }
+
+            .menu > li > a {
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .dropdown {
+                position: static;
+                box-shadow: none;
+                background: rgba(255,255,255,0.1);
+            }
+
+            .dropdown a {
+                color: white;
+                padding-left: 40px;
+            }
+
+            .nav-icons {
+                width: 100%;
+                justify-content: space-around;
+                padding: 15px 0;
+                margin: 10px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2em;
+            }
+
+            .footer {
+                padding: 30px 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="top-bar">
+        <a href="/" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+
+        <form class="search-bar">
+            <input type="text" placeholder="Търсене на продукти и услуги">
+            <button type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+
+        <div class="contact-phone">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+                <div class="phone-number">0700 70 008</div>
+                <small class="phone-label">Телефон за връзка</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
+        <button class="nav-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="menu" id="mainMenu">
+            <li>
+                <a href="#">Марки <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="#">Panasonic</a></li>
+                    <li><a href="#">Mitsubishi</a></li>
+                    <li><a href="#">Bosch</a></li>
+                    <li><a href="#">Daikin</a></li>
+                    <li><a href="#">Fujitsu</a></li>
+                    <li><a href="#">Hitachi</a></li>
+                    <li><a href="#">LG</a></li>
+                    <li><a href="#">Toshiba</a></li>
+                    <li><a href="#">Gree</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Продукти <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="#">Климатици</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Услуги <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="#">Доставка</a></li>
+                    <li><a href="#">Монтаж</a></li>
+                    <li><a href="#">Ремонт</a></li>
+                    <li><a href="#">Профилактика</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Промоции</a></li>
+            <li><a href="#">Контакти</a></li>
+        </ul>
+
+        <div class="nav-icons">
+            <a href="#" title="Вход"><i class="fas fa-user"></i></a>
+            <a href="#" title="Сравнение"><i class="fas fa-random"></i></a>
+            <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
+            <a href="#" title="Количка">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge">0</span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Климатици и отоплителни системи</h1>
+        <p>Професионална доставка, монтаж и ремонт. Най-добрите марки на пазара.</p>
+        <button class="cta-btn">Разгледай офертите</button>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+    <h2>Нашите услуги</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <i class="fas fa-headset"></i>
+            <h3>Консултация</h3>
+            <p>Безплатна консултация за избор на най-подходящия климатик</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-truck"></i>
+            <h3>Доставка</h3>
+            <p>Бърза и сигурна доставка до всяка точка на страната</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-tools"></i>
+            <h3>Монтаж</h3>
+            <p>Професионален монтаж от сертифицирани техници</p>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-wrench"></i>
+            <h3>Ремонт</h3>
+            <p>Ремонт и поддръжка на всички марки климатици</p>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+    <h2>Нашите продукти</h2>
+    <div class="category-grid">
+        <div class="cat">
+            <div class="cat-image">
+                <i class="fas fa-wind"></i>
+            </div>
+            <h3>Климатици</h3>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>За нас</h3>
+            <ul>
+                <li><a href="#">За фирмата</a></li>
+                <li><a href="#">Нашият екип</a></li>
+                <li><a href="#">Партньори</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Услуги</h3>
+            <ul>
+                <li><a href="#">Доставка</a></li>
+                <li><a href="#">Монтаж</a></li>
+                <li><a href="#">Ремонт</a></li>
+                <li><a href="#">Гаранция</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Контакти</h3>
+            <ul>
+                <li><i class="fas fa-phone"></i> 0700 70 008</li>
+                <li><i class="fas fa-envelope"></i> info@klimatici.bg</li>
+                <li><i class="fas fa-map-marker-alt"></i> София, България</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Климатици ЕООД — Всички права запазени.</p>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('mainMenu').classList.toggle('open');
+    }
+
+    // Close menu when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mainMenu');
+        const toggle = document.querySelector('.nav-toggle');
+        
+        if (window.innerWidth <= 968 && !menu.contains(e.target) && !toggle.contains(e.target)) {
+            menu.classList.remove('open');
+        }
+    });
+</script>
+
+</body>
+</html>

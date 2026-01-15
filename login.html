@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход / Регистрация - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Left Side - Branding */
+        .auth-branding {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .auth-branding i {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .auth-branding h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .auth-branding p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .auth-branding .features {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .auth-branding .features div {
+            display: flex;
+            align-items: top;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .auth-branding .features i {
+            font-size: 24px;
+            animation: none;
+        }
+
+        /* Right Side - Forms */
+        .auth-forms {
+            padding: 60px 40px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab.active {
+            color: #0891b2;
+            border-bottom-color: #0891b2;
+        }
+
+        .tab:hover {
+            color: #0891b2;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0891b2;
+        }
+
+        .form-group .input-icon {
+            position: relative;
+        }
+
+        .form-group .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .form-group .input-icon input {
+            padding-left: 45px;
+        }
+
+        .user-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-type {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-type input[type="radio"] {
+            display: none;
+        }
+
+        .user-type i {
+            font-size: 32px;
+            color: #0891b2;
+            margin-bottom: 10px;
+        }
+
+        .user-type:hover {
+            border-color: #0891b2;
+            background: #f0f9ff;
+        }
+
+        .user-type input[type="radio"]:checked + label {
+            border-color: #0891b2;
+            background: #f0f9ff;
+        }
+
+        .user-type.selected {
+            border-color: #0891b2;
+            background: #f0f9ff;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .remember-forgot a {
+            color: #0891b2;
+            text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8, 145, 178, 0.4);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #999;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .social-btn:hover {
+            border-color: #0891b2;
+            background: #f0f9ff;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .back-home a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .back-home a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-branding {
+                padding: 40px 30px;
+            }
+
+            .auth-branding .features {
+                display: none;
+            }
+
+            .auth-forms {
+                padding: 40px 30px;
+            }
+
+            .user-type-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="back-home">
+    <a href="index.html">
+        <i class="fas fa-arrow-left"></i>
+        Назад към началото
+    </a>
+</div>
+
+<div class="container">
+    <!-- Left Branding -->
+    <div class="auth-branding">
+        <i class="fas fa-wind"></i>
+        <h1>Климатици ЕООД</h1>
+        <p>Присъединете се към нашата платформа за най-добрите климатични решения за вашия дом</p>
+        
+        <div class="features">
+            <div>
+                <i class="fas fa-check-circle"></i>
+                <span>Бърза доставка</span>
+            </div>
+            <div>
+                <i class="fas fa-check-circle"></i>
+                <span>Професионален монтаж</span>
+            </div>
+            <div>
+                <i class="fas fa-check-circle"></i>
+                <span>Гаранционно обслужване</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Forms -->
+    <div class="auth-forms">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">Вход</button>
+            <button class="tab" onclick="switchTab('register')">Регистрация</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="form-container active">
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Имейл или потребителско име</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Въведете имейл или потребителско име" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Парола</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Въведете парола" required>
+                    </div>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox">
+                        <span>Запомни ме</span>
+                    </label>
+                    <a href="#">Забравена парола?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Влез
+                </button>
+
+                <div class="divider">или</div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="social-btn">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="form-container">
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Тип потребител</label>
+                    <div class="user-type-selector">
+                        <div class="user-type selected" onclick="selectUserType('client', this)">
+                            <i class="fas fa-user"></i>
+                            <div style="font-weight: bold;">Клиент</div>
+                            <small style="color: #666;">Поръчвам услуги</small>
+                        </div>
+                        <div class="user-type" onclick="selectUserType('technician', this)">
+                            <i class="fas fa-tools"></i>
+                            <div style="font-weight: bold;">Техник</div>
+                            <small style="color: #666;">Предлагам услуги</small>
+                        </div>
+                    </div>
+                    <input type="hidden" id="userType" value="client">
+                </div>
+
+                <div class="form-group">
+                    <label>Име и фамилия</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Вашето име" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Имейл</label>
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="example@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <div class="input-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" placeholder="0888 123 456" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Парола</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Минимум 6 символа" required minlength="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Потвърди парола</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Повтори паролата" required minlength="6">
+                    </div>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox" required>
+                        <span>Приемам <a href="#">условията за ползване</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> Регистрирай се
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Switch between Login and Register tabs
+    function switchTab(tab) {
+        // Update tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Update forms
+        document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+        document.getElementById(tab + '-form').classList.add('active');
+    }
+
+    // Select user type
+    function selectUserType(type, element) {
+        document.querySelectorAll('.user-type').forEach(t => t.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('userType').value = type;
+    }
+
+    // Handle Login (placeholder - will connect to backend later)
+    function handleLogin(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        
+        console.log('Login attempt:', {
+            username: event.target[0].value,
+            password: event.target[1].value
+        });
+        
+        // TODO: Send to backend API
+        alert('Login функционалността ще бъде свързана с backend! 🔐');
+        
+        // Simulate redirect to homepage
+        // window.location.href = 'index.html';
+    }
+
+    // Handle Register (placeholder - will connect to backend later)
+    function handleRegister(event) {
+        event.preventDefault();
+        
+        const userType = document.getElementById('userType').value;
+        const name = event.target[1].value;
+        const email = event.target[2].value;
+        const phone = event.target[3].value;
+        const password = event.target[4].value;
+        const confirmPassword = event.target[5].value;
+        
+        // Validate passwords match
+        if (password !== confirmPassword) {
+            alert('Паролите не съвпадат!');
+            return;
+        }
+        
+        console.log('Registration attempt:', {
+            userType,
+            name,
+            email,
+            phone,
+            password
+        });
+        
+        // TODO: Send to backend API
+        alert(`Регистрация като ${userType === 'client' ? 'Клиент' : 'Техник'} ще бъде свързана с backend! 🎉`);
+        
+        // Simulate switch to login
+        // switchTab('login');
+    }
+</script>
+
+</body>
+</html>
