@@ -73,10 +73,9 @@
 
         .auth-branding .features div {
             display: flex;
-            align-items: top;
+            align-items: center;
             gap: 15px;
             margin-bottom: 20px;
-            font-weight: bold;
         }
 
         .auth-branding .features i {
@@ -365,7 +364,7 @@
     <div class="auth-branding">
         <i class="fas fa-wind"></i>
         <h1>Климатици ЕООД</h1>
-        <p>Присъединете се към нашата платформа за най-добрите климатични решения за вашия дом</p>
+        <p>Присъединете се към нашата платформа за най-добрите климатични решения</p>
         
         <div class="features">
             <div>
@@ -529,25 +528,67 @@
         document.getElementById('userType').value = type;
     }
 
-    // Handle Login (placeholder - will connect to backend later)
-    function handleLogin(event) {
+    // API Base URL
+    const API_URL = 'http://localhost/Diplomna/api';
+
+    // Handle Login - REAL API CONNECTION
+    async function handleLogin(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
         
-        console.log('Login attempt:', {
-            username: event.target[0].value,
-            password: event.target[1].value
-        });
+        const email = event.target[0].value;
+        const password = event.target[1].value;
         
-        // TODO: Send to backend API
-        alert('Login функционалността ще бъде свързана с backend! 🔐');
+        // Show loading state
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Влизане...';
         
-        // Simulate redirect to homepage
-        // window.location.href = 'index.html';
+        try {
+            const response = await fetch(`${API_URL}/auth/login.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Success - save user data and redirect
+                localStorage.setItem('user', JSON.stringify(result.user));
+                
+                alert('✅ ' + result.message);
+                
+                // Redirect based on user type
+                if (result.user.user_type === 'admin') {
+                    window.location.href = 'admin.html'; // Admin panel - пълен контрол
+                } else if (result.user.user_type === 'employee') {
+                    window.location.href = 'technician-dashboard.html'; // Техник панел - само неговите задачи
+                } else {
+                    window.location.href = 'index.html'; // Магазин за клиенти
+                }
+            } else {
+                // Error
+                alert('❌ ' + result.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('❌ Грешка при свързване със сървъра. Проверете дали Apache е пуснат.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
     }
 
-    // Handle Register (placeholder - will connect to backend later)
-    function handleRegister(event) {
+    // Handle Register - REAL API CONNECTION
+    async function handleRegister(event) {
         event.preventDefault();
         
         const userType = document.getElementById('userType').value;
@@ -559,23 +600,68 @@
         
         // Validate passwords match
         if (password !== confirmPassword) {
-            alert('Паролите не съвпадат!');
+            alert('❌ Паролите не съвпадат!');
             return;
         }
         
-        console.log('Registration attempt:', {
-            userType,
-            name,
-            email,
-            phone,
-            password
-        });
+        // Show loading state
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Регистрация...';
         
-        // TODO: Send to backend API
-        alert(`Регистрация като ${userType === 'client' ? 'Клиент' : 'Техник'} ще бъде свързана с backend! 🎉`);
-        
-        // Simulate switch to login
-        // switchTab('login');
+        try {
+            // Prepare request data
+            const requestData = {
+                email: email,
+                password: password,
+                full_name: name,
+                phone: phone,
+                user_type: userType === 'technician' ? 'employee' : userType  // Convert technician to employee
+            };
+            
+            // Add position for employees
+            if (userType === 'technician') {
+                requestData.position = 'technician';
+            }
+            
+            const response = await fetch(`${API_URL}/auth/register.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Success - save user data and redirect
+                localStorage.setItem('user', JSON.stringify(result.user));
+                
+                alert('✅ ' + result.message);
+                
+                // Redirect based on user type
+                if (result.user.user_type === 'admin') {
+                    window.location.href = 'admin.html'; // Admin panel - пълен контрол
+                } else if (result.user.user_type === 'employee') {
+                    window.location.href = 'technician-dashboard.html'; // Техник панел - само неговите задачи
+                } else {
+                    window.location.href = 'index.html'; // Магазин за клиенти
+                }
+            } else {
+                // Error
+                alert('❌ ' + result.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+            
+        } catch (error) {
+            console.error('Register error:', error);
+            alert('❌ Грешка при свързване със сървъра. Проверете дали Apache е пуснат.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
     }
 </script>
 
