@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-welcome {
+            text-align: right;
+        }
+
+        .user-welcome h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .user-welcome p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            color: #666;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+        }
+
+        .stat-icon.products {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-icon.orders {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-icon.users {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .stat-icon.revenue {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .stat-content h3 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        /* Action Cards */
+        .actions-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .action-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .action-card h3 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .action-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-left">
+        <h1>
+            <i class="fas fa-tachometer-alt"></i>
+            Admin Dashboard
+        </h1>
+    </div>
+    <div class="user-info">
+        <div class="user-welcome">
+            <h3 id="userName">Администратор</h3>
+            <p>Добре дошли в панела</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Изход
+        </button>
+    </div>
+</div>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h2>👋 Добре дошли обратно!</h2>
+        <p>Това е вашият административен панел за управление на магазина.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card" onclick="window.location.href='admin-products.html'">
+            <div class="stat-icon products">
+                <i class="fas fa-box-open"></i>
+            </div>
+            <div class="stat-content">
+                <h3 id="productsCount">-</h3>
+                <p>Продукта в наличност</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon orders">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="stat-content">
+                <h3>-</h3>
+                <p>Общо поръчки</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon users">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+                <h3>-</h3>
+                <p>Регистрирани клиенти</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon revenue">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-content">
+                <h3>-</h3>
+                <p>Приходи този месец</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="actions-section">
+        <h2>🚀 Бързи действия</h2>
+        <div class="actions-grid">
+            <a href="admin-products.html" class="action-card">
+                <div class="action-card-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <h3>Управление на продукти</h3>
+                <p>Преглед, редактиране и добавяне на нови климатици в каталога</p>
+            </a>
+
+            <a href="admin-add-product.html" class="action-card">
+                <div class="action-card-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h3>Добави нов продукт</h3>
+                <p>Добавете нов климатик в магазина с всички детайли</p>
+            </a>
+
+            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
+                <div class="action-card-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>Поръчки</h3>
+                <p>Преглед и управление на всички поръчки от клиенти</p>
+            </a>
+
+            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
+                <div class="action-card-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Потребители</h3>
+                <p>Управление на клиенти и служители в системата</p>
+            </a>
+
+            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
+                <div class="action-card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Статистики</h3>
+                <p>Детайлни отчети за продажби, приходи и популярни продукти</p>
+            </a>
+
+            <a href="index.html" class="action-card">
+                <div class="action-card-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <h3>Към магазина</h3>
+                <p>Вижте как изглежда магазинът за клиентите</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+
+    // Check if user is admin
+    window.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        
+        if (!user || user.user_type !== 'admin') {
+            alert('❌ Нямате права за достъп до тази страница!');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Display user name
+        document.getElementById('userName').textContent = user.full_name || 'Администратор';
+
+        // Load statistics
+        loadStats();
+    });
+
+    // Load statistics
+    async function loadStats() {
+        try {
+            // Get products count
+            const response = await fetch(`${API_URL}/products/get_all.php`);
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('productsCount').textContent = result.total_active_products || result.count;
+            }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
+    }
+
+    // Logout function
+    function logout() {
+        if (confirm('Сигурни ли сте, че искате да излезете?')) {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+    }
+</script>
+
+</body>
+</html>

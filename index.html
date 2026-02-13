@@ -364,6 +364,8 @@
             overflow: hidden;
             transition: all 0.3s;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
         }
 
         .cat:hover {
@@ -389,6 +391,29 @@
             text-align: center;
             font-size: 1.4em;
             color: #333;
+        }
+
+        .view-all-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .view-all-btn button {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(8,145,178,0.3);
+        }
+
+        .view-all-btn button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(8,145,178,0.5);
         }
 
         /* FOOTER */
@@ -536,13 +561,13 @@
 <!-- HEADER -->
 <header class="header">
     <div class="top-bar">
-        <a href="/" class="logo">
+        <a href="index.html" class="logo">
             <i class="fas fa-wind"></i>
             <span>Климатици ЕООД</span>
         </a>
 
-        <form class="search-bar">
-            <input type="text" placeholder="Търсене на продукти и услуги">
+        <form class="search-bar" onsubmit="searchProducts(event)">
+            <input type="text" id="searchInput" placeholder="Търсене на продукти и услуги">
             <button type="submit">
                 <i class="fas fa-search"></i>
             </button>
@@ -564,31 +589,30 @@
         </button>
 
         <ul class="menu" id="mainMenu">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="products.html">Продукти</a></li>
             <li>
                 <a href="#">Марки <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown">
-                    <li><a href="#">Panasonic</a></li>
-                    <li><a href="#">Mitsubishi</a></li>
-                    <li><a href="#">Bosch</a></li>
-                    <li><a href="#">Daikin</a></li>
-                    <li><a href="#">Fujitsu</a></li>
-                    <li><a href="#">Hitachi</a></li>
-                    <li><a href="#">LG</a></li>
-                    <li><a href="#">Toshiba</a></li>
-                    <li><a href="#">Gree</a></li>
+                    <li><a href="products.html?brand=1">Panasonic</a></li>
+                    <li><a href="products.html?brand=2">Daikin</a></li>
+                    <li><a href="products.html?brand=3">Mitsubishi</a></li>
+                    <li><a href="products.html?brand=4">Bosch</a></li>
+                    <li><a href="products.html?brand=5">LG</a></li>
+                    <li><a href="products.html?brand=6">Gree</a></li>
                 </ul>
             </li>
             <li>
                 <a href="#">Услуги <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown">
-                    <li><a href="#">Доставка</a></li>
-                    <li><a href="#">Монтаж</a></li>
-                    <li><a href="#">Ремонт</a></li>
-                    <li><a href="#">Профилактика</a></li>
+                    <li><a href="#services">Доставка</a></li>
+                    <li><a href="#services">Монтаж</a></li>
+                    <li><a href="#services">Ремонт</a></li>
+                    <li><a href="#services">Профилактика</a></li>
                 </ul>
             </li>
-            <li><a href="#">Промоции</a></li>
-            <li><a href="#">Контакти</a></li>
+            <li><a href="#promotions">Промоции</a></li>
+            <li><a href="#contact">Контакти</a></li>
         </ul>
 
         <div class="nav-icons">
@@ -608,12 +632,14 @@
     <div class="hero-content">
         <h1>Климатици и отоплителни системи</h1>
         <p>Професионална доставка, монтаж и ремонт. Най-добрите марки на пазара.</p>
-        <button class="cta-btn">Разгледай офертите</button>
+        <button class="cta-btn" onclick="window.location.href='products.html'">
+            <i class="fas fa-arrow-right"></i> Разгледай продуктите
+        </button>
     </div>
 </section>
 
 <!-- SERVICES -->
-<section class="services">
+<section class="services" id="services">
     <h2>Нашите услуги</h2>
     <div class="services-grid">
         <div class="service-card">
@@ -643,17 +669,23 @@
 <section class="categories">
     <h2>Нашите продукти</h2>
     <div class="category-grid">
-        <div class="cat">
+        <a href="products.html" class="cat">
             <div class="cat-image">
                 <i class="fas fa-wind"></i>
             </div>
             <h3>Климатици</h3>
-        </div>
+        </a>
+    </div>
+    
+    <div class="view-all-btn">
+        <button onclick="window.location.href='products.html'">
+            <i class="fas fa-th"></i> Виж всички продукти
+        </button>
     </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
+<footer class="footer" id="contact">
     <div class="footer-content">
         <div class="footer-section">
             <h3>За нас</h3>
@@ -666,10 +698,10 @@
         <div class="footer-section">
             <h3>Услуги</h3>
             <ul>
-                <li><a href="#">Доставка</a></li>
-                <li><a href="#">Монтаж</a></li>
-                <li><a href="#">Ремонт</a></li>
-                <li><a href="#">Гаранция</a></li>
+                <li><a href="#services">Доставка</a></li>
+                <li><a href="#services">Монтаж</a></li>
+                <li><a href="#services">Ремонт</a></li>
+                <li><a href="#services">Гаранция</a></li>
             </ul>
         </div>
         <div class="footer-section">
@@ -701,6 +733,17 @@
             menu.classList.remove('open');
         }
     });
+
+    // Search functionality
+    function searchProducts(event) {
+        event.preventDefault();
+        const searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm.trim()) {
+            window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
+        } else {
+            window.location.href = 'products.html';
+        }
+    }
 </script>
 
 </body>
