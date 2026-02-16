@@ -594,12 +594,12 @@
             <li>
                 <a href="#">Марки <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown">
-                    <li><a href="products.html?brand=1">Panasonic</a></li>
-                    <li><a href="products.html?brand=2">Daikin</a></li>
-                    <li><a href="products.html?brand=3">Mitsubishi</a></li>
-                    <li><a href="products.html?brand=4">Bosch</a></li>
-                    <li><a href="products.html?brand=5">LG</a></li>
-                    <li><a href="products.html?brand=6">Gree</a></li>
+                    <li><a href="products.html?brand=Panasonic">Panasonic</a></li>
+                    <li><a href="products.html?brand=Daikin">Daikin</a></li>
+                    <li><a href="products.html?brand=Mitsubishi">Mitsubishi</a></li>
+                    <li><a href="products.html?brand=Bosch">Bosch</a></li>
+                    <li><a href="products.html?brand=LG">LG</a></li>
+                    <li><a href="products.html?brand=Gree">Gree</a></li>
                 </ul>
             </li>
             <li>
@@ -619,9 +619,9 @@
             <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
             <a href="#" title="Сравнение"><i class="fas fa-random"></i></a>
             <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
-            <a href="#" title="Количка">
+            <a href="cart.html" title="Количка">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-badge">0</span>
+                <span class="cart-badge" id="cartCount">0</span>
             </a>
         </div>
     </nav>
@@ -718,6 +718,9 @@
         <p>© 2025 Климатици ЕООД — Всички права запазени.</p>
     </div>
 </footer>
+
+<!-- Cart Manager Library -->
+<script src="assets/js/cart-manager.js"></script>
 
 <script>
     function toggleMenu() {

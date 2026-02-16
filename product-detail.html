@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детайли за продукт - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #0891b2;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icons a {
+            color: #333;
+            font-size: 20px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .nav-icons a:hover {
+            transform: scale(1.15);
+            color: #0891b2;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 15px 60px;
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .breadcrumbs a {
+            color: #0891b2;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: #666;
+            margin: 0 8px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 60px;
+        }
+
+        /* Product Section */
+        .product-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        /* Product Gallery */
+        .product-gallery {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .energy-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .thumbnail-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .thumbnail {
+            height: 100px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover {
+            border-color: #0891b2;
+        }
+
+        .thumbnail.active {
+            border-color: #0891b2;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Product Info */
+        .product-info h1 {
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-brand {
+            color: #0891b2;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .product-price {
+            font-size: 3em;
+            color: #0891b2;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .availability {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .availability.out-of-stock {
+            background: #ef4444;
+        }
+
+        /* Specs */
+        .specs-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .specs-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-item i {
+            color: #0891b2;
+            font-size: 18px;
+            width: 25px;
+        }
+
+        .spec-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .spec-value {
+            color: #333;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Services Section */
+        .services-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .services-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .service-option {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .service-option:hover {
+            border-color: #0891b2;
+            transform: translateX(5px);
+        }
+
+        .service-option.selected {
+            border-color: #0891b2;
+            background: #f0f9ff;
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        .service-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .service-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .service-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .service-price {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0891b2;
+        }
+
+        /* Quantity Selector */
+        .quantity-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .quantity-btn {
+            background: #0891b2;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #0e7490;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            background: transparent;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        #servicesRow {
+            background: #f0f9ff;
+            padding: 10px;
+            margin: -10px -10px 5px -10px;
+            border-radius: 8px;
+        }
+
+        #servicesRow span {
+            color: #0891b2;
+            font-weight: 600;
+        }
+
+        .price-row.total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #0891b2;
+        }
+
+        .price-row.total .summary-value {
+            transition: all 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes priceChange {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+                color: #10b981;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(8, 145, 178, 0.4);
+        }
+
+        /* Description */
+        .description-section {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .description-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .description-section p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+
+        .features-list li i {
+            color: #10b981;
+            font-size: 18px;
+        }
+
+        /* Related Products */
+        .related-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .related-section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #0891b2;
+        }
+
+        .related-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .related-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .related-info {
+            padding: 20px;
+        }
+
+        .related-brand {
+            color: #0891b2;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .related-name {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .related-price {
+            font-size: 1.5em;
+            color: #0891b2;
+            font-weight: bold;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 100px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                padding: 20px;
+            }
+
+            .product-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-gallery {
+                position: static;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar, .breadcrumbs {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+
+        <div class="nav-icons">
+            <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
+            <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
+            <a href="cart.html" title="Количка">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge" id="cartCount">0</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="breadcrumbs">
+        <a href="index.html">Начало</a>
+        <span>/</span>
+        <a href="products.html">Каталог</a>
+        <span>/</span>
+        <span id="breadcrumbProduct">Продукт</span>
+    </div>
+</div>
+
+<!-- Loading -->
+<div id="loading" class="loading">
+    <i class="fas fa-spinner"></i>
+    <p>Зареждане на продукт...</p>
+</div>
+
+<!-- Main Container -->
+<div class="container" id="mainContent" style="display: none;">
+    
+    <!-- Product Section -->
+    <div class="product-section">
+        <div class="product-layout">
+            
+            <!-- Product Gallery -->
+            <div class="product-gallery">
+                <div class="main-image" id="mainImage">
+                    <img src="" alt="" id="mainImageImg">
+                    <div class="energy-badge" id="energyBadge">A+++</div>
+                </div>
+                <div class="thumbnail-gallery" id="thumbnailGallery">
+                    <!-- Thumbnails will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <span class="product-brand" id="productBrand">Марка</span>
+                <h1 id="productName">Име на продукт</h1>
+                
+                <div class="availability" id="availability">
+                    <i class="fas fa-check-circle"></i> На склад
+                </div>
+
+                <div class="product-price" id="productPrice">0.00 лв</div>
+
+                <!-- Specifications -->
+                <div class="specs-section">
+                    <h3><i class="fas fa-info-circle"></i> Технически характеристики</h3>
+                    <div class="specs-grid" id="specsGrid">
+                        <!-- Specs will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div class="services-section">
+                    <h3><i class="fas fa-tools"></i> Допълнителни услуги</h3>
+                    <div id="servicesContainer">
+                        <!-- Services will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="quantity-section">
+                    <label style="font-weight: 600; color: #333;">Количество:</label>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" class="quantity-input" id="quantity" value="1" min="1" readonly>
+                        <button class="quantity-btn" onclick="changeQuantity(1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>Цена на продукт:</span>
+                        <span id="productPriceCalc">0.00 лв</span>
+                    </div>
+                    <div class="price-row" id="servicesRow" style="display: none;">
+                        <span>Допълнителни услуги:</span>
+                        <span id="servicesPriceCalc">0.00 лв</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Обща цена:</span>
+                        <span id="totalPrice">0.00 лв</span>
+                    </div>
+                </div>
+
+                <!-- Add to Cart -->
+                <button class="add-to-cart-btn" onclick="addToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    Добави в количка
+                </button>
+
+                <!-- Description -->
+                <div class="description-section">
+                    <h3>Описание</h3>
+                    <p id="productDescription"></p>
+                    <ul class="features-list" id="featuresList">
+                        <!-- Features will be inserted here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-section" id="relatedSection" style="display: none;">
+        <h2>Подобни продукти</h2>
+        <div class="related-grid" id="relatedGrid">
+            <!-- Related products will be inserted here -->
+        </div>
+    </div>
+
+</div>
+
+<!-- Cart Manager Library -->
+<script src="assets/js/cart-manager.js"></script>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+    let currentProduct = null;
+    let selectedServices = [];
+    let availableServices = [];
+
+    // Get product ID from URL
+    function getProductId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+    }
+
+    // Load product on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const productId = getProductId();
+        
+        if (!productId) {
+            alert('Няма избран продукт');
+            window.location.href = 'products.html';
+            return;
+        }
+
+        loadProduct(productId);
+        loadServices();
+    });
+
+    // Load product details
+    async function loadProduct(productId) {
+        try {
+            const response = await fetch(`${API_URL}/products/get_by_id.php?id=${productId}`);
+            const result = await response.json();
+
+            console.log('Product data:', result);
+
+            if (result.success) {
+                currentProduct = result.product;
+                displayProduct(currentProduct);
+            } else {
+                alert('Продуктът не е намерен');
+                window.location.href = 'products.html';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при зареждане на продукта');
+        }
+    }
+
+    // Display product
+    function displayProduct(product) {
+        // Hide loading
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+
+        // Update page title and breadcrumb
+        document.title = `${product.model_name} - Климатици ЕООД`;
+        document.getElementById('breadcrumbProduct').textContent = product.model_name;
+
+        // Brand and name
+        document.getElementById('productBrand').textContent = product.brand_name;
+        document.getElementById('productName').textContent = product.model_name;
+
+        // Price
+        const price = parseFloat(product.price);
+        document.getElementById('productPrice').textContent = `${price.toFixed(2)} лв`;
+
+        // Availability
+        const availabilityEl = document.getElementById('availability');
+        if (product.stock_quantity > 0) {
+            availabilityEl.innerHTML = '<i class="fas fa-check-circle"></i> На склад';
+            availabilityEl.className = 'availability';
+        } else {
+            availabilityEl.innerHTML = '<i class="fas fa-times-circle"></i> Изчерпан';
+            availabilityEl.className = 'availability out-of-stock';
+        }
+
+        // Energy badge
+        document.getElementById('energyBadge').textContent = product.energy_class;
+
+        // Main image
+        const mainImg = document.getElementById('mainImageImg');
+        mainImg.src = product.main_image_url || `https://via.placeholder.com/600x500?text=${encodeURIComponent(product.model_name)}`;
+        mainImg.alt = product.model_name;
+
+        // Gallery
+        displayGallery(product.images || []);
+
+        // Specifications
+        displaySpecs(product);
+
+        // Description
+        document.getElementById('productDescription').textContent = product.description || 'Няма описание';
+
+        // Features
+        if (product.features) {
+            const features = product.features.split(',');
+            const featuresList = document.getElementById('featuresList');
+            featuresList.innerHTML = features.map(f => `
+                <li><i class="fas fa-check-circle"></i> ${f.trim()}</li>
+            `).join('');
+        }
+
+        // Related products
+        if (product.related_products && product.related_products.length > 0) {
+            displayRelatedProducts(product.related_products);
+        }
+
+        // Update price calculator
+        updatePriceCalculator();
+    }
+
+    // Display gallery
+    function displayGallery(images) {
+        const gallery = document.getElementById('thumbnailGallery');
+        
+        if (images.length === 0) {
+            gallery.style.display = 'none';
+            return;
+        }
+
+        gallery.innerHTML = images.map((img, index) => `
+            <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeMainImage('${img.image_url}', ${index})">
+                <img src="${img.image_url}" alt="Image ${index + 1}"
+                     onerror="this.src='https://via.placeholder.com/100?text=Image'">
+            </div>
+        `).join('');
+    }
+
+    // Change main image
+    function changeMainImage(imageUrl, index) {
+        document.getElementById('mainImageImg').src = imageUrl;
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+    }
+
+    // Display specifications
+    function displaySpecs(product) {
+        const specs = [
+            { icon: 'bolt', label: 'BTU мощност', value: `${product.btu_power} BTU` },
+            { icon: 'leaf', label: 'Енергиен клас', value: product.energy_class },
+            { icon: 'shield-alt', label: 'Гаранция', value: `${product.warranty_months} месеца` },
+            { icon: 'box', label: 'На склад', value: `${product.stock_quantity} бр.` }
+        ];
+
+        const specsGrid = document.getElementById('specsGrid');
+        specsGrid.innerHTML = specs.map(spec => `
+            <div class="spec-item">
+                <i class="fas fa-${spec.icon}"></i>
+                <span class="spec-label">${spec.label}:</span>
+                <span class="spec-value">${spec.value}</span>
+            </div>
+        `).join('');
+    }
+
+    // Load services
+    async function loadServices() {
+        try {
+            const response = await fetch(`${API_URL}/services/get_all.php`);
+            const result = await response.json();
+
+            console.log('Services API response:', result); // Debug
+
+            if (result.success && result.services && result.services.length > 0) {
+                availableServices = result.services.filter(s => {
+                    // Check both is_active and active fields
+                    return s.is_active === 1 || s.is_active === '1' || s.active === 1 || s.active === '1' || !('is_active' in s);
+                });
+                
+                console.log('Filtered services:', availableServices); // Debug
+                displayServices(availableServices);
+            } else {
+                console.log('No services returned from API'); // Debug
+                // Show default services if API fails
+                availableServices = [
+                    { service_id: 1, service_name: 'Стандартна доставка', description: '3-5 работни дни', price: 30 },
+                    { service_id: 3, service_name: 'Основен монтаж', description: 'Професионален монтаж', price: 150 }
+                ];
+                displayServices(availableServices);
+            }
+
+        } catch (error) {
+            console.error('Error loading services:', error);
+            // Show default services if API fails
+            availableServices = [
+                { service_id: 1, service_name: 'Стандартна доставка', description: '3-5 работни дни', price: 30 },
+                { service_id: 3, service_name: 'Основен монтаж', description: 'Професионален монтаж', price: 150 }
+            ];
+            displayServices(availableServices);
+        }
+    }
+
+    // Display services
+    function displayServices(services) {
+        const container = document.getElementById('servicesContainer');
+        
+        console.log('Displaying services:', services); // Debug
+        
+        if (!services || services.length === 0) {
+            container.innerHTML = '<p style="color: #999; text-align: center;">Няма налични услуги в момента</p>';
+            return;
+        }
+
+        container.innerHTML = services.map(service => `
+            <div class="service-option" onclick="toggleService(${service.service_id})">
+                <input type="checkbox" id="service_${service.service_id}" onclick="event.stopPropagation()">
+                <div class="service-info">
+                    <div class="service-name">${service.service_name}</div>
+                    <div class="service-description">${service.description || ''}</div>
+                </div>
+                <div class="service-price">+${parseFloat(service.price).toFixed(2)} лв</div>
+            </div>
+        `).join('');
+    }
+
+    // Toggle service selection
+    function toggleService(serviceId) {
+        const checkbox = document.getElementById(`service_${serviceId}`);
+        checkbox.checked = !checkbox.checked;
+        
+        const serviceDiv = checkbox.closest('.service-option');
+        
+        // Visual feedback
+        if (checkbox.checked) {
+            serviceDiv.classList.add('selected');
+            // Find and add service to selectedServices
+            const service = availableServices.find(s => s.service_id === serviceId);
+            if (service && !selectedServices.find(s => s.service_id === serviceId)) {
+                selectedServices.push(service);
+                console.log('✅ Service added:', service.service_name, '+' + service.price + ' лв'); // Debug
+            }
+        } else {
+            serviceDiv.classList.remove('selected');
+            // Remove service from selectedServices
+            selectedServices = selectedServices.filter(s => s.service_id !== serviceId);
+            const service = availableServices.find(s => s.service_id === serviceId);
+            if (service) {
+                console.log('❌ Service removed:', service.service_name, '-' + service.price + ' лв'); // Debug
+            }
+        }
+
+        console.log('📋 Currently selected services:', selectedServices); // Debug
+        
+        // Update price calculator immediately
+        updatePriceCalculator();
+        
+        // Visual animation for price change
+        const totalPriceEl = document.getElementById('totalPrice');
+        totalPriceEl.style.transform = 'scale(1.1)';
+        totalPriceEl.style.color = '#10b981';
+        setTimeout(() => {
+            totalPriceEl.style.transform = 'scale(1)';
+            totalPriceEl.style.color = '#0891b2';
+        }, 200);
+    }
+
+    // Change quantity
+    function changeQuantity(change) {
+        const input = document.getElementById('quantity');
+        let value = parseInt(input.value) + change;
+        
+        if (value < 1) value = 1;
+        if (currentProduct && value > currentProduct.stock_quantity) {
+            value = currentProduct.stock_quantity;
+        }
+
+        input.value = value;
+        updatePriceCalculator();
+    }
+
+    // Update price calculator
+    function updatePriceCalculator() {
+        if (!currentProduct) return;
+
+        const quantity = parseInt(document.getElementById('quantity').value);
+        const productPrice = parseFloat(currentProduct.price) * quantity;
+        
+        let servicesPrice = 0;
+        selectedServices.forEach(service => {
+            servicesPrice += parseFloat(service.price);
+        });
+
+        // Services price is per order (not multiplied by quantity)
+        const totalPrice = productPrice + servicesPrice;
+
+        console.log('💰 Price calculation:', {
+            productPrice: productPrice.toFixed(2),
+            servicesPrice: servicesPrice.toFixed(2),
+            totalPrice: totalPrice.toFixed(2)
+        }); // Debug
+
+        // Update display
+        document.getElementById('productPriceCalc').textContent = `${productPrice.toFixed(2)} лв`;
+        document.getElementById('servicesPriceCalc').textContent = `${servicesPrice.toFixed(2)} лв`;
+        document.getElementById('totalPrice').textContent = `${totalPrice.toFixed(2)} лв`;
+
+        // Show/hide services row
+        const servicesRow = document.getElementById('servicesRow');
+        if (selectedServices.length > 0) {
+            servicesRow.style.display = 'flex';
+            // Add fade-in animation
+            servicesRow.style.animation = 'fadeIn 0.3s ease';
+        } else {
+            servicesRow.style.display = 'none';
+        }
+    }
+
+    // Add to cart
+    function addToCart() {
+        console.log('🛒 addToCart called'); // Debug
+        
+        if (!currentProduct) {
+            console.error('❌ No current product!'); // Debug
+            alert('Грешка: Продуктът не е зареден');
+            return;
+        }
+
+        const quantity = parseInt(document.getElementById('quantity').value);
+        
+        console.log('📦 Current product:', currentProduct); // Debug
+        console.log('🔢 Quantity:', quantity); // Debug
+        console.log('🛠️ Selected services:', selectedServices); // Debug
+        console.log('🔧 CartManager:', CartManager); // Debug
+
+        // Add to cart using CartManager
+        try {
+            const result = CartManager.addProduct(currentProduct, quantity, selectedServices);
+            console.log('✅ Added to cart:', result); // Debug
+
+            const totalPrice = parseFloat(document.getElementById('totalPrice').textContent);
+
+            // Show success message with option to go to cart
+            const goToCart = confirm(`✅ Добавено в количката!\n\n${currentProduct.model_name}\nКоличество: ${quantity}\nОбща цена: ${totalPrice.toFixed(2)} лв\n\nИскате ли да отидете в количката?`);
+            
+            if (goToCart) {
+                window.location.href = 'cart.html';
+            }
+        } catch (error) {
+            console.error('❌ Error adding to cart:', error); // Debug
+            alert('Грешка при добавяне в количката: ' + error.message);
+        }
+    }
+
+    // Display related products
+    function displayRelatedProducts(products) {
+        const section = document.getElementById('relatedSection');
+        const grid = document.getElementById('relatedGrid');
+
+        section.style.display = 'block';
+
+        grid.innerHTML = products.map(product => `
+            <a href="product-detail.html?id=${product.product_id}" class="related-card">
+                <div class="related-image">
+                    <img src="${product.main_image_url}" alt="${product.model_name}"
+                         onerror="this.src='https://via.placeholder.com/250x200?text=${encodeURIComponent(product.model_name)}'">
+                </div>
+                <div class="related-info">
+                    <div class="related-brand">${product.brand_name}</div>
+                    <div class="related-name">${product.model_name}</div>
+                    <div class="related-price">${parseFloat(product.price).toFixed(2)} лв</div>
+                </div>
+            </a>
+        `).join('');
+    }
+</script>
+
+</body>
+</html>

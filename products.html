@@ -189,6 +189,21 @@
             background: #dc2626;
         }
 
+        /* Active filter badge */
+        .active-filters {
+            background: #0891b2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .active-filters strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
         /* Main Content */
         .main-content {
             background: white;
@@ -451,7 +466,7 @@
         <div class="nav-icons">
             <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
             <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
-            <a href="#" title="Количка">
+            <a href="cart.html" title="Количка">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cartCount">0</span>
             </a>
@@ -473,6 +488,12 @@
             <i class="fas fa-filter"></i>
             Филтри
         </h3>
+
+        <!-- Active filters info -->
+        <div id="activeFiltersInfo" style="display: none;" class="active-filters">
+            <strong>Активни филтри:</strong>
+            <span id="activeFiltersText"></span>
+        </div>
 
         <!-- Search -->
         <div class="filter-section">
@@ -554,6 +575,9 @@
     </main>
 </div>
 
+<!-- Cart Manager Library -->
+<script src="assets/js/cart-manager.js"></script>
+
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
     let allProducts = [];
@@ -565,39 +589,178 @@
         setupFilters();
     });
 
+    // Get URL parameters
+    function getURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            brand: params.get('brand'),
+            search: params.get('search'),
+            btu: params.get('btu'),
+            energy: params.get('energy')
+        };
+    }
+
+    // Apply filters from URL
+    function applyURLFilters() {
+        const params = getURLParams();
+        
+        console.log('🔍 URL Parameters:', params); // Debug
+        console.log('📦 Total products loaded:', allProducts.length); // Debug
+
+        // Check if any URL filters exist
+        const hasFilters = params.brand || params.search || params.btu || params.energy;
+
+        if (!hasFilters) {
+            // No URL filters - display all products
+            console.log('ℹ️ No URL filters - displaying all products'); // Debug
+            filteredProducts = [...allProducts];
+            displayProducts(filteredProducts);
+            return;
+        }
+
+        // Start with all products
+        let tempFilteredProducts = [...allProducts];
+
+        // Apply brand filter from URL
+        if (params.brand) {
+            const brandName = params.brand.trim();
+            console.log('🏷️ Filtering by brand:', brandName); // Debug
+            
+            tempFilteredProducts = tempFilteredProducts.filter(product => {
+                const match = product.brand_name.toLowerCase() === brandName.toLowerCase();
+                if (match) {
+                    console.log('  ✅ Match:', product.brand_name, product.model_name);
+                }
+                return match;
+            });
+            
+            console.log('📊 Products after brand filter:', tempFilteredProducts.length); // Debug
+            
+            // Try to check the checkbox (optional, for UI only)
+            setTimeout(() => {
+                const brandCheckboxes = document.querySelectorAll('#brandFilters input[type="checkbox"]');
+                brandCheckboxes.forEach(checkbox => {
+                    const label = checkbox.nextElementSibling.textContent.trim();
+                    if (label.toLowerCase() === brandName.toLowerCase()) {
+                        checkbox.checked = true;
+                        console.log('✅ Checkbox marked:', label);
+                    }
+                });
+                
+                // Show active filter badge
+                const activeFiltersInfo = document.getElementById('activeFiltersInfo');
+                const activeFiltersTextEl = document.getElementById('activeFiltersText');
+                activeFiltersInfo.style.display = 'block';
+                activeFiltersTextEl.textContent = `Марка: ${brandName}`;
+            }, 50);
+        }
+
+        // Apply search filter from URL
+        if (params.search) {
+            const searchTerm = params.search.toLowerCase().trim();
+            console.log('🔎 Filtering by search:', searchTerm); // Debug
+            
+            tempFilteredProducts = tempFilteredProducts.filter(product => {
+                return product.model_name.toLowerCase().includes(searchTerm) ||
+                       product.brand_name.toLowerCase().includes(searchTerm) ||
+                       (product.description && product.description.toLowerCase().includes(searchTerm));
+            });
+            
+            console.log('📊 Products after search filter:', tempFilteredProducts.length); // Debug
+            
+            // Set search input
+            document.getElementById('searchInput').value = params.search;
+        }
+
+        // Apply BTU filter from URL
+        if (params.btu) {
+            const btu = parseInt(params.btu);
+            console.log('⚡ Filtering by BTU:', btu); // Debug
+            
+            tempFilteredProducts = tempFilteredProducts.filter(product => {
+                return product.btu_power === btu;
+            });
+            
+            console.log('📊 Products after BTU filter:', tempFilteredProducts.length); // Debug
+            
+            // Check the checkbox
+            setTimeout(() => {
+                const btuCheckbox = document.getElementById(`btu_${btu}`);
+                if (btuCheckbox) {
+                    btuCheckbox.checked = true;
+                }
+            }, 50);
+        }
+
+        // Apply energy class filter from URL
+        if (params.energy) {
+            const energy = params.energy.trim();
+            console.log('🔋 Filtering by energy class:', energy); // Debug
+            
+            tempFilteredProducts = tempFilteredProducts.filter(product => {
+                return product.energy_class === energy;
+            });
+            
+            console.log('📊 Products after energy filter:', tempFilteredProducts.length); // Debug
+            
+            // Check the checkbox
+            setTimeout(() => {
+                const energyCheckbox = document.getElementById(`energy_${energy}`);
+                if (energyCheckbox) {
+                    energyCheckbox.checked = true;
+                }
+            }, 50);
+        }
+
+        // Update filtered products
+        filteredProducts = tempFilteredProducts;
+        
+        console.log('✅ Final filtered products:', filteredProducts.length); // Debug
+        
+        // Display the filtered products
+        displayProducts(filteredProducts);
+    }
+
     // Load products
     async function loadProducts() {
         try {
             const response = await fetch(`${API_URL}/products/get_all.php?is_active=1`);
             const result = await response.json();
 
+            console.log('📡 API Response:', result); // Debug
+
             if (result.success) {
                 allProducts = result.products;
                 filteredProducts = [...allProducts];
                 
+                console.log('✅ Total products loaded:', allProducts.length); // Debug
+                
+                // Build filter options (checkboxes)
                 buildFilterOptions();
-                displayProducts(filteredProducts);
+                
+                // Apply URL filters (this will filter and display products)
+                applyURLFilters();
             } else {
                 showError('Грешка при зареждане на продуктите');
             }
 
         } catch (error) {
-            console.error('Error:', error);
+            console.error('❌ Error:', error);
             showError('Грешка при свързване със сървъра');
         }
     }
 
     // Build filter options dynamically
     function buildFilterOptions() {
-        // Brands
+        // Brands - use brand_name as value
         const brands = [...new Set(allProducts.map(p => ({ id: p.brand_id, name: p.brand_name })))];
-        const uniqueBrands = Array.from(new Map(brands.map(b => [b.id, b])).values());
+        const uniqueBrands = Array.from(new Map(brands.map(b => [b.name, b])).values());
         
         const brandFilters = document.getElementById('brandFilters');
         brandFilters.innerHTML = uniqueBrands.map(brand => `
             <div class="filter-option">
-                <input type="checkbox" id="brand_${brand.id}" value="${brand.id}" onchange="applyFilters()">
-                <label for="brand_${brand.id}">${brand.name}</label>
+                <input type="checkbox" id="brand_${brand.name.replace(/\s+/g, '_')}" value="${brand.name}" onchange="applyFilters()">
+                <label for="brand_${brand.name.replace(/\s+/g, '_')}">${brand.name}</label>
             </div>
         `).join('');
 
@@ -635,9 +798,9 @@
         const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
         const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
 
-        // Get selected brands
+        // Get selected brands by name
         const selectedBrands = Array.from(document.querySelectorAll('#brandFilters input:checked'))
-            .map(cb => parseInt(cb.value));
+            .map(cb => cb.value);
         
         // Get selected BTUs
         const selectedBTUs = Array.from(document.querySelectorAll('#btuFilters input:checked'))
@@ -647,19 +810,23 @@
         const selectedEnergy = Array.from(document.querySelectorAll('#energyFilters input:checked'))
             .map(cb => cb.value);
 
+        console.log('Filtering with:', { selectedBrands, selectedBTUs, selectedEnergy, searchTerm }); // Debug
+
         filteredProducts = allProducts.filter(product => {
             const matchSearch = !searchTerm || 
                 product.model_name.toLowerCase().includes(searchTerm) ||
                 product.brand_name.toLowerCase().includes(searchTerm) ||
                 (product.description && product.description.toLowerCase().includes(searchTerm));
 
-            const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand_id);
+            const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand_name);
             const matchBTU = selectedBTUs.length === 0 || selectedBTUs.includes(product.btu_power);
             const matchEnergy = selectedEnergy.length === 0 || selectedEnergy.includes(product.energy_class);
             const matchPrice = product.price >= minPrice && product.price <= maxPrice;
 
             return matchSearch && matchBrand && matchBTU && matchEnergy && matchPrice;
         });
+
+        console.log('Filtered products count:', filteredProducts.length); // Debug
 
         sortProducts();
     }
@@ -721,6 +888,7 @@
     function createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
+        card.onclick = () => window.location.href = `product-detail.html?id=${product.product_id}`;
 
         const features = product.features ? product.features.split(',').slice(0, 2).join(', ') : '';
 
@@ -743,7 +911,7 @@
                 </div>
                 <div class="product-features">${features}</div>
                 <div class="product-price">${parseFloat(product.price).toFixed(2)} лв</div>
-                <button class="add-to-cart-btn" onclick="addToCart(${product.product_id}, '${product.model_name}')">
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.product_id}, '${product.model_name}')">
                     <i class="fas fa-shopping-cart"></i>
                     Добави в количка
                 </button>
@@ -755,12 +923,36 @@
 
     // Add to cart
     function addToCart(productId, productName) {
-        alert(`Добавяне в количка: ${productName}\n\nКоличката ще бъде разработена в следващата стъпка!`);
+        console.log('🛒 addToCart called:', productId, productName); // Debug
+        console.log('📦 allProducts:', allProducts); // Debug
         
-        // Update cart badge
-        const badge = document.getElementById('cartCount');
-        const currentCount = parseInt(badge.textContent);
-        badge.textContent = currentCount + 1;
+        // Find the product in allProducts array
+        const product = allProducts.find(p => p.product_id === productId);
+        
+        if (!product) {
+            console.error('❌ Product not found in allProducts array!', productId); // Debug
+            alert('Грешка: Продуктът не е намерен');
+            return;
+        }
+
+        console.log('✅ Product found:', product); // Debug
+        console.log('🔧 CartManager:', CartManager); // Debug
+
+        // Add to cart with quantity 1 and no services
+        try {
+            const result = CartManager.addProduct(product, 1, []);
+            console.log('✅ Added to cart:', result); // Debug
+            
+            // Show success message
+            const goToCart = confirm(`✅ ${productName} беше добавен в количката!\n\nИскате ли да отидете в количката?`);
+            
+            if (goToCart) {
+                window.location.href = 'cart.html';
+            }
+        } catch (error) {
+            console.error('❌ Error adding to cart:', error); // Debug
+            alert('Грешка при добавяне в количката: ' + error.message);
+        }
     }
 
     // Clear filters
@@ -773,6 +965,12 @@
             cb.checked = false;
         });
 
+        // Hide active filters info
+        document.getElementById('activeFiltersInfo').style.display = 'none';
+
+        // Clear URL parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+
         applyFilters();
     }
 
@@ -781,7 +979,7 @@
         const loading = document.getElementById('loading');
         loading.innerHTML = `
             <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
-            <p>${message}</p>S
+            <p>${message}</p>
         `;
     }
 </script>
