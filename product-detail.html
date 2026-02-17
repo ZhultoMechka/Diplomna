@@ -686,9 +686,11 @@
                 <!-- Services -->
                 <div class="services-section">
                     <h3><i class="fas fa-tools"></i> Допълнителни услуги</h3>
-                    <div id="servicesContainer">
-                        <!-- Services will be loaded here -->
-                    </div>
+                    <p style="color: #999; font-size: 13px; margin-bottom: 15px;">
+                        <i class="fas fa-info-circle"></i> 
+                        Монтаж, ремонт и профилактика. Доставката се избира в количката.
+                    </p>
+                    <div id="servicesContainer"></div>
                 </div>
 
                 <!-- Quantity -->
@@ -918,9 +920,11 @@
             console.log('Services API response:', result); // Debug
 
             if (result.success && result.services && result.services.length > 0) {
+                // Показваме само услуги БЕЗ доставка - доставката се избира в количката
                 availableServices = result.services.filter(s => {
-                    // Check both is_active and active fields
-                    return s.is_active === 1 || s.is_active === '1' || s.active === 1 || s.active === '1' || !('is_active' in s);
+                    const isActive = s.is_active === 1 || s.is_active === '1' || !('is_active' in s);
+                    const isNotDelivery = s.service_type !== 'delivery';
+                    return isActive && isNotDelivery;
                 });
                 
                 console.log('Filtered services:', availableServices); // Debug
@@ -950,7 +954,7 @@
     function displayServices(services) {
         const container = document.getElementById('servicesContainer');
         
-        console.log('Displaying services:', services); // Debug
+        console.log('Displaying services:', services);
         
         if (!services || services.length === 0) {
             container.innerHTML = '<p style="color: #999; text-align: center;">Няма налични услуги в момента</p>';
@@ -958,8 +962,8 @@
         }
 
         container.innerHTML = services.map(service => `
-            <div class="service-option" onclick="toggleService(${service.service_id})">
-                <input type="checkbox" id="service_${service.service_id}" onclick="event.stopPropagation()">
+            <div class="service-option" id="service_div_${service.service_id}" onclick="toggleService(${service.service_id}, event)">
+                <input type="checkbox" id="service_${service.service_id}" onclick="event.stopPropagation(); toggleService(${service.service_id}, event)">
                 <div class="service-info">
                     <div class="service-name">${service.service_name}</div>
                     <div class="service-description">${service.description || ''}</div>
@@ -970,37 +974,34 @@
     }
 
     // Toggle service selection
-    function toggleService(serviceId) {
+    function toggleService(serviceId, event) {
         const checkbox = document.getElementById(`service_${serviceId}`);
-        checkbox.checked = !checkbox.checked;
-        
-        const serviceDiv = checkbox.closest('.service-option');
-        
-        // Visual feedback
+        const serviceDiv = document.getElementById(`service_div_${serviceId}`);
+
+        // Ако е кликнато директно на checkbox - не го toggle-ваме ние,
+        // той вече е сменен от браузъра. Само четем неговото текущо състояние.
+        // Ако е кликнато на div - тогава ние сменяме checkbox-а.
+        if (event && event.target !== checkbox) {
+            checkbox.checked = !checkbox.checked;
+        }
+
+        // Обновяваме визуализацията и selectedServices спрямо текущото checked
         if (checkbox.checked) {
             serviceDiv.classList.add('selected');
-            // Find and add service to selectedServices
             const service = availableServices.find(s => s.service_id === serviceId);
             if (service && !selectedServices.find(s => s.service_id === serviceId)) {
                 selectedServices.push(service);
-                console.log('✅ Service added:', service.service_name, '+' + service.price + ' лв'); // Debug
+                console.log('✅ Service added:', service.service_name, '+' + service.price + ' лв');
             }
         } else {
             serviceDiv.classList.remove('selected');
-            // Remove service from selectedServices
             selectedServices = selectedServices.filter(s => s.service_id !== serviceId);
-            const service = availableServices.find(s => s.service_id === serviceId);
-            if (service) {
-                console.log('❌ Service removed:', service.service_name, '-' + service.price + ' лв'); // Debug
-            }
+            console.log('❌ Service removed:', serviceId);
         }
 
-        console.log('📋 Currently selected services:', selectedServices); // Debug
-        
-        // Update price calculator immediately
         updatePriceCalculator();
-        
-        // Visual animation for price change
+
+        // Анимация на цената
         const totalPriceEl = document.getElementById('totalPrice');
         totalPriceEl.style.transform = 'scale(1.1)';
         totalPriceEl.style.color = '#10b981';
@@ -1032,33 +1033,92 @@
         const productPrice = parseFloat(currentProduct.price) * quantity;
         
         let servicesPrice = 0;
+        let serviceDetails = [];
+
         selectedServices.forEach(service => {
-            servicesPrice += parseFloat(service.price);
+            const price = parseFloat(service.price);
+            const isDelivery = service.service_type === 'delivery';
+            
+            if (isDelivery) {
+                // Доставка - еднократна, не се множи
+                servicesPrice += price;
+                serviceDetails.push(`${service.service_name}: ${price.toFixed(2)} лв (еднократна)`);
+            } else {
+                // Монтаж, ремонт, профилактика - × брой климатици
+                servicesPrice += price * quantity;
+                serviceDetails.push(`${service.service_name}: ${price.toFixed(2)} × ${quantity} = ${(price * quantity).toFixed(2)} лв`);
+            }
         });
 
-        // Services price is per order (not multiplied by quantity)
         const totalPrice = productPrice + servicesPrice;
 
         console.log('💰 Price calculation:', {
-            productPrice: productPrice.toFixed(2),
-            servicesPrice: servicesPrice.toFixed(2),
+            productPrice: `${parseFloat(currentProduct.price).toFixed(2)} × ${quantity} = ${productPrice.toFixed(2)}`,
+            services: serviceDetails,
+            servicesTotal: servicesPrice.toFixed(2),
             totalPrice: totalPrice.toFixed(2)
-        }); // Debug
+        });
 
-        // Update display
+        // Обновяваме display
         document.getElementById('productPriceCalc').textContent = `${productPrice.toFixed(2)} лв`;
         document.getElementById('servicesPriceCalc').textContent = `${servicesPrice.toFixed(2)} лв`;
         document.getElementById('totalPrice').textContent = `${totalPrice.toFixed(2)} лв`;
 
-        // Show/hide services row
+        // Показваме/скриваме ред за услуги
         const servicesRow = document.getElementById('servicesRow');
         if (selectedServices.length > 0) {
             servicesRow.style.display = 'flex';
-            // Add fade-in animation
             servicesRow.style.animation = 'fadeIn 0.3s ease';
         } else {
             servicesRow.style.display = 'none';
         }
+
+        // Обновяваме tooltip с разбивка (показва се в бележка под услугите)
+        updateServicesBreakdown(serviceDetails, quantity);
+    }
+
+    // Показва разбивка под услугите
+    function updateServicesBreakdown(serviceDetails, quantity) {
+        let breakdown = document.getElementById('servicesBreakdown');
+        
+        if (!breakdown) {
+            breakdown = document.createElement('div');
+            breakdown.id = 'servicesBreakdown';
+            breakdown.style.cssText = `
+                margin-top: 10px;
+                padding: 12px 15px;
+                background: #f0f9ff;
+                border-radius: 8px;
+                font-size: 13px;
+                color: #555;
+                border-left: 3px solid #0891b2;
+                animation: fadeIn 0.3s ease;
+            `;
+            document.getElementById('servicesRow').after(breakdown);
+        }
+
+        if (serviceDetails.length === 0) {
+            breakdown.style.display = 'none';
+            return;
+        }
+
+        breakdown.style.display = 'block';
+        breakdown.innerHTML = `
+            <strong style="color: #0891b2; display: block; margin-bottom: 6px;">
+                <i class="fas fa-info-circle"></i> Разбивка на услугите:
+            </strong>
+            ${serviceDetails.map(detail => {
+                const isOnetime = detail.includes('еднократна');
+                return `
+                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                        <i class="fas fa-${isOnetime ? 'truck' : 'tools'}" 
+                           style="color: ${isOnetime ? '#10b981' : '#0891b2'}; width: 14px;"></i>
+                        <span>${detail}</span>
+                        ${!isOnetime ? `<span style="background: #dbeafe; color: #1d4ed8; padding: 1px 6px; border-radius: 10px; font-size: 11px;">×${quantity}</span>` : '<span style="background: #d1fae5; color: #065f46; padding: 1px 6px; border-radius: 10px; font-size: 11px;">еднократна</span>'}
+                    </div>
+                `;
+            }).join('')}
+        `;
     }
 
     // Add to cart

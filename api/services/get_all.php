@@ -36,7 +36,8 @@ try {
             service_id,
             service_name,
             description,
-            $priceColumn as price
+            $priceColumn as price,
+            service_type
         FROM services
         ORDER BY service_name ASC
     ";
