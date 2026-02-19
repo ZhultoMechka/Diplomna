@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детайли за поръчка - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 15px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Order Details */
+        .order-details {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            display: none;
+        }
+
+        .order-details.active { display: grid; }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 i { color: #0891b2; }
+
+        /* Order Info */
+        .info-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .info-row:last-child { border-bottom: none; }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Products List */
+        .product-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .product-detail {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .product-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0891b2;
+            margin-top: 10px;
+        }
+
+        /* Services */
+        .service-item {
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #0891b2;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .service-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Status Update */
+        .status-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .status-section h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .status-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .update-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .price-row .label { color: #666; }
+        .price-row .value { font-weight: 600; color: #333; }
+
+        .price-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0891b2;
+        }
+
+        /* Payment Status */
+        .payment-status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .payment-status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .payment-status.completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Order Status Badge */
+        .order-status-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .order-status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .order-status-badge.processing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .order-status-badge.shipped {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .order-status-badge.completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .order-status-badge.cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-file-alt"></i>
+            <span id="orderTitle">Детайли за поръчка</span>
+        </h1>
+        <a href="admin-orders.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </a>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <i class="fas fa-spinner"></i>
+        <p>Зареждане на поръчка...</p>
+    </div>
+
+    <!-- Order Details -->
+    <div class="order-details" id="orderDetails">
+        <!-- Left Column -->
+        <div>
+            <!-- Customer Info -->
+            <div class="card">
+                <h3>
+                    <i class="fas fa-user"></i>
+                    Информация за клиента
+                </h3>
+                <div class="info-row">
+                    <span class="info-label">Име:</span>
+                    <span class="info-value" id="customerName">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Телефон:</span>
+                    <span class="info-value" id="customerPhone">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value" id="customerEmail">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Адрес:</span>
+                    <span class="info-value" id="deliveryAddress">-</span>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <i class="fas fa-boxes"></i>
+                    Продукти
+                </h3>
+                <div id="productsContainer">
+                    <!-- Loaded via JS -->
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div class="card" style="margin-top: 30px;" id="servicesCard" style="display: none;">
+                <h3>
+                    <i class="fas fa-tools"></i>
+                    Услуги
+                </h3>
+                <div id="servicesContainer">
+                    <!-- Loaded via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+            <!-- Order Info -->
+            <div class="card">
+                <h3>
+                    <i class="fas fa-info-circle"></i>
+                    Информация за поръчката
+                </h3>
+                <div class="info-row">
+                    <span class="info-label">Номер:</span>
+                    <span class="info-value" id="orderNumber">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Дата:</span>
+                    <span class="info-value" id="orderDate">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Статус:</span>
+                    <span class="info-value" id="orderStatusDisplay">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Плащане:</span>
+                    <span class="info-value" id="paymentMethod">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Статус плащане:</span>
+                    <span class="info-value" id="paymentStatus">-</span>
+                </div>
+            </div>
+
+            <!-- Price Summary -->
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <i class="fas fa-calculator"></i>
+                    Обобщение
+                </h3>
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span class="label">Продукти:</span>
+                        <span class="value" id="productsTotal">0.00 лв</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="label">Услуги:</span>
+                        <span class="value" id="servicesTotal">0.00 лв</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Обща сума:</span>
+                        <span id="orderTotal">0.00 лв</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Update -->
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <i class="fas fa-edit"></i>
+                    Промяна на статус
+                </h3>
+                <div class="status-section">
+                    <h4>Избери нов статус:</h4>
+                    <select class="status-select" id="newStatus">
+                        <option value="pending">Чакаща</option>
+                        <option value="processing">В обработка</option>
+                        <option value="shipped">Изпратена</option>
+                        <option value="completed">Завършена</option>
+                        <option value="cancelled">Отказана</option>
+                    </select>
+                    <button class="update-btn" onclick="updateStatus()">
+                        <i class="fas fa-check"></i>
+                        Обнови статуса
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+    let orderId = null;
+    let currentOrder = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        orderId = params.get('id');
+
+        if (!orderId) {
+            alert('Липсва ID на поръчка');
+            window.location.href = 'admin-orders.html';
+            return;
+        }
+
+        loadOrder(orderId);
+    });
+
+    // Зареди поръчката
+    async function loadOrder(id) {
+        try {
+            const response = await fetch(`${API_URL}/orders/get_by_id.php?id=${id}`);
+            const result = await response.json();
+
+            if (result.success) {
+                currentOrder = result.order;
+                displayOrder(currentOrder);
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('orderDetails').classList.add('active');
+            } else {
+                alert('Поръчката не е намерена');
+                window.location.href = 'admin-orders.html';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при зареждане на поръчката');
+        }
+    }
+
+    // Покажи поръчката
+    function displayOrder(order) {
+        const statusLabels = {
+            'pending': 'Чакаща',
+            'processing': 'В обработка',
+            'shipped': 'Изпратена',
+            'completed': 'Завършена',
+            'cancelled': 'Отказана'
+        };
+
+        const paymentLabels = {
+            'cash': 'Наложен платеж',
+            'bank': 'Банков превод',
+            'card': 'Онлайн с карта'
+        };
+
+        const date = new Date(order.created_at);
+
+        // Header
+        document.getElementById('orderTitle').textContent = `Поръчка #${String(order.order_id).padStart(4, '0')}`;
+
+        // Customer Info
+        document.getElementById('customerName').textContent = order.full_name || 'Гост';
+        document.getElementById('customerPhone').innerHTML = order.phone ? `<i class="fas fa-phone"></i> ${order.phone}` : '-';
+        document.getElementById('customerEmail').innerHTML = order.email ? `<i class="fas fa-envelope"></i> ${order.email}` : '-';
+        document.getElementById('deliveryAddress').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${order.delivery_address}`;
+
+        // Order Info
+        document.getElementById('orderNumber').textContent = '#' + String(order.order_id).padStart(4, '0');
+        document.getElementById('orderDate').textContent = date.toLocaleString('bg-BG');
+        document.getElementById('orderStatusDisplay').innerHTML = `<span class="order-status-badge ${order.status}">${statusLabels[order.status]}</span>`;
+        document.getElementById('paymentMethod').textContent = paymentLabels[order.payment?.payment_method] || '-';
+        
+        const paymentStatusLabel = order.payment?.payment_status === 'completed' ? 'Платено' : 'Неплатено';
+        const paymentStatusClass = order.payment?.payment_status === 'completed' ? 'completed' : 'pending';
+        document.getElementById('paymentStatus').innerHTML = `<span class="payment-status ${paymentStatusClass}">${paymentStatusLabel}</span>`;
+
+        // Products
+        const productsContainer = document.getElementById('productsContainer');
+        productsContainer.innerHTML = order.items.map(item => `
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="${item.main_image_url || ''}" alt="${item.model_name}"
+                         onerror="this.src='https://via.placeholder.com/80?text=AC'">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">${item.brand_name} ${item.model_name}</div>
+                    <div class="product-detail">Количество: ${item.quantity} бр.</div>
+                    <div class="product-detail">Цена: ${parseFloat(item.price_at_purchase).toFixed(2)} лв/бр.</div>
+                    <div class="product-price">${(item.quantity * parseFloat(item.price_at_purchase)).toFixed(2)} лв</div>
+                </div>
+            </div>
+        `).join('');
+
+        // Services
+        if (order.services && order.services.length > 0) {
+            document.getElementById('servicesCard').style.display = 'block';
+            const servicesContainer = document.getElementById('servicesContainer');
+            servicesContainer.innerHTML = order.services.map(service => `
+                <div class="service-item">
+                    <div class="service-name">${service.service_name}</div>
+                    <div class="service-desc">${service.description || ''} - ${parseFloat(service.price).toFixed(2)} лв</div>
+                </div>
+            `).join('');
+        }
+
+        // Price Summary
+        let productsTotal = 0;
+        order.items.forEach(item => {
+            productsTotal += item.quantity * parseFloat(item.price_at_purchase);
+        });
+
+        let servicesTotal = 0;
+        if (order.services) {
+            order.services.forEach(service => {
+                servicesTotal += parseFloat(service.price);
+            });
+        }
+
+        document.getElementById('productsTotal').textContent = productsTotal.toFixed(2) + ' лв';
+        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' лв';
+        document.getElementById('orderTotal').textContent = parseFloat(order.total_amount).toFixed(2) + ' лв';
+
+        // Set current status
+        document.getElementById('newStatus').value = order.status;
+    }
+
+    // Обнови статуса
+    async function updateStatus() {
+        const newStatus = document.getElementById('newStatus').value;
+
+        if (newStatus === currentOrder.status) {
+            alert('Избрали сте същия статус');
+            return;
+        }
+
+        if (!confirm('Сигурни ли сте, че искате да промените статуса?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/orders/update_status.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    order_id: orderId,
+                    status: newStatus
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Статусът е обновен успешно!');
+                location.reload();
+            } else {
+                alert('Грешка: ' + result.message);
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при обновяване на статуса');
+        }
+    }
+</script>
+
+</body>
+</html>

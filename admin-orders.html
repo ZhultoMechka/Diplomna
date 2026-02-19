@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление на поръчки - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i { font-size: 32px; }
+
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 10px; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            opacity: 0.8;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-card .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card.pending .stat-icon { background: #fef3c7; color: #f59e0b; }
+        .stat-card.processing .stat-icon { background: #dbeafe; color: #3b82f6; }
+        .stat-card.completed .stat-icon { background: #d1fae5; color: #10b981; }
+        .stat-card.revenue .stat-icon { background: #e0e7ff; color: #6366f1; }
+
+        .stat-card .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-label {
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .order-number {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0891b2;
+        }
+
+        .order-date {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .order-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .order-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            color: #999;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .order-status {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .order-status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .order-status.processing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .order-status.shipped {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .order-status.completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .order-status.cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-view {
+            background: #f0f9ff;
+            color: #0891b2;
+        }
+
+        .btn-view:hover {
+            background: #0891b2;
+            color: white;
+        }
+
+        /* Products Preview */
+        .order-products {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .product-badge {
+            background: #f8fafc;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px;
+            color: #999;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .order-body {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <i class="fas fa-wind"></i>
+        Admin Panel
+    </div>
+    <ul class="nav-menu">
+        <li class="nav-item">
+            <a href="admin.html" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="admin-products.html" class="nav-link">
+                <i class="fas fa-boxes"></i>
+                Продукти
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="admin-orders.html" class="nav-link active">
+                <i class="fas fa-shopping-bag"></i>
+                Поръчки
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                Към сайта
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="login.html" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                Изход
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="header">
+        <h1>Управление на поръчки</h1>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card pending">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-value" id="statPending">0</div>
+            <div class="stat-label">Чакащи</div>
+        </div>
+
+        <div class="stat-card processing">
+            <div class="stat-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            <div class="stat-value" id="statProcessing">0</div>
+            <div class="stat-label">В обработка</div>
+        </div>
+
+        <div class="stat-card completed">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-value" id="statCompleted">0</div>
+            <div class="stat-label">Завършени</div>
+        </div>
+
+        <div class="stat-card revenue">
+            <div class="stat-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-value" id="statRevenue">0 лв</div>
+            <div class="stat-label">Обща сума</div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Търсене:</label>
+            <input type="text" id="searchInput" placeholder="Номер или име..." oninput="filterOrders()">
+        </div>
+        <div class="filter-group">
+            <label>Статус:</label>
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="">Всички</option>
+                <option value="pending">Чакащи</option>
+                <option value="processing">В обработка</option>
+                <option value="shipped">Изпратени</option>
+                <option value="completed">Завършени</option>
+                <option value="cancelled">Отказани</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <i class="fas fa-spinner"></i>
+        <p>Зареждане на поръчки...</p>
+    </div>
+
+    <!-- Orders List -->
+    <div class="orders-list" id="ordersList" style="display: none;">
+        <!-- Loaded via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+        <i class="fas fa-shopping-bag"></i>
+        <h3>Няма поръчки</h3>
+        <p>Все още няма направени поръчки</p>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+    let allOrders = [];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadOrders();
+    });
+
+    // Зареди поръчките
+    async function loadOrders() {
+        try {
+            const response = await fetch(`${API_URL}/orders/get_all.php`);
+            const result = await response.json();
+
+            if (result.success && result.orders.length > 0) {
+                allOrders = result.orders;
+                displayOrders(allOrders);
+                updateStats(allOrders);
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('ordersList').style.display = 'flex';
+            } else {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при зареждане на поръчките');
+        }
+    }
+
+    // Покажи поръчките
+    function displayOrders(orders) {
+        const container = document.getElementById('ordersList');
+
+        if (orders.length === 0) {
+            container.innerHTML = '<div class="empty-state"><p>Няма намерени поръчки</p></div>';
+            return;
+        }
+
+        container.innerHTML = orders.map(order => {
+            const statusLabels = {
+                'pending': 'Чакаща',
+                'processing': 'В обработка',
+                'shipped': 'Изпратена',
+                'completed': 'Завършена',
+                'cancelled': 'Отказана'
+            };
+
+            const date = new Date(order.created_at);
+            const formattedDate = date.toLocaleDateString('bg-BG') + ' ' + date.toLocaleTimeString('bg-BG', {hour: '2-digit', minute: '2-digit'});
+
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">#${String(order.order_id).padStart(4, '0')}</div>
+                            <div class="order-date">
+                                <i class="fas fa-calendar"></i> ${formattedDate}
+                            </div>
+                        </div>
+                        <div class="order-status ${order.status}">
+                            ${statusLabels[order.status] || order.status}
+                        </div>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="order-info-group">
+                            <span class="info-label">Клиент</span>
+                            <span class="info-value">
+                                <i class="fas fa-user"></i> ${order.full_name || 'Гост'}
+                            </span>
+                            ${order.phone ? `<span style="color: #999; font-size: 13px;"><i class="fas fa-phone"></i> ${order.phone}</span>` : ''}
+                        </div>
+
+                        <div class="order-info-group">
+                            <span class="info-label">Адрес</span>
+                            <span class="info-value" style="font-size: 13px;">
+                                <i class="fas fa-map-marker-alt"></i> ${order.delivery_address}
+                            </span>
+                        </div>
+
+                        <div class="order-info-group">
+                            <span class="info-label">Сума</span>
+                            <span class="info-value" style="color: #0891b2; font-size: 1.3em;">
+                                ${parseFloat(order.total_amount).toFixed(2)} лв
+                            </span>
+                            <span style="color: #999; font-size: 12px;">${order.items_count} продукта</span>
+                        </div>
+
+                        <div class="order-actions">
+                            <button class="btn btn-view" onclick="viewOrder(${order.order_id})">
+                                <i class="fas fa-eye"></i>
+                                Детайли
+                            </button>
+                        </div>
+                    </div>
+
+                    ${order.items && order.items.length > 0 ? `
+                        <div class="order-products">
+                            ${order.items.map(item => `
+                                <span class="product-badge">
+                                    ${item.brand_name} ${item.model_name} × ${item.quantity}
+                                </span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Update статистиките
+    function updateStats(orders) {
+        const stats = {
+            pending: 0,
+            processing: 0,
+            completed: 0,
+            revenue: 0
+        };
+
+        orders.forEach(order => {
+            if (order.status === 'pending') stats.pending++;
+            if (order.status === 'processing') stats.processing++;
+            if (order.status === 'completed') stats.completed++;
+            stats.revenue += parseFloat(order.total_amount);
+        });
+
+        document.getElementById('statPending').textContent = stats.pending;
+        document.getElementById('statProcessing').textContent = stats.processing;
+        document.getElementById('statCompleted').textContent = stats.completed;
+        document.getElementById('statRevenue').textContent = stats.revenue.toFixed(2) + ' лв';
+    }
+
+    // Филтриране
+    function filterOrders() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const status = document.getElementById('statusFilter').value;
+
+        let filtered = allOrders;
+
+        // Филтър по търсене
+        if (search) {
+            filtered = filtered.filter(o =>
+                String(o.order_id).includes(search) ||
+                (o.full_name && o.full_name.toLowerCase().includes(search)) ||
+                (o.phone && o.phone.includes(search))
+            );
+        }
+
+        // Филтър по статус
+        if (status) {
+            filtered = filtered.filter(o => o.status === status);
+        }
+
+        displayOrders(filtered);
+    }
+
+    // Виж детайли
+    function viewOrder(id) {
+        window.location.href = `admin-order-details.html?id=${id}`;
+    }
+</script>
+
+</body>
+</html>

@@ -3,137 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Продукти - Admin Panel</title>
+    <title>Управление на продукти - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
             color: white;
-            padding: 20px 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-left h1 {
-            font-size: 1.8em;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .back-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 40px;
-        }
-
-        /* Toolbar */
-        .toolbar {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-
-        .toolbar-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .toolbar-title {
-            font-size: 1.5em;
-            color: #333;
-        }
-
-        .add-product-btn {
-            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
         }
 
-        .add-product-btn:hover {
+        .logo i { font-size: 32px; }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            opacity: 0.8;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(8, 145, 178, 0.4);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
         }
 
         /* Filters */
         .filters {
-            display: grid;
-            grid-template-columns: 2fr repeat(3, 1fr);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
             gap: 15px;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .filter-group {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
         }
 
         .filter-group label {
-            font-size: 13px;
             font-weight: 600;
             color: #666;
+            font-size: 14px;
         }
 
         .filter-group input,
         .filter-group select {
-            padding: 10px 15px;
+            padding: 8px 12px;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.3s;
         }
 
         .filter-group input:focus,
@@ -142,89 +134,54 @@
             border-color: #0891b2;
         }
 
-        .search-input {
-            position: relative;
-        }
-
-        .search-input i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-        }
-
-        .search-input input {
-            padding-left: 45px;
-        }
-
-        /* Products Grid */
-        .products-section {
-            margin-top: 30px;
-        }
-
-        .products-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .products-count {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .view-btn {
-            padding: 8px 15px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .view-btn.active {
-            background: #0891b2;
-            color: white;
-            border-color: #0891b2;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        /* Product Card */
-        .product-card {
+        /* Products Table */
+        .products-table {
             background: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            position: relative;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8fafc;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
         .product-image img {
@@ -233,112 +190,78 @@
             object-fit: cover;
         }
 
-        .product-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
             font-weight: 600;
-        }
-
-        .badge-active {
-            background: #10b981;
-            color: white;
-        }
-
-        .badge-inactive {
-            background: #ef4444;
-            color: white;
-        }
-
-        .badge-low-stock {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .product-content {
-            padding: 20px;
+            color: #333;
+            margin-bottom: 4px;
         }
 
         .product-brand {
             color: #0891b2;
             font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 5px;
         }
 
-        .product-title {
-            font-size: 1.1em;
-            color: #333;
-            margin-bottom: 10px;
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 600;
         }
 
-        .product-specs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #666;
+        .badge.active {
+            background: #d1fae5;
+            color: #065f46;
         }
 
-        .product-spec {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .badge.inactive {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-        .product-price {
-            font-size: 1.5em;
+        .badge.energy {
+            background: #f0f9ff;
             color: #0891b2;
-            font-weight: bold;
-            margin-bottom: 15px;
         }
 
-        .product-stock {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .product-actions {
+        .actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .btn {
-            flex: 1;
-            padding: 10px;
+        .btn-icon {
+            width: 36px;
+            height: 36px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
+            transition: all 0.3s;
         }
 
         .btn-edit {
+            background: #e0f2fe;
+            color: #0891b2;
+        }
+
+        .btn-edit:hover {
             background: #0891b2;
             color: white;
         }
 
-        .btn-edit:hover {
-            background: #0e7490;
-        }
-
         .btn-delete {
-            background: #ef4444;
-            color: white;
+            background: #fee2e2;
+            color: #ef4444;
         }
 
         .btn-delete:hover {
-            background: #dc2626;
+            background: #ef4444;
+            color: white;
         }
 
         /* Loading */
@@ -358,132 +281,122 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* No products */
-        .no-products {
+        /* Empty State */
+        .empty-state {
             text-align: center;
-            padding: 60px;
-            color: #666;
+            padding: 80px;
+            color: #999;
         }
 
-        .no-products i {
+        .empty-state i {
             font-size: 64px;
-            color: #ddd;
             margin-bottom: 20px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 20px;
-            }
-
-            .container {
-                padding: 0 20px;
-            }
-
-            .filters {
-                grid-template-columns: 1fr;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .toolbar-top {
-                flex-direction: column;
-                align-items: stretch;
-            }
         }
     </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-    <div class="header-left">
-        <h1>
-            <i class="fas fa-box-open"></i>
-            Управление на продукти
-        </h1>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <i class="fas fa-wind"></i>
+        Admin Panel
     </div>
-    <a href="admin.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i>
-        Dashboard
-    </a>
+    <ul class="nav-menu">
+        <li class="nav-item">
+            <a href="admin.html" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="admin-products.html" class="nav-link active">
+                <i class="fas fa-boxes"></i>
+                Продукти
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="admin-orders.html" class="nav-link">
+                <i class="fas fa-shopping-bag"></i>
+                Поръчки
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                Към сайта
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="login.html" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                Изход
+            </a>
+        </li>
+    </ul>
 </div>
 
-<!-- Container -->
-<div class="container">
-    <!-- Toolbar -->
-    <div class="toolbar">
-        <div class="toolbar-top">
-            <div class="toolbar-title">
-                📦 Всички продукти (<span id="productsCount">0</span>)
-            </div>
-            <a href="admin-add-product.html" class="add-product-btn">
-                <i class="fas fa-plus-circle"></i>
-                Добави нов продукт
-            </a>
+<!-- Main Content -->
+<div class="main-content">
+    <div class="header">
+        <h1>Управление на продукти</h1>
+        <a href="admin-add-product.html" class="add-btn">
+            <i class="fas fa-plus"></i>
+            Добави продукт
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Търсене:</label>
+            <input type="text" id="searchInput" placeholder="Търси по модел..." oninput="filterProducts()">
         </div>
-
-        <!-- Filters -->
-        <div class="filters">
-            <div class="filter-group">
-                <label>Търсене</label>
-                <div class="search-input">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Търси по модел или марка...">
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <label>Марка</label>
-                <select id="brandFilter">
-                    <option value="">Всички марки</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>BTU Мощност</label>
-                <select id="btuFilter">
-                    <option value="">Всички</option>
-                    <option value="7000">7000 BTU</option>
-                    <option value="9000">9000 BTU</option>
-                    <option value="12000">12000 BTU</option>
-                    <option value="18000">18000 BTU</option>
-                    <option value="24000">24000 BTU</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>Енергиен клас</label>
-                <select id="energyFilter">
-                    <option value="">Всички</option>
-                    <option value="A+++">A+++</option>
-                    <option value="A++">A++</option>
-                    <option value="A+">A+</option>
-                    <option value="A">A</option>
-                </select>
-            </div>
+        <div class="filter-group">
+            <label>Марка:</label>
+            <select id="brandFilter" onchange="filterProducts()">
+                <option value="">Всички</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Статус:</label>
+            <select id="statusFilter" onchange="filterProducts()">
+                <option value="">Всички</option>
+                <option value="1">Активни</option>
+                <option value="0">Деактивирани</option>
+            </select>
         </div>
     </div>
 
-    <!-- Products Section -->
-    <div class="products-section">
-        <!-- Loading -->
-        <div id="loading" class="loading">
+    <!-- Products Table -->
+    <div class="products-table">
+        <div class="loading" id="loading">
             <i class="fas fa-spinner"></i>
             <p>Зареждане на продукти...</p>
         </div>
 
-        <!-- Products Grid -->
-        <div id="productsGrid" class="products-grid" style="display: none;"></div>
+        <table id="productsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Продукт</th>
+                    <th>Цена</th>
+                    <th>BTU</th>
+                    <th>Клас</th>
+                    <th>Наличност</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="productsBody">
+                <!-- Loaded via JS -->
+            </tbody>
+        </table>
 
-        <!-- No Products -->
-        <div id="noProducts" class="no-products" style="display: none;">
+        <div class="empty-state" id="emptyState" style="display: none;">
             <i class="fas fa-box-open"></i>
-            <h3>Няма намерени продукти</h3>
-            <p>Опитайте да промените филтрите или добавете нови продукти</p>
+            <h3>Няма продукти</h3>
+            <p>Добави първия продукт за да започнеш</p>
         </div>
     </div>
 </div>
@@ -492,47 +405,28 @@
     const API_URL = 'http://localhost/Diplomna/api';
     let allProducts = [];
 
-    // Check if user is admin
     window.addEventListener('DOMContentLoaded', () => {
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
-        
-        if (!user || user.user_type !== 'admin') {
-            alert('❌ Нямате права за достъп до тази страница!');
-            window.location.href = 'login.html';
-            return;
-        }
-
-        // Load brands for filter
         loadBrands();
-
-        // Load products
         loadProducts();
-
-        // Setup filters
-        setupFilters();
     });
 
-    // Load brands
+    // Зареди марките
     async function loadBrands() {
-        const brands = [
-            {id: 1, name: 'Panasonic'},
-            {id: 2, name: 'Daikin'},
-            {id: 3, name: 'Mitsubishi Electric'},
-            {id: 4, name: 'Bosch'},
-            {id: 5, name: 'LG'},
-            {id: 6, name: 'Gree'}
-        ];
+        try {
+            const response = await fetch(`${API_URL}/brands/get_all.php`);
+            const result = await response.json();
 
-        const select = document.getElementById('brandFilter');
-        brands.forEach(brand => {
-            const option = document.createElement('option');
-            option.value = brand.id;
-            option.textContent = brand.name;
-            select.appendChild(option);
-        });
+            if (result.success) {
+                const filter = document.getElementById('brandFilter');
+                filter.innerHTML = '<option value="">Всички</option>' +
+                    result.brands.map(b => `<option value="${b.brand_id}">${b.brand_name}</option>`).join('');
+            }
+        } catch (error) {
+            console.error('Error loading brands:', error);
+        }
     }
 
-    // Load products from API
+    // Зареди продуктите
     async function loadProducts() {
         try {
             const response = await fetch(`${API_URL}/products/get_all.php`);
@@ -541,145 +435,127 @@
             if (result.success) {
                 allProducts = result.products;
                 displayProducts(allProducts);
-                document.getElementById('productsCount').textContent = allProducts.length;
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('productsTable').style.display = 'table';
             } else {
-                showError('Грешка при зареждане на продуктите');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
             }
 
         } catch (error) {
             console.error('Error:', error);
-            showError('Грешка при свързване със сървъра');
+            alert('Грешка при зареждане на продуктите');
         }
     }
 
-    // Display products
+    // Покажи продуктите
     function displayProducts(products) {
-        const grid = document.getElementById('productsGrid');
-        const loading = document.getElementById('loading');
-        const noProducts = document.getElementById('noProducts');
-
-        loading.style.display = 'none';
+        const tbody = document.getElementById('productsBody');
 
         if (products.length === 0) {
-            grid.style.display = 'none';
-            noProducts.style.display = 'block';
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px; color: #999;">Няма намерени продукти</td></tr>';
             return;
         }
 
-        noProducts.style.display = 'none';
-        grid.style.display = 'grid';
-        grid.innerHTML = '';
-
-        products.forEach(product => {
-            const card = createProductCard(product);
-            grid.appendChild(card);
-        });
-    }
-
-    // Create product card
-    function createProductCard(product) {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-
-        const stockStatus = product.stock_quantity > 10 ? 'active' : 
-                           product.stock_quantity > 0 ? 'low-stock' : 'inactive';
-        
-        const stockBadge = product.stock_quantity > 10 ? 'На склад' :
-                          product.stock_quantity > 0 ? `Остават ${product.stock_quantity}` : 'Изчерпан';
-
-        card.innerHTML = `
-            <div class="product-image">
-                <img src="${product.main_image_url}" alt="${product.model_name}" 
-                     onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(product.model_name)}'">
-                <span class="product-badge badge-${stockStatus}">${stockBadge}</span>
-            </div>
-            <div class="product-content">
-                <div class="product-brand">${product.brand_name}</div>
-                <div class="product-title">${product.model_name}</div>
-                <div class="product-specs">
-                    <span class="product-spec">
-                        <i class="fas fa-bolt"></i> ${product.btu_power} BTU
+        tbody.innerHTML = products.map(p => `
+            <tr>
+                <td>${p.product_id}</td>
+                <td>
+                    <div class="product-info">
+                        <div class="product-image">
+                            <img src="${p.main_image_url || ''}" alt="${p.model_name}"
+                                 onerror="this.src='https://via.placeholder.com/60?text=AC'">
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">${p.model_name}</div>
+                            <div class="product-brand">${p.brand_name}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><strong>${parseFloat(p.price).toFixed(2)} лв</strong></td>
+                <td>${p.btu_power} BTU</td>
+                <td><span class="badge energy">${p.energy_class}</span></td>
+                <td>${p.stock_quantity} бр.</td>
+                <td>
+                    <span class="badge ${p.is_active == 1 ? 'active' : 'inactive'}">
+                        ${p.is_active == 1 ? 'Активен' : 'Деактивиран'}
                     </span>
-                    <span class="product-spec">
-                        <i class="fas fa-leaf"></i> ${product.energy_class}
-                    </span>
-                </div>
-                <div class="product-price">${parseFloat(product.price).toFixed(2)} лв</div>
-                <div class="product-stock">
-                    <i class="fas fa-boxes"></i> Наличност: ${product.stock_quantity} бр.
-                </div>
-                <div class="product-actions">
-                    <button class="btn btn-edit" onclick="editProduct(${product.product_id})">
-                        <i class="fas fa-edit"></i> Редактирай
-                    </button>
-                    <button class="btn btn-delete" onclick="deleteProduct(${product.product_id}, '${product.model_name}')">
-                        <i class="fas fa-trash"></i> Изтрий
-                    </button>
-                </div>
-            </div>
-        `;
-
-        return card;
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="btn-icon btn-edit" onclick="editProduct(${p.product_id})" title="Редактирай">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="deleteProduct(${p.product_id}, '${p.model_name}')" title="Изтрий">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
     }
 
-    // Setup filters
-    function setupFilters() {
-        const searchInput = document.getElementById('searchInput');
-        const brandFilter = document.getElementById('brandFilter');
-        const btuFilter = document.getElementById('btuFilter');
-        const energyFilter = document.getElementById('energyFilter');
-
-        [searchInput, brandFilter, btuFilter, energyFilter].forEach(element => {
-            element.addEventListener('input', filterProducts);
-        });
-    }
-
-    // Filter products
+    // Филтриране
     function filterProducts() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const search = document.getElementById('searchInput').value.toLowerCase();
         const brandId = document.getElementById('brandFilter').value;
-        const btu = document.getElementById('btuFilter').value;
-        const energyClass = document.getElementById('energyFilter').value;
+        const status = document.getElementById('statusFilter').value;
 
-        const filtered = allProducts.filter(product => {
-            const matchSearch = !searchTerm || 
-                product.model_name.toLowerCase().includes(searchTerm) ||
-                product.brand_name.toLowerCase().includes(searchTerm);
-            
-            const matchBrand = !brandId || product.brand_id == brandId;
-            const matchBtu = !btu || product.btu_power == btu;
-            const matchEnergy = !energyClass || product.energy_class === energyClass;
+        let filtered = allProducts;
 
-            return matchSearch && matchBrand && matchBtu && matchEnergy;
-        });
+        // Филтър по търсене
+        if (search) {
+            filtered = filtered.filter(p =>
+                p.model_name.toLowerCase().includes(search) ||
+                p.brand_name.toLowerCase().includes(search)
+            );
+        }
+
+        // Филтър по марка
+        if (brandId) {
+            filtered = filtered.filter(p => p.brand_id == brandId);
+        }
+
+        // Филтър по статус
+        if (status !== '') {
+            filtered = filtered.filter(p => p.is_active == status);
+        }
 
         displayProducts(filtered);
-        document.getElementById('productsCount').textContent = filtered.length;
     }
 
-    // Edit product
+    // Редактиране
     function editProduct(id) {
-        alert(`Редактиране на продукт #${id}\n\nТази функция ще бъде добавена скоро!`);
-        // TODO: window.location.href = `admin-edit-product.html?id=${id}`;
+        window.location.href = `admin-edit-product.html?id=${id}`;
     }
 
-    // Delete product
+    // Изтриване
     async function deleteProduct(id, name) {
-        if (!confirm(`Сигурни ли сте, че искате да изтриете "${name}"?\n\nТова действие е необратимо!`)) {
+        if (!confirm(`Сигурни ли сте, че искате да изтриете:\n\n${name}\n\nАко продуктът е използван в поръчки, той ще бъде деактивиран вместо изтрит.`)) {
             return;
         }
 
-        alert('Delete функционалността ще бъде добавена в следващата стъпка!');
-        // TODO: Implement delete API call
-    }
+        try {
+            const response = await fetch(`${API_URL}/products/delete.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: id })
+            });
 
-    // Show error
-    function showError(message) {
-        const loading = document.getElementById('loading');
-        loading.innerHTML = `
-            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
-            <p>${message}</p>
-        `;
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message);
+                loadProducts(); // Reload
+            } else {
+                alert('Грешка: ' + result.message);
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при изтриване на продукта');
+        }
     }
 </script>
 
