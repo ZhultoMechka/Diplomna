@@ -295,17 +295,22 @@
             color: #92400e;
         }
 
-        .order-status-badge.processing {
+        .order-status-badge.confirmed {
             background: #dbeafe;
             color: #1e40af;
         }
 
-        .order-status-badge.shipped {
+        .order-status-badge.processing {
             background: #e0e7ff;
             color: #4338ca;
         }
 
-        .order-status-badge.completed {
+        .order-status-badge.shipped {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .order-status-badge.delivered {
             background: #d1fae5;
             color: #065f46;
         }
@@ -460,9 +465,10 @@
                     <h4>Избери нов статус:</h4>
                     <select class="status-select" id="newStatus">
                         <option value="pending">Чакаща</option>
+                        <option value="confirmed">Потвърдена</option>
                         <option value="processing">В обработка</option>
                         <option value="shipped">Изпратена</option>
-                        <option value="completed">Завършена</option>
+                        <option value="delivered">Доставена</option>
                         <option value="cancelled">Отказана</option>
                     </select>
                     <button class="update-btn" onclick="updateStatus()">
@@ -520,16 +526,19 @@
     function displayOrder(order) {
         const statusLabels = {
             'pending': 'Чакаща',
+            'confirmed': 'Потвърдена',
             'processing': 'В обработка',
             'shipped': 'Изпратена',
-            'completed': 'Завършена',
+            'delivered': 'Доставена',
             'cancelled': 'Отказана'
         };
 
         const paymentLabels = {
-            'cash': 'Наложен платеж',
-            'bank': 'Банков превод',
-            'card': 'Онлайн с карта'
+            'cash_on_delivery': 'Наложен платеж',
+            'bank_transfer': 'Банков превод',
+            'credit_card': 'Кредитна карта',
+            'debit_card': 'Дебитна карта',
+            'paypal': 'PayPal'
         };
 
         const date = new Date(order.created_at);
@@ -564,8 +573,8 @@
                 <div class="product-info">
                     <div class="product-name">${item.brand_name} ${item.model_name}</div>
                     <div class="product-detail">Количество: ${item.quantity} бр.</div>
-                    <div class="product-detail">Цена: ${parseFloat(item.price_at_purchase).toFixed(2)} лв/бр.</div>
-                    <div class="product-price">${(item.quantity * parseFloat(item.price_at_purchase)).toFixed(2)} лв</div>
+                    <div class="product-detail">Цена: ${parseFloat(item.unit_price).toFixed(2)} лв/бр.</div>
+                    <div class="product-price">${parseFloat(item.subtotal).toFixed(2)} лв</div>
                 </div>
             </div>
         `).join('');
@@ -585,7 +594,7 @@
         // Price Summary
         let productsTotal = 0;
         order.items.forEach(item => {
-            productsTotal += item.quantity * parseFloat(item.price_at_purchase);
+            productsTotal += parseFloat(item.subtotal);
         });
 
         let servicesTotal = 0;

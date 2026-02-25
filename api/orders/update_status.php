@@ -19,8 +19,8 @@ if (!isset($data['order_id']) || !isset($data['status'])) {
 $order_id = intval($data['order_id']);
 $status = $data['status'];
 
-// Валидни статуси
-$valid_statuses = ['pending', 'processing', 'shipped', 'completed', 'cancelled'];
+// Валидни статуси (от enum в базата данни)
+$valid_statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
 
 if (!in_array($status, $valid_statuses)) {
     sendResponse(400, ['success' => false, 'message' => 'Невалиден статус']);
@@ -40,7 +40,7 @@ try {
     // Обновяване на статуса
     $sql = "
         UPDATE orders 
-        SET status = :status,
+        SET order_status = :status,
             updated_at = NOW()
         WHERE order_id = :order_id
     ";

@@ -18,7 +18,18 @@ try {
     // Основна информация за поръчката
     $sql = "
         SELECT 
-            o.*,
+            o.order_id,
+            o.user_id,
+            o.total_amount,
+            o.delivery_address,
+            o.delivery_city,
+            o.delivery_postal_code,
+            o.contact_phone,
+            o.notes,
+            o.order_status as status,
+            o.assigned_employee_id,
+            o.created_at,
+            o.updated_at,
             u.full_name,
             u.email,
             u.phone

@@ -147,7 +147,7 @@
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
-        .stat-icon.users {
+        .stat-icon.active {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
@@ -164,6 +164,122 @@
         .stat-content p {
             color: #666;
             font-size: 1em;
+        }
+
+        /* Recent Content */
+        .content-section {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .content-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .content-card h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .content-card h2 i {
+            color: #0891b2;
+        }
+
+        /* Recent Orders */
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-number {
+            font-weight: 600;
+            color: #0891b2;
+            margin-bottom: 5px;
+        }
+
+        .order-customer {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .order-status.pending { background: #fef3c7; color: #92400e; }
+        .order-status.processing { background: #dbeafe; color: #1e40af; }
+        .order-status.delivered { background: #d1fae5; color: #065f46; }
+
+        .order-amount {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Top Products */
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-rank {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #666;
         }
 
         /* Action Cards */
@@ -220,8 +336,29 @@
             line-height: 1.6;
         }
 
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* View All Link */
+        .view-all {
+            display: inline-block;
+            color: #0891b2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .header {
                 flex-direction: column;
                 gap: 20px;
@@ -233,7 +370,8 @@
             }
 
             .stats-grid,
-            .actions-grid {
+            .actions-grid,
+            .content-section {
                 grid-template-columns: 1fr;
             }
         }
@@ -281,23 +419,23 @@
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location.href='admin-orders.html'">
             <div class="stat-icon orders">
                 <i class="fas fa-shopping-cart"></i>
             </div>
             <div class="stat-content">
-                <h3>-</h3>
+                <h3 id="ordersCount">-</h3>
                 <p>Общо поръчки</p>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon users">
-                <i class="fas fa-users"></i>
+        <div class="stat-card" onclick="window.location.href='admin-orders.html'">
+            <div class="stat-icon active">
+                <i class="fas fa-clock"></i>
             </div>
             <div class="stat-content">
-                <h3>-</h3>
-                <p>Регистрирани клиенти</p>
+                <h3 id="activeOrders">-</h3>
+                <p>Активни поръчки</p>
             </div>
         </div>
 
@@ -306,9 +444,40 @@
                 <i class="fas fa-chart-line"></i>
             </div>
             <div class="stat-content">
-                <h3>-</h3>
-                <p>Приходи този месец</p>
+                <h3 id="revenueCount">-</h3>
+                <p>Общи приходи</p>
             </div>
+        </div>
+    </div>
+
+    <!-- Recent Content -->
+    <div class="content-section">
+        <!-- Recent Orders -->
+        <div class="content-card">
+            <h2>
+                <i class="fas fa-shopping-bag"></i>
+                Последни поръчки
+            </h2>
+            <div id="recentOrders">
+                <div class="loading">Зареждане...</div>
+            </div>
+            <a href="admin-orders.html" class="view-all">
+                Виж всички поръчки →
+            </a>
+        </div>
+
+        <!-- Top Products -->
+        <div class="content-card">
+            <h2>
+                <i class="fas fa-fire"></i>
+                Топ продукти
+            </h2>
+            <div id="topProducts">
+                <div class="loading">Зареждане...</div>
+            </div>
+            <a href="admin-products.html" class="view-all">
+                Виж всички продукти →
+            </a>
         </div>
     </div>
 
@@ -332,28 +501,12 @@
                 <p>Добавете нов климатик в магазина с всички детайли</p>
             </a>
 
-            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
+            <a href="admin-orders.html" class="action-card">
                 <div class="action-card-icon">
                     <i class="fas fa-clipboard-list"></i>
                 </div>
                 <h3>Поръчки</h3>
                 <p>Преглед и управление на всички поръчки от клиенти</p>
-            </a>
-
-            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
-                <div class="action-card-icon">
-                    <i class="fas fa-users-cog"></i>
-                </div>
-                <h3>Потребители</h3>
-                <p>Управление на клиенти и служители в системата</p>
-            </a>
-
-            <a href="#" class="action-card" onclick="alert('Тази функция ще бъде добавена скоро!'); return false;">
-                <div class="action-card-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <h3>Статистики</h3>
-                <p>Детайлни отчети за продажби, приходи и популярни продукти</p>
             </a>
 
             <a href="index.html" class="action-card">
@@ -383,23 +536,88 @@
         // Display user name
         document.getElementById('userName').textContent = user.full_name || 'Администратор';
 
-        // Load statistics
-        loadStats();
+        // Load dashboard data
+        loadDashboard();
     });
 
-    // Load statistics
-    async function loadStats() {
+    // Load dashboard data
+    async function loadDashboard() {
         try {
-            // Get products count
-            const response = await fetch(`${API_URL}/products/get_all.php`);
+            const response = await fetch(`${API_URL}/dashboard/get_dashboard_stats.php`);
             const result = await response.json();
-            
+
             if (result.success) {
-                document.getElementById('productsCount').textContent = result.total_active_products || result.count;
+                // Update stats
+                document.getElementById('productsCount').textContent = result.stats.total_products;
+                document.getElementById('ordersCount').textContent = result.stats.total_orders;
+                document.getElementById('activeOrders').textContent = result.stats.active_orders;
+                document.getElementById('revenueCount').textContent = result.stats.total_revenue.toFixed(2) + ' лв';
+
+                // Display recent orders
+                displayRecentOrders(result.recent_orders);
+
+                // Display top products
+                displayTopProducts(result.top_products);
             }
         } catch (error) {
-            console.error('Error loading stats:', error);
+            console.error('Error loading dashboard:', error);
         }
+    }
+
+    // Display recent orders
+    function displayRecentOrders(orders) {
+        const container = document.getElementById('recentOrders');
+
+        if (orders.length === 0) {
+            container.innerHTML = '<p style="color: #999; text-align: center;">Все още няма поръчки</p>';
+            return;
+        }
+
+        const statusLabels = {
+            'pending': 'Чакаща',
+            'confirmed': 'Потвърдена',
+            'processing': 'В обработка',
+            'shipped': 'Изпратена',
+            'delivered': 'Доставена'
+        };
+
+        container.innerHTML = orders.map(order => {
+            const date = new Date(order.created_at);
+            return `
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-number">#${String(order.order_id).padStart(4, '0')}</div>
+                        <div class="order-customer">
+                            ${order.full_name || 'Гост'} • ${date.toLocaleDateString('bg-BG')}
+                        </div>
+                    </div>
+                    <span class="order-status ${order.order_status}">
+                        ${statusLabels[order.order_status] || order.order_status}
+                    </span>
+                    <div class="order-amount">${parseFloat(order.total_amount).toFixed(2)} лв</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Display top products
+    function displayTopProducts(products) {
+        const container = document.getElementById('topProducts');
+
+        if (products.length === 0) {
+            container.innerHTML = '<p style="color: #999; text-align: center;">Все още няма продажби</p>';
+            return;
+        }
+
+        container.innerHTML = products.map((product, index) => `
+            <div class="product-item">
+                <div class="product-rank">${index + 1}</div>
+                <div class="product-details">
+                    <div class="product-name">${product.brand_name} ${product.model_name}</div>
+                    <div class="product-sold">Продадени: ${product.total_sold} бр.</div>
+                </div>
+            </div>
+        `).join('');
     }
 
     // Logout function

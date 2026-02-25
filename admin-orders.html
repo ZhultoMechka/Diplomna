@@ -227,17 +227,22 @@
             color: #92400e;
         }
 
-        .order-status.processing {
+        .order-status.confirmed {
             background: #dbeafe;
             color: #1e40af;
         }
 
-        .order-status.shipped {
+        .order-status.processing {
             background: #e0e7ff;
             color: #4338ca;
         }
 
-        .order-status.completed {
+        .order-status.shipped {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .order-status.delivered {
             background: #d1fae5;
             color: #065f46;
         }
@@ -429,9 +434,10 @@
             <select id="statusFilter" onchange="filterOrders()">
                 <option value="">Всички</option>
                 <option value="pending">Чакащи</option>
+                <option value="confirmed">Потвърдени</option>
                 <option value="processing">В обработка</option>
                 <option value="shipped">Изпратени</option>
-                <option value="completed">Завършени</option>
+                <option value="delivered">Доставени</option>
                 <option value="cancelled">Отказани</option>
             </select>
         </div>
@@ -500,9 +506,10 @@
         container.innerHTML = orders.map(order => {
             const statusLabels = {
                 'pending': 'Чакаща',
+                'confirmed': 'Потвърдена',
                 'processing': 'В обработка',
                 'shipped': 'Изпратена',
-                'completed': 'Завършена',
+                'delivered': 'Доставена',
                 'cancelled': 'Отказана'
             };
 
@@ -574,14 +581,14 @@
         const stats = {
             pending: 0,
             processing: 0,
-            completed: 0,
+            completed: 0, // delivered + confirmed
             revenue: 0
         };
 
         orders.forEach(order => {
             if (order.status === 'pending') stats.pending++;
             if (order.status === 'processing') stats.processing++;
-            if (order.status === 'completed') stats.completed++;
+            if (order.status === 'delivered' || order.status === 'confirmed') stats.completed++;
             stats.revenue += parseFloat(order.total_amount);
         });
 

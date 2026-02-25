@@ -1,49 +1,46 @@
 <?php
 // ============================================
-// get_all.php - Всички поръчки
-// GET: api/orders/get_all.php
+// get_user_orders.php - Поръчки на потребител
+// GET: api/orders/get_user_orders.php?user_id=1
 // ============================================
 
 require_once '../config.php';
 
-// Проверка дали е admin (по-късно)
+// За production - вземи user_id от сесията
 // requireLogin();
-// if ($_SESSION['user_type'] !== 'admin') {
-//     sendResponse(403, ['success' => false, 'message' => 'Нямате права']);
-// }
+// $user_id = $_SESSION['user_id'];
+
+// За development - вземи от параметър
+$user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
+
+if (!$user_id) {
+    sendResponse(400, ['success' => false, 'message' => 'Липсва ID на потребител']);
+}
 
 try {
     $conn = getDBConnection();
 
-    // Взимаме всички поръчки с информация за клиента
+    // Взимаме поръчките на потребителя
     $sql = "
         SELECT 
             o.order_id,
-            o.user_id,
             o.total_amount,
             o.delivery_address,
             o.delivery_city,
-            o.delivery_postal_code,
-            o.contact_phone,
-            o.notes,
             o.order_status as status,
             o.created_at,
-            u.full_name,
-            u.email,
-            u.phone,
             (SELECT COUNT(*) FROM order_items WHERE order_id = o.order_id) as items_count
         FROM orders o
-        LEFT JOIN users u ON o.user_id = u.user_id
+        WHERE o.user_id = :user_id
         ORDER BY o.created_at DESC
     ";
 
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([':user_id' => $user_id]);
     $orders = $stmt->fetchAll();
 
-    // За всяка поръчка вземаме продуктите и услугите
+    // За всяка поръчка вземаме продуктите
     foreach ($orders as &$order) {
-        // Продукти - ПРАВИЛНИ КОЛОНИ!
         $sql_items = "
             SELECT 
                 oi.quantity,
@@ -66,7 +63,7 @@ try {
         $sql_services = "
             SELECT 
                 s.service_name,
-                os.service_price as price
+                s.base_price as price
             FROM order_services os
             LEFT JOIN services s ON os.service_id = s.service_id
             WHERE os.order_id = :order_id
@@ -76,7 +73,7 @@ try {
         $stmt_services->execute([':order_id' => $order['order_id']]);
         $order['services'] = $stmt_services->fetchAll();
 
-        // Плащане - ПРАВИЛНИ КОЛОНИ!
+        // Плащане
         $sql_payment = "
             SELECT payment_method, payment_status
             FROM payments
@@ -102,7 +99,7 @@ try {
     sendResponse(500, [
         'success' => false,
         'message' => 'Грешка при вземане на поръчките',
-        'error' => $e->getMessage()
+        'error' => DEBUG_MODE ? $e->getMessage() : 'Моля опитайте отново'
     ]);
 }
 ?>
