@@ -11,25 +11,21 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
         }
-
         /* Header */
         .header {
             background: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-
         .top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 20px 60px;
         }
-
         .logo {
             display: flex;
             align-items: center;
@@ -39,29 +35,25 @@
             font-size: 24px;
             font-weight: bold;
         }
-
         .logo i {
             font-size: 36px;
         }
-
         .nav-icons {
             display: flex;
             gap: 20px;
             align-items: center;
         }
-
         .nav-icons a {
             color: #333;
             font-size: 20px;
             position: relative;
             transition: transform 0.2s;
+            text-decoration: none;
         }
-
         .nav-icons a:hover {
             transform: scale(1.15);
             color: #0891b2;
         }
-
         .cart-badge {
             position: absolute;
             top: -8px;
@@ -73,24 +65,20 @@
             border-radius: 10px;
             font-weight: bold;
         }
-
         /* Breadcrumbs */
         .breadcrumbs {
             padding: 15px 60px;
             background: #fff;
             border-top: 1px solid #e5e7eb;
         }
-
         .breadcrumbs a {
             color: #0891b2;
             text-decoration: none;
         }
-
         .breadcrumbs span {
             color: #666;
             margin: 0 8px;
         }
-
         /* Container */
         .container {
             max-width: 1400px;
@@ -100,7 +88,6 @@
             grid-template-columns: 280px 1fr;
             gap: 40px;
         }
-
         /* Sidebar Filters */
         .sidebar {
             background: white;
@@ -111,99 +98,152 @@
             position: sticky;
             top: 20px;
         }
-
-        .sidebar h3 {
-            color: #333;
+        
+        /* Filters Header */
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        
+        .filters-header h3 {
+            color: #333;
             font-size: 1.3em;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
+        
+        .clear-filters-btn {
+            background: #ef4444;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .clear-filters-btn.active {
+            display: block;
+        }
+        
+        .clear-filters-btn:hover {
+            background: #dc2626;
+        }
+        
         .filter-section {
             margin-bottom: 25px;
             padding-bottom: 25px;
             border-bottom: 1px solid #e5e7eb;
         }
-
         .filter-section:last-child {
             border-bottom: none;
         }
-
         .filter-section h4 {
             color: #333;
             margin-bottom: 15px;
             font-size: 1em;
+            font-weight: 600;
         }
-
+        
+        /* Enhanced Search */
+        .search-container {
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: #0891b2;
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        /* Filter Options */
         .filter-option {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .filter-option:hover {
+            background: #f8fafc;
+        }
+        
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
             cursor: pointer;
         }
-
-        .filter-option input[type="checkbox"],
-        .filter-option input[type="radio"] {
-            cursor: pointer;
-        }
-
+        
         .filter-option label {
             cursor: pointer;
             flex: 1;
+            color: #666;
         }
-
+        
         .filter-option .count {
             color: #999;
-            font-size: 0.9em;
+            font-size: 13px;
         }
-
-        .price-range {
-            display: flex;
+        
+        /* Price Range */
+        .price-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            align-items: center;
+            margin-bottom: 15px;
         }
-
-        .price-range input {
-            width: 100%;
-            padding: 8px;
+        
+        .price-inputs input {
+            padding: 10px;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
-        }
-
-        .clear-filters {
-            background: #ef4444;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
+            text-align: center;
             font-weight: 600;
         }
-
-        .clear-filters:hover {
-            background: #dc2626;
+        
+        .price-inputs input:focus {
+            outline: none;
+            border-color: #0891b2;
         }
-
-        /* Active filter badge */
-        .active-filters {
-            background: #0891b2;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+        
+        /* Active filters badge */
+        .active-filters-badge {
+            background: #f0f9ff;
+            border: 2px solid #0891b2;
+            color: #0891b2;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             font-size: 14px;
+            font-weight: 600;
         }
-
-        .active-filters strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
+        
         /* Main Content */
         .main-content {
             background: white;
@@ -211,7 +251,6 @@
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
         .content-header {
             display: flex;
             justify-content: space-between;
@@ -220,73 +259,44 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-
         .content-header h2 {
             color: #333;
             font-size: 1.8em;
         }
-
         .results-info {
-            color: #666;
+            background: #f0f9ff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            color: #0891b2;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
         .sort-options {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-
         .sort-options select {
             padding: 10px 15px;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             cursor: pointer;
-        }
-
-        /* Search Bar */
-        .search-bar {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
+            background: white;
             font-size: 15px;
-            transition: border-color 0.3s;
         }
-
-        .search-bar input:focus {
+        .sort-options select:focus {
             outline: none;
             border-color: #0891b2;
         }
-
-        .search-bar button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #0891b2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .search-bar button:hover {
-            background: #0e7490;
-        }
-
+        
         /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
-
         .product-card {
             background: white;
             border: 2px solid #e5e7eb;
@@ -295,13 +305,11 @@
             transition: all 0.3s;
             cursor: pointer;
         }
-
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-color: #0891b2;
         }
-
         .product-image {
             width: 100%;
             height: 220px;
@@ -312,13 +320,11 @@
             position: relative;
             overflow: hidden;
         }
-
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .product-badge {
             position: absolute;
             top: 10px;
@@ -330,18 +336,15 @@
             font-size: 12px;
             font-weight: 600;
         }
-
         .product-content {
             padding: 20px;
         }
-
         .product-brand {
             color: #0891b2;
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 5px;
         }
-
         .product-title {
             font-size: 1.1em;
             color: #333;
@@ -349,7 +352,6 @@
             font-weight: 600;
             min-height: 50px;
         }
-
         .product-specs {
             display: flex;
             gap: 15px;
@@ -357,20 +359,17 @@
             font-size: 14px;
             color: #666;
         }
-
         .product-spec {
             display: flex;
             align-items: center;
             gap: 5px;
         }
-
         .product-price {
             font-size: 1.8em;
             color: #0891b2;
             font-weight: bold;
             margin-bottom: 15px;
         }
-
         .product-features {
             font-size: 13px;
             color: #666;
@@ -379,7 +378,6 @@
             max-height: 60px;
             overflow: hidden;
         }
-
         .add-to-cart-btn {
             width: 100%;
             background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
@@ -396,57 +394,104 @@
             justify-content: center;
             gap: 8px;
         }
-
         .add-to-cart-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(8, 145, 178, 0.4);
         }
-
+        
         /* Loading */
         .loading {
             text-align: center;
             padding: 60px;
             color: #666;
         }
-
         .loading i {
             font-size: 48px;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
+        
         /* No products */
         .no-products {
             text-align: center;
             padding: 80px 20px;
             color: #666;
         }
-
         .no-products i {
             font-size: 64px;
             color: #ddd;
             margin-bottom: 20px;
         }
-
+        
+        /* Mobile Filters Toggle */
+        .mobile-filters-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0891b2;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+            font-size: 24px;
+        }
+        
+        .filters-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            display: none;
+        }
+        
+        .filters-overlay.active {
+            display: block;
+        }
+        
         /* Responsive */
         @media (max-width: 968px) {
             .container {
                 grid-template-columns: 1fr;
                 padding: 0 20px;
             }
-
+            
             .sidebar {
-                position: static;
+                position: fixed;
+                left: -100%;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 999;
+                transition: left 0.3s;
+                overflow-y: auto;
+                border-radius: 0;
+                max-height: 100vh;
             }
-
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-filters-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
             .top-bar, .breadcrumbs {
                 padding: 15px 20px;
             }
-
             .products-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
@@ -454,7 +499,6 @@
     </style>
 </head>
 <body>
-
 <!-- Header -->
 <div class="header">
     <div class="top-bar">
@@ -462,7 +506,6 @@
             <i class="fas fa-wind"></i>
             <span>Климатици ЕООД</span>
         </a>
-
         <div class="nav-icons">
             <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
             <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
@@ -472,7 +515,6 @@
             </a>
         </div>
     </div>
-
     <div class="breadcrumbs">
         <a href="index.html">Начало</a>
         <span>/</span>
@@ -483,89 +525,96 @@
 <!-- Main Container -->
 <div class="container">
     <!-- Sidebar Filters -->
-    <aside class="sidebar">
-        <h3>
-            <i class="fas fa-filter"></i>
-            Филтри
-        </h3>
-
-        <!-- Active filters info -->
-        <div id="activeFiltersInfo" style="display: none;" class="active-filters">
-            <strong>Активни филтри:</strong>
-            <span id="activeFiltersText"></span>
+    <aside class="sidebar" id="filtersSidebar">
+        <!-- Filters Header -->
+        <div class="filters-header">
+            <h3>
+                <i class="fas fa-filter"></i>
+                Филтри
+            </h3>
+            <button class="clear-filters-btn" id="clearFiltersBtn" onclick="clearFilters()">
+                <i class="fas fa-times"></i> Изчисти
+            </button>
         </div>
-
+        
+        <!-- Active filters info -->
+        <div id="activeFiltersInfo" style="display: none;" class="active-filters-badge">
+            <i class="fas fa-check-circle"></i> <span id="activeFiltersText"></span>
+        </div>
+        
         <!-- Search -->
         <div class="filter-section">
-            <h4>Търсене</h4>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Търси модел...">
+            <h4><i class="fas fa-search"></i> Търсене</h4>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Търси модел, марка...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
             </div>
         </div>
-
+        
         <!-- Brand Filter -->
         <div class="filter-section">
-            <h4>Марка</h4>
+            <h4><i class="fas fa-tag"></i> Марка</h4>
             <div id="brandFilters"></div>
         </div>
-
+        
         <!-- BTU Filter -->
         <div class="filter-section">
-            <h4>BTU Мощност</h4>
+            <h4><i class="fas fa-bolt"></i> BTU Мощност</h4>
             <div id="btuFilters"></div>
         </div>
-
+        
         <!-- Energy Class Filter -->
         <div class="filter-section">
-            <h4>Енергиен клас</h4>
+            <h4><i class="fas fa-leaf"></i> Енергиен клас</h4>
             <div id="energyFilters"></div>
         </div>
-
+        
         <!-- Price Range -->
         <div class="filter-section">
-            <h4>Ценови диапазон</h4>
-            <div class="price-range">
-                <input type="number" id="minPrice" placeholder="От" min="0">
-                <span>-</span>
-                <input type="number" id="maxPrice" placeholder="До" min="0">
+            <h4><i class="fas fa-dollar-sign"></i> Ценови диапазон</h4>
+            <div class="price-inputs">
+                <input type="number" id="minPrice" placeholder="Мин" min="0">
+                <input type="number" id="maxPrice" placeholder="Макс" min="0">
             </div>
         </div>
-
-        <button class="clear-filters" onclick="clearFilters()">
-            <i class="fas fa-redo"></i> Изчисти филтрите
-        </button>
     </aside>
-
+    
     <!-- Main Content -->
     <main class="main-content">
         <!-- Content Header -->
         <div class="content-header">
             <div>
                 <h2>Каталог с климатици</h2>
-                <p class="results-info">Намерени <strong id="resultsCount">0</strong> продукта</p>
+                <div class="results-info">
+                    <i class="fas fa-box"></i>
+                    <span id="resultsCount">Показани 0 от 0 продукта</span>
+                </div>
             </div>
             <div class="sort-options">
-                <label>Сортирай по:</label>
+                <label><i class="fas fa-sort"></i> Подреди по:</label>
                 <select id="sortSelect" onchange="sortProducts()">
-                    <option value="price_asc">Цена: Ниска към висока</option>
-                    <option value="price_desc">Цена: Висока към ниска</option>
-                    <option value="btu_asc">BTU: Ниска към висока</option>
-                    <option value="btu_desc">BTU: Висока към ниска</option>
+                    <option value="default">По подразбиране</option>
+                    <option value="price_asc">Цена: Ниска → Висока</option>
+                    <option value="price_desc">Цена: Висока → Ниска</option>
+                    <option value="btu_asc">BTU: Ниска → Висока</option>
+                    <option value="btu_desc">BTU: Висока → Ниска</option>
                     <option value="name_asc">Име: А-Я</option>
                     <option value="newest">Най-нови първо</option>
                 </select>
             </div>
         </div>
-
+        
         <!-- Loading -->
         <div id="loading" class="loading">
             <i class="fas fa-spinner"></i>
             <p>Зареждане на продукти...</p>
         </div>
-
+        
         <!-- Products Grid -->
         <div id="productsGrid" class="products-grid" style="display: none;"></div>
-
+        
         <!-- No Products -->
         <div id="noProducts" class="no-products" style="display: none;">
             <i class="fas fa-box-open"></i>
@@ -575,20 +624,27 @@
     </main>
 </div>
 
+<!-- Mobile Filters Toggle -->
+<button class="mobile-filters-toggle" onclick="toggleMobileFilters()">
+    <i class="fas fa-filter"></i>
+</button>
+
+<!-- Filters Overlay -->
+<div class="filters-overlay" id="filtersOverlay" onclick="toggleMobileFilters()"></div>
+
 <!-- Cart Manager Library -->
 <script src="assets/js/cart-manager.js"></script>
-
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
     let allProducts = [];
     let filteredProducts = [];
-
+    
     // Load on page load
     window.addEventListener('DOMContentLoaded', () => {
         loadProducts();
         setupFilters();
     });
-
+    
     // Get URL parameters
     function getURLParams() {
         const params = new URLSearchParams(window.location.search);
@@ -599,242 +655,211 @@
             energy: params.get('energy')
         };
     }
-
+    
     // Apply filters from URL
     function applyURLFilters() {
         const params = getURLParams();
         
-        console.log('🔍 URL Parameters:', params); // Debug
-        console.log('📦 Total products loaded:', allProducts.length); // Debug
-
-        // Check if any URL filters exist
         const hasFilters = params.brand || params.search || params.btu || params.energy;
-
         if (!hasFilters) {
-            // No URL filters - display all products
-            console.log('ℹ️ No URL filters - displaying all products'); // Debug
             filteredProducts = [...allProducts];
             displayProducts(filteredProducts);
             return;
         }
-
-        // Start with all products
+        
         let tempFilteredProducts = [...allProducts];
-
-        // Apply brand filter from URL
+        
+        // Apply brand filter
         if (params.brand) {
             const brandName = params.brand.trim();
-            console.log('🏷️ Filtering by brand:', brandName); // Debug
+            tempFilteredProducts = tempFilteredProducts.filter(product => 
+                product.brand_name.toLowerCase() === brandName.toLowerCase()
+            );
             
-            tempFilteredProducts = tempFilteredProducts.filter(product => {
-                const match = product.brand_name.toLowerCase() === brandName.toLowerCase();
-                if (match) {
-                    console.log('  ✅ Match:', product.brand_name, product.model_name);
-                }
-                return match;
-            });
-            
-            console.log('📊 Products after brand filter:', tempFilteredProducts.length); // Debug
-            
-            // Try to check the checkbox (optional, for UI only)
             setTimeout(() => {
-                const brandCheckboxes = document.querySelectorAll('#brandFilters input[type="checkbox"]');
-                brandCheckboxes.forEach(checkbox => {
+                document.querySelectorAll('#brandFilters input[type="checkbox"]').forEach(checkbox => {
                     const label = checkbox.nextElementSibling.textContent.trim();
                     if (label.toLowerCase() === brandName.toLowerCase()) {
                         checkbox.checked = true;
-                        console.log('✅ Checkbox marked:', label);
                     }
                 });
-                
-                // Show active filter badge
-                const activeFiltersInfo = document.getElementById('activeFiltersInfo');
-                const activeFiltersTextEl = document.getElementById('activeFiltersText');
-                activeFiltersInfo.style.display = 'block';
-                activeFiltersTextEl.textContent = `Марка: ${brandName}`;
-            }, 50);
+                updateActiveFiltersDisplay();
+            }, 100);
         }
-
-        // Apply search filter from URL
+        
+        // Apply other filters...
         if (params.search) {
             const searchTerm = params.search.toLowerCase().trim();
-            console.log('🔎 Filtering by search:', searchTerm); // Debug
-            
-            tempFilteredProducts = tempFilteredProducts.filter(product => {
-                return product.model_name.toLowerCase().includes(searchTerm) ||
-                       product.brand_name.toLowerCase().includes(searchTerm) ||
-                       (product.description && product.description.toLowerCase().includes(searchTerm));
-            });
-            
-            console.log('📊 Products after search filter:', tempFilteredProducts.length); // Debug
-            
-            // Set search input
+            tempFilteredProducts = tempFilteredProducts.filter(product =>
+                product.model_name.toLowerCase().includes(searchTerm) ||
+                product.brand_name.toLowerCase().includes(searchTerm)
+            );
             document.getElementById('searchInput').value = params.search;
         }
-
-        // Apply BTU filter from URL
+        
         if (params.btu) {
             const btu = parseInt(params.btu);
-            console.log('⚡ Filtering by BTU:', btu); // Debug
-            
-            tempFilteredProducts = tempFilteredProducts.filter(product => {
-                return product.btu_power === btu;
-            });
-            
-            console.log('📊 Products after BTU filter:', tempFilteredProducts.length); // Debug
-            
-            // Check the checkbox
+            tempFilteredProducts = tempFilteredProducts.filter(product => product.btu_power === btu);
             setTimeout(() => {
                 const btuCheckbox = document.getElementById(`btu_${btu}`);
-                if (btuCheckbox) {
-                    btuCheckbox.checked = true;
-                }
-            }, 50);
+                if (btuCheckbox) btuCheckbox.checked = true;
+            }, 100);
         }
-
-        // Apply energy class filter from URL
+        
         if (params.energy) {
             const energy = params.energy.trim();
-            console.log('🔋 Filtering by energy class:', energy); // Debug
-            
-            tempFilteredProducts = tempFilteredProducts.filter(product => {
-                return product.energy_class === energy;
-            });
-            
-            console.log('📊 Products after energy filter:', tempFilteredProducts.length); // Debug
-            
-            // Check the checkbox
+            tempFilteredProducts = tempFilteredProducts.filter(product => product.energy_class === energy);
             setTimeout(() => {
                 const energyCheckbox = document.getElementById(`energy_${energy}`);
-                if (energyCheckbox) {
-                    energyCheckbox.checked = true;
-                }
-            }, 50);
+                if (energyCheckbox) energyCheckbox.checked = true;
+            }, 100);
         }
-
-        // Update filtered products
+        
         filteredProducts = tempFilteredProducts;
-        
-        console.log('✅ Final filtered products:', filteredProducts.length); // Debug
-        
-        // Display the filtered products
         displayProducts(filteredProducts);
+        updateActiveFiltersDisplay();
     }
-
+    
     // Load products
     async function loadProducts() {
         try {
             const response = await fetch(`${API_URL}/products/get_all.php?is_active=1`);
             const result = await response.json();
-
-            console.log('📡 API Response:', result); // Debug
-
+            
             if (result.success) {
                 allProducts = result.products;
                 filteredProducts = [...allProducts];
                 
-                console.log('✅ Total products loaded:', allProducts.length); // Debug
-                
-                // Build filter options (checkboxes)
                 buildFilterOptions();
-                
-                // Apply URL filters (this will filter and display products)
                 applyURLFilters();
             } else {
                 showError('Грешка при зареждане на продуктите');
             }
-
         } catch (error) {
-            console.error('❌ Error:', error);
+            console.error('Error:', error);
             showError('Грешка при свързване със сървъра');
         }
     }
-
-    // Build filter options dynamically
+    
+    // Build filter options with counts
     function buildFilterOptions() {
-        // Brands - use brand_name as value
-        const brands = [...new Set(allProducts.map(p => ({ id: p.brand_id, name: p.brand_name })))];
-        const uniqueBrands = Array.from(new Map(brands.map(b => [b.name, b])).values());
+        // Brands with counts
+        const brandCounts = {};
+        allProducts.forEach(p => {
+            brandCounts[p.brand_name] = (brandCounts[p.brand_name] || 0) + 1;
+        });
         
+        const brands = Object.keys(brandCounts).sort();
         const brandFilters = document.getElementById('brandFilters');
-        brandFilters.innerHTML = uniqueBrands.map(brand => `
+        brandFilters.innerHTML = brands.map(brand => `
             <div class="filter-option">
-                <input type="checkbox" id="brand_${brand.name.replace(/\s+/g, '_')}" value="${brand.name}" onchange="applyFilters()">
-                <label for="brand_${brand.name.replace(/\s+/g, '_')}">${brand.name}</label>
+                <input type="checkbox" id="brand_${brand.replace(/\s+/g, '_')}" value="${brand}" onchange="applyFilters()">
+                <label for="brand_${brand.replace(/\s+/g, '_')}">${brand}</label>
+                <span class="count">(${brandCounts[brand]})</span>
             </div>
         `).join('');
-
-        // BTU
-        const btus = [...new Set(allProducts.map(p => p.btu_power))].sort((a, b) => a - b);
+        
+        // BTU with counts
+        const btuCounts = {};
+        allProducts.forEach(p => {
+            btuCounts[p.btu_power] = (btuCounts[p.btu_power] || 0) + 1;
+        });
+        
+        const btus = Object.keys(btuCounts).map(Number).sort((a, b) => a - b);
         const btuFilters = document.getElementById('btuFilters');
         btuFilters.innerHTML = btus.map(btu => `
             <div class="filter-option">
                 <input type="checkbox" id="btu_${btu}" value="${btu}" onchange="applyFilters()">
                 <label for="btu_${btu}">${btu} BTU</label>
+                <span class="count">(${btuCounts[btu]})</span>
             </div>
         `).join('');
-
-        // Energy Class
-        const energyClasses = [...new Set(allProducts.map(p => p.energy_class))].sort();
+        
+        // Energy classes with counts
+        const energyCounts = {};
+        allProducts.forEach(p => {
+            energyCounts[p.energy_class] = (energyCounts[p.energy_class] || 0) + 1;
+        });
+        
+        const energyClasses = Object.keys(energyCounts).sort();
         const energyFilters = document.getElementById('energyFilters');
         energyFilters.innerHTML = energyClasses.map(energy => `
             <div class="filter-option">
                 <input type="checkbox" id="energy_${energy}" value="${energy}" onchange="applyFilters()">
                 <label for="energy_${energy}">${energy}</label>
+                <span class="count">(${energyCounts[energy]})</span>
             </div>
         `).join('');
     }
-
+    
     // Setup filters
     function setupFilters() {
         document.getElementById('searchInput').addEventListener('input', applyFilters);
         document.getElementById('minPrice').addEventListener('input', applyFilters);
         document.getElementById('maxPrice').addEventListener('input', applyFilters);
     }
-
+    
     // Apply filters
     function applyFilters() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
         const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
-
-        // Get selected brands by name
+        
         const selectedBrands = Array.from(document.querySelectorAll('#brandFilters input:checked'))
             .map(cb => cb.value);
-        
-        // Get selected BTUs
         const selectedBTUs = Array.from(document.querySelectorAll('#btuFilters input:checked'))
             .map(cb => parseInt(cb.value));
-        
-        // Get selected energy classes
         const selectedEnergy = Array.from(document.querySelectorAll('#energyFilters input:checked'))
             .map(cb => cb.value);
-
-        console.log('Filtering with:', { selectedBrands, selectedBTUs, selectedEnergy, searchTerm }); // Debug
-
+        
         filteredProducts = allProducts.filter(product => {
             const matchSearch = !searchTerm || 
                 product.model_name.toLowerCase().includes(searchTerm) ||
-                product.brand_name.toLowerCase().includes(searchTerm) ||
-                (product.description && product.description.toLowerCase().includes(searchTerm));
-
+                product.brand_name.toLowerCase().includes(searchTerm);
             const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand_name);
             const matchBTU = selectedBTUs.length === 0 || selectedBTUs.includes(product.btu_power);
             const matchEnergy = selectedEnergy.length === 0 || selectedEnergy.includes(product.energy_class);
             const matchPrice = product.price >= minPrice && product.price <= maxPrice;
-
+            
             return matchSearch && matchBrand && matchBTU && matchEnergy && matchPrice;
         });
-
-        console.log('Filtered products count:', filteredProducts.length); // Debug
-
+        
+        updateActiveFiltersDisplay();
         sortProducts();
     }
-
+    
+    // Update active filters display
+    function updateActiveFiltersDisplay() {
+        const searchTerm = document.getElementById('searchInput').value;
+        const minPrice = document.getElementById('minPrice').value;
+        const maxPrice = document.getElementById('maxPrice').value;
+        const selectedBrands = document.querySelectorAll('#brandFilters input:checked').length;
+        const selectedBTUs = document.querySelectorAll('#btuFilters input:checked').length;
+        const selectedEnergy = document.querySelectorAll('#energyFilters input:checked').length;
+        
+        const hasFilters = searchTerm || minPrice || maxPrice || selectedBrands || selectedBTUs || selectedEnergy;
+        
+        document.getElementById('clearFiltersBtn').classList.toggle('active', hasFilters);
+        
+        if (hasFilters) {
+            const filterParts = [];
+            if (searchTerm) filterParts.push(`Търсене: "${searchTerm}"`);
+            if (selectedBrands) filterParts.push(`${selectedBrands} марки`);
+            if (selectedBTUs) filterParts.push(`${selectedBTUs} BTU`);
+            if (selectedEnergy) filterParts.push(`${selectedEnergy} енергиен клас`);
+            if (minPrice || maxPrice) filterParts.push('Ценови диапазон');
+            
+            document.getElementById('activeFiltersInfo').style.display = 'block';
+            document.getElementById('activeFiltersText').textContent = filterParts.join(', ');
+        } else {
+            document.getElementById('activeFiltersInfo').style.display = 'none';
+        }
+    }
+    
     // Sort products
     function sortProducts() {
         const sortValue = document.getElementById('sortSelect').value;
-
+        
         switch(sortValue) {
             case 'price_asc':
                 filteredProducts.sort((a, b) => a.price - b.price);
@@ -849,53 +874,53 @@
                 filteredProducts.sort((a, b) => b.btu_power - a.btu_power);
                 break;
             case 'name_asc':
-                filteredProducts.sort((a, b) => a.model_name.localeCompare(b.model_name));
+                filteredProducts.sort((a, b) => a.model_name.localeCompare(b.model_name, 'bg'));
                 break;
             case 'newest':
                 filteredProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 break;
         }
-
+        
         displayProducts(filteredProducts);
     }
-
+    
     // Display products
     function displayProducts(products) {
         const grid = document.getElementById('productsGrid');
         const loading = document.getElementById('loading');
         const noProducts = document.getElementById('noProducts');
-
+        
         loading.style.display = 'none';
-        document.getElementById('resultsCount').textContent = products.length;
-
+        document.getElementById('resultsCount').textContent = `Показани ${products.length} от ${allProducts.length} продукта`;
+        
         if (products.length === 0) {
             grid.style.display = 'none';
             noProducts.style.display = 'block';
             return;
         }
-
+        
         noProducts.style.display = 'none';
         grid.style.display = 'grid';
         grid.innerHTML = '';
-
+        
         products.forEach(product => {
             const card = createProductCard(product);
             grid.appendChild(card);
         });
     }
-
+    
     // Create product card
     function createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => window.location.href = `product-detail.html?id=${product.product_id}`;
-
+        
         const features = product.features ? product.features.split(',').slice(0, 2).join(', ') : '';
-
+        
         card.innerHTML = `
             <div class="product-image">
                 <img src="${product.main_image_url}" alt="${product.model_name}"
-                     onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(product.model_name)}'">
+                     onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=${encodeURIComponent(product.model_name)}'">
                 <span class="product-badge">${product.energy_class}</span>
             </div>
             <div class="product-content">
@@ -911,69 +936,63 @@
                 </div>
                 <div class="product-features">${features}</div>
                 <div class="product-price">${parseFloat(product.price).toFixed(2)} лв</div>
-                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.product_id}, '${product.model_name}')">
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.product_id}, '${product.model_name.replace(/'/g, "\\'")}')">
                     <i class="fas fa-shopping-cart"></i>
                     Добави в количка
                 </button>
             </div>
         `;
-
+        
         return card;
     }
-
+    
     // Add to cart
     function addToCart(productId, productName) {
-        console.log('🛒 addToCart called:', productId, productName); // Debug
-        console.log('📦 allProducts:', allProducts); // Debug
-        
-        // Find the product in allProducts array
         const product = allProducts.find(p => p.product_id === productId);
         
         if (!product) {
-            console.error('❌ Product not found in allProducts array!', productId); // Debug
             alert('Грешка: Продуктът не е намерен');
             return;
         }
-
-        console.log('✅ Product found:', product); // Debug
-        console.log('🔧 CartManager:', CartManager); // Debug
-
-        // Add to cart with quantity 1 and no services
+        
         try {
-            const result = CartManager.addProduct(product, 1, []);
-            console.log('✅ Added to cart:', result); // Debug
+            CartManager.addProduct(product, 1, []);
             
-            // Show success message
             const goToCart = confirm(`✅ ${productName} беше добавен в количката!\n\nИскате ли да отидете в количката?`);
             
             if (goToCart) {
                 window.location.href = 'cart.html';
             }
         } catch (error) {
-            console.error('❌ Error adding to cart:', error); // Debug
-            alert('Грешка при добавяне в количката: ' + error.message);
+            console.error('Error adding to cart:', error);
+            alert('Грешка при добавяне в количката');
         }
     }
-
+    
     // Clear filters
     function clearFilters() {
         document.getElementById('searchInput').value = '';
         document.getElementById('minPrice').value = '';
         document.getElementById('maxPrice').value = '';
+        document.getElementById('sortSelect').value = 'default';
         
         document.querySelectorAll('#brandFilters input, #btuFilters input, #energyFilters input').forEach(cb => {
             cb.checked = false;
         });
-
-        // Hide active filters info
+        
         document.getElementById('activeFiltersInfo').style.display = 'none';
-
-        // Clear URL parameters
         window.history.replaceState({}, document.title, window.location.pathname);
-
+        
         applyFilters();
     }
-
+    
+    // Mobile filters toggle
+    function toggleMobileFilters() {
+        document.getElementById('filtersSidebar').classList.toggle('active');
+        document.getElementById('filtersOverlay').classList.toggle('active');
+        document.body.style.overflow = document.getElementById('filtersSidebar').classList.contains('active') ? 'hidden' : '';
+    }
+    
     // Show error
     function showError(message) {
         const loading = document.getElementById('loading');
