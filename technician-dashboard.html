@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техник Dashboard - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 30px 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #f59e0b;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 60px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card.pending .stat-icon {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .stat-card.processing .stat-icon {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+
+        .stat-card.completed .stat-icon {
+            background: #d1fae5;
+            color: #10b981;
+        }
+
+        .stat-card.total .stat-icon {
+            background: #e0e7ff;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Orders Section */
+        .orders-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .filter-tab.active {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        /* Orders Table */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table thead {
+            background: #f8fafc;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .orders-table th {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .orders-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .orders-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.confirmed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-badge.processing {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .status-badge.shipped {
+            background: #ddd6fe;
+            color: #6b21a8;
+        }
+
+        .status-badge.delivered {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            background: #f59e0b;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #d97706;
+        }
+
+        .action-btn.secondary {
+            background: #6366f1;
+        }
+
+        .action-btn.secondary:hover {
+            background: #4f46e5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #f59e0b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #f59e0b;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #d97706;
+        }
+
+        /* Loading & Empty States */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+            color: #f59e0b;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .no-orders i {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .header {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+
+            .orders-table {
+                display: none;
+            }
+
+            /* Mobile Cards */
+            .orders-mobile {
+                display: block;
+            }
+
+            .order-card-mobile {
+                background: #f8fafc;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .order-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .order-card-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .order-card-row:last-child {
+                border-bottom: none;
+            }
+
+            .order-card-label {
+                color: #666;
+                font-size: 14px;
+            }
+
+            .order-card-value {
+                font-weight: 600;
+                color: #333;
+            }
+
+            .order-card-actions {
+                display: flex;
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .order-card-actions button {
+                flex: 1;
+            }
+        }
+
+        .orders-mobile {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-content">
+        <h1>
+            <i class="fas fa-tools"></i>
+            Техник Dashboard
+        </h1>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Изход
+        </button>
+    </div>
+</div>
+
+<!-- Container -->
+<div class="container">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card pending">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-label">Чакащи</div>
+            <div class="stat-value" id="pendingCount">0</div>
+        </div>
+
+        <div class="stat-card processing">
+            <div class="stat-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            <div class="stat-label">В процес</div>
+            <div class="stat-value" id="processingCount">0</div>
+        </div>
+
+        <div class="stat-card completed">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-label">Завършени</div>
+            <div class="stat-value" id="completedCount">0</div>
+        </div>
+
+        <div class="stat-card total">
+            <div class="stat-icon">
+                <i class="fas fa-list"></i>
+            </div>
+            <div class="stat-label">Общо поръчки</div>
+            <div class="stat-value" id="totalCount">0</div>
+        </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="orders-section">
+        <div class="section-header">
+            <h2>Моите поръчки</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterOrders('all')">Всички</button>
+                <button class="filter-tab" onclick="filterOrders('confirmed')">Потвърдени</button>
+                <button class="filter-tab" onclick="filterOrders('processing')">В процес</button>
+                <button class="filter-tab" onclick="filterOrders('shipped')">Изпратени</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Зареждане на поръчки...</p>
+        </div>
+
+        <!-- Desktop Table -->
+        <table class="orders-table" id="ordersTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Поръчка №</th>
+                    <th>Клиент</th>
+                    <th>Дата</th>
+                    <th>Услуга</th>
+                    <th>Статус</th>
+                    <th>Сума</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+            </tbody>
+        </table>
+
+        <!-- Mobile Cards -->
+        <div class="orders-mobile" id="ordersMobile">
+        </div>
+
+        <!-- No Orders -->
+        <div id="noOrders" class="no-orders" style="display: none;">
+            <i class="fas fa-inbox"></i>
+            <h3>Няма поръчки</h3>
+            <p>Все още нямате назначени поръчки</p>
+        </div>
+    </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal" id="updateModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Промени статус</h3>
+            <button class="close-modal" onclick="closeModal()">×</button>
+        </div>
+
+        <form id="updateForm" onsubmit="updateOrderStatus(event)">
+            <input type="hidden" id="modalOrderId">
+
+            <div class="form-group">
+                <label>Нов статус:</label>
+                <select id="newStatus" required>
+                    <option value="">Избери статус...</option>
+                    <option value="confirmed">Потвърдена</option>
+                    <option value="processing">В обработка</option>
+                    <option value="shipped">Изпратена</option>
+                    <option value="delivered">Доставена</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-save"></i> Запази промените
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+    let allOrders = [];
+    let currentFilter = 'all';
+
+    // Check authentication
+    window.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        
+        // Check if user is logged in (allow any user type for testing)
+        if (!user) {
+            alert('Моля, влезте в системата!');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Optional: Show warning if not technician, but allow access
+        if (user.user_type !== 'technician' && user.user_type !== 'admin') {
+            console.warn('User is not a technician, but allowing access for testing');
+        }
+
+        loadOrders();
+    });
+
+    // Load orders
+    async function loadOrders() {
+        try {
+            const response = await fetch(`${API_URL}/orders/get_technician_orders.php`);
+            const result = await response.json();
+
+            if (result.success) {
+                allOrders = result.orders;
+                
+                displayOrders(allOrders);
+                updateStats(result.stats);
+            } else {
+                showError('Грешка при зареждане на поръчките');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showError('Грешка при свързване със сървъра');
+        }
+    }
+
+    // Display orders
+    function displayOrders(orders) {
+        const loading = document.getElementById('loading');
+        const table = document.getElementById('ordersTable');
+        const mobile = document.getElementById('ordersMobile');
+        const noOrders = document.getElementById('noOrders');
+
+        loading.style.display = 'none';
+
+        if (orders.length === 0) {
+            table.style.display = 'none';
+            mobile.innerHTML = '';
+            noOrders.style.display = 'block';
+            return;
+        }
+
+        noOrders.style.display = 'none';
+        table.style.display = 'table';
+
+        // Desktop table
+        const tableBody = document.getElementById('ordersTableBody');
+        tableBody.innerHTML = orders.map(order => {
+            const orderNumber = String(order.order_id).padStart(4, '0');
+            const date = new Date(order.created_at).toLocaleDateString('bg-BG');
+            const services = order.services.map(s => s.service_name).join(', ');
+
+            return `
+                <tr>
+                    <td><strong>#${orderNumber}</strong></td>
+                    <td>${order.customer_name || 'Н/А'}</td>
+                    <td>${date}</td>
+                    <td>${services}</td>
+                    <td><span class="status-badge ${order.order_status}">${getStatusLabel(order.order_status)}</span></td>
+                    <td><strong>${parseFloat(order.total_amount).toFixed(2)} лв</strong></td>
+                    <td>
+                        <button class="action-btn" onclick="openUpdateModal(${order.order_id}, '${order.order_status}')">
+                            <i class="fas fa-edit"></i> Промени
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        // Mobile cards
+        mobile.innerHTML = orders.map(order => {
+            const orderNumber = String(order.order_id).padStart(4, '0');
+            const date = new Date(order.created_at).toLocaleDateString('bg-BG');
+            const services = order.services.map(s => s.service_name).join(', ');
+
+            return `
+                <div class="order-card-mobile">
+                    <div class="order-card-header">
+                        <strong>#${orderNumber}</strong>
+                        <span class="status-badge ${order.order_status}">${getStatusLabel(order.order_status)}</span>
+                    </div>
+                    <div class="order-card-row">
+                        <span class="order-card-label">Клиент:</span>
+                        <span class="order-card-value">${order.customer_name || 'Н/А'}</span>
+                    </div>
+                    <div class="order-card-row">
+                        <span class="order-card-label">Дата:</span>
+                        <span class="order-card-value">${date}</span>
+                    </div>
+                    <div class="order-card-row">
+                        <span class="order-card-label">Услуга:</span>
+                        <span class="order-card-value">${services}</span>
+                    </div>
+                    <div class="order-card-row">
+                        <span class="order-card-label">Сума:</span>
+                        <span class="order-card-value" style="color: #f59e0b;">${parseFloat(order.total_amount).toFixed(2)} лв</span>
+                    </div>
+                    <div class="order-card-actions">
+                        <button class="action-btn" onclick="openUpdateModal(${order.order_id}, '${order.order_status}')">
+                            <i class="fas fa-edit"></i> Промени статус
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Update stats
+    function updateStats(stats) {
+        // Pending + Confirmed = Chакащи
+        const pending = stats.pending + stats.confirmed;
+        const processing = stats.processing;
+        const completed = stats.delivered;
+        const total = stats.total;
+
+        document.getElementById('pendingCount').textContent = pending;
+        document.getElementById('processingCount').textContent = processing;
+        document.getElementById('completedCount').textContent = completed;
+        document.getElementById('totalCount').textContent = total;
+    }
+
+    // Filter orders
+    function filterOrders(status) {
+        currentFilter = status;
+
+        // Update active tab
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Filter orders
+        const filtered = status === 'all' 
+            ? allOrders 
+            : allOrders.filter(o => o.order_status === status);
+
+        displayOrders(filtered);
+    }
+
+    // Get status label
+    function getStatusLabel(status) {
+        const labels = {
+            'pending': 'Чакаща',
+            'confirmed': 'Потвърдена',
+            'processing': 'В обработка',
+            'shipped': 'Изпратена',
+            'delivered': 'Доставена',
+            'cancelled': 'Отказана'
+        };
+        return labels[status] || status;
+    }
+
+    // Open update modal
+    function openUpdateModal(orderId, currentStatus) {
+        document.getElementById('modalOrderId').value = orderId;
+        document.getElementById('newStatus').value = '';
+        document.getElementById('updateModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal() {
+        document.getElementById('updateModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Update order status
+    async function updateOrderStatus(e) {
+        e.preventDefault();
+
+        const orderId = document.getElementById('modalOrderId').value;
+        const newStatus = document.getElementById('newStatus').value;
+
+        try {
+            const response = await fetch(`${API_URL}/orders/update_status.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    order_id: parseInt(orderId),
+                    new_status: newStatus
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('✅ Статусът е обновен успешно!');
+                closeModal();
+                loadOrders(); // Reload orders
+            } else {
+                alert('❌ ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Грешка при обновяване на статуса');
+        }
+    }
+
+    // Logout
+    function logout() {
+        if (confirm('Сигурни ли сте, че искате да излезете?')) {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+    }
+
+    // Show error
+    function showError(message) {
+        document.getElementById('loading').innerHTML = `
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+            <p>${message}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
