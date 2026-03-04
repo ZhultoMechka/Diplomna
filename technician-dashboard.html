@@ -791,17 +791,20 @@
         const orderId = document.getElementById('modalOrderId').value;
         const newStatus = document.getElementById('newStatus').value;
 
+        console.log('Updating order:', { orderId, newStatus }); // Debug
+
         try {
-            const response = await fetch(`${API_URL}/orders/update_status.php`, {
+            const response = await fetch(`${API_URL}/orders/update_order_status.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     order_id: parseInt(orderId),
-                    new_status: newStatus
+                    order_status: newStatus
                 })
             });
 
             const result = await response.json();
+            console.log('API Response:', result); // Debug
 
             if (result.success) {
                 alert('✅ Статусът е обновен успешно!');
