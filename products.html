@@ -618,7 +618,7 @@
                 <span class="cart-badge favorites-badge" style="display: none;">0</span>
             </a>
             <a href="compare.html" title="Сравнение" style="position: relative;">
-                <i class="fas fa-balance-scale"></i>
+                <i class="fas fa-random"></i>
                 <span class="cart-badge compare-badge" style="display: none;">0</span>
             </a>
             <a href="cart.html" title="Количка">
@@ -1071,7 +1071,7 @@
                             data-product-id="${product.product_id}"
                             onclick="event.stopPropagation(); toggleCompare(${product.product_id}, this)"
                             title="Добави за сравнение">
-                        <i class="fas fa-balance-scale"></i>
+                        <i class="fas fa-random"></i>
                     </button>
                 </div>
             </div>
@@ -1227,12 +1227,14 @@
         loading.innerHTML = `
             <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
             <p>${message}</p>
-        `;  
+        `;
     }
 </script>
 <!-- Favorites & Compare Scripts -->
 <script src="assets/js/favorites.js"></script>
 <script src="assets/js/compare.js"></script>
 <script src="assets/js/navigation.js"></script>
+<!-- Currency Converter (BGN to EUR) -->
+<script src="assets/js/currency.js"></script>
 </body>
 </html>

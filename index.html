@@ -616,8 +616,14 @@
 
         <div class="nav-icons">
             <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
-            <a href="compare.html" title="Сравнение"><i class="fas fa-random"></i></a>
-            <a href="favorites.html" title="Любими"><i class="fas fa-heart"></i></a>
+            <a href="favorites.html" title="Любими" style="position: relative;">
+                <i class="fas fa-heart"></i>
+                <span class="cart-badge favorites-badge" style="display: none;">0</span>
+            </a>
+            <a href="compare.html" title="Сравнение" style="position: relative;">
+                <i class="fas fa-random"></i>
+                <span class="cart-badge compare-badge" style="display: none;">0</span>
+            </a>
             <a href="cart.html" title="Количка">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cartCount">0</span>
@@ -746,6 +752,22 @@
         }
     }
 </script>
+<!-- Favorites & Compare Scripts -->
+<script src="assets/js/favorites.js"></script>
+<script src="assets/js/compare.js"></script>
+<script>
+    // Update favorites and compare badges on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        if (typeof Favorites !== 'undefined') {
+            Favorites.updateBadges();
+        }
+        if (typeof Compare !== 'undefined') {
+            Compare.updateBadges();
+        }
+    });
+</script>
 <script src="assets/js/navigation.js"></script>
+<!-- Currency Converter (BGN to EUR) -->
+<script src="assets/js/currency.js"></script>
 </body>
 </html>

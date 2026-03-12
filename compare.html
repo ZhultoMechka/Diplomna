@@ -174,7 +174,7 @@
         .comparison-table td {
             padding: 20px;
             text-align: center;
-            border: 1px solid #FFDAB9;
+            border: 2px solid #FFDAB9;
         }
 
         .comparison-table th {
@@ -329,7 +329,7 @@
     
     <!-- Page Header -->
     <div class="page-header">
-        <h1><i class="fas fa-balance-scale" style="color: #FF8800;"></i> Сравнение на продукти</h1>
+        <h1><i class="fas fa-random" style="color: #FF8800;"></i> Сравнение на продукти</h1>
         <p>Сравнете характеристиките на избраните климатици</p>
     </div>
 
@@ -343,7 +343,7 @@
 
     <!-- Empty State -->
     <div class="empty-state" id="emptyState">
-        <i class="fas fa-balance-scale"></i>
+        <i class="fas fa-random"></i>
         <h2>Нямате продукти за сравнение</h2>
         <p>Добавете поне 2 климатика за да ги сравните един до друг</p>
         <a href="products.html" class="btn">
@@ -503,6 +503,9 @@
     // Initial load
     window.addEventListener('DOMContentLoaded', loadComparison);
 </script>
+
+<!-- Currency Converter (BGN to EUR) -->
+<script src="assets/js/currency.js"></script>
 
 </body>
 </html>
