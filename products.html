@@ -13,7 +13,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #FAF6F0;
+            background: #f5f5f5;
         }
         /* Header */
         .header {
@@ -31,7 +31,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: #FF8800;
+            color: #0891b2;
             font-size: 24px;
             font-weight: bold;
         }
@@ -52,13 +52,13 @@
         }
         .nav-icons a:hover {
             transform: scale(1.15);
-            color: #FF8800;
+            color: #0891b2;
         }
         .cart-badge {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #E74C3C;
+            background: #ef4444;
             color: white;
             font-size: 11px;
             padding: 2px 6px;
@@ -72,7 +72,7 @@
             border-top: 1px solid #e5e7eb;
         }
         .breadcrumbs a {
-            color: #FF8800;
+            color: #0891b2;
             text-decoration: none;
         }
         .breadcrumbs span {
@@ -112,12 +112,12 @@
         }
         
         .sidebar::-webkit-scrollbar-thumb {
-            background: #FF8800;
+            background: #0891b2;
             border-radius: 10px;
         }
         
         .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #E67700;
+            background: #0e7490;
         }
         
         /* Filters Header */
@@ -137,7 +137,7 @@
         }
         
         .clear-filters-btn {
-            background: #E74C3C;
+            background: #ef4444;
             color: white;
             padding: 8px 15px;
             border: none;
@@ -187,7 +187,7 @@
         
         .search-bar input:focus {
             outline: none;
-            border-color: #FF8800;
+            border-color: #0891b2;
             box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
         }
         
@@ -250,14 +250,14 @@
         
         .price-inputs input:focus {
             outline: none;
-            border-color: #FF8800;
+            border-color: #0891b2;
         }
         
         /* Active filters badge */
         .active-filters-badge {
-            background: #FFF5E6;
-            border: 2px solid #FF8800;
-            color: #FF8800;
+            background: #f0f9ff;
+            border: 2px solid #0891b2;
+            color: #0891b2;
             padding: 12px 15px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -285,10 +285,10 @@
             font-size: 1.8em;
         }
         .results-info {
-            background: #FFF5E6;
+            background: #f0f9ff;
             padding: 12px 20px;
             border-radius: 10px;
-            color: #FF8800;
+            color: #0891b2;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -309,7 +309,7 @@
         }
         .sort-options select:focus {
             outline: none;
-            border-color: #FF8800;
+            border-color: #0891b2;
         }
         
         /* Products Grid */
@@ -329,7 +329,7 @@
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-color: #FF8800;
+            border-color: #0891b2;
         }
         .product-image {
             width: 100%;
@@ -346,11 +346,61 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        /* Floating Action Buttons */
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .action-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .action-btn i {
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .favorite-btn i {
+            color: #E74C3C;
+        }
+        .favorite-btn.active {
+            background: #E74C3C;
+        }
+        .favorite-btn.active i {
+            color: white;
+        }
+        .compare-btn i {
+            color: #FF8800;
+        }
+        .compare-btn.active {
+            background: #FF8800;
+        }
+        .compare-btn.active i {
+            color: white;
+        }
+        
         .product-badge {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #2ECC71;
+            background: #10b981;
             color: white;
             padding: 5px 12px;
             border-radius: 20px;
@@ -361,7 +411,7 @@
             padding: 20px;
         }
         .product-brand {
-            color: #FF8800;
+            color: #0891b2;
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 5px;
@@ -387,7 +437,7 @@
         }
         .product-price {
             font-size: 1.8em;
-            color: #FF8800;
+            color: #0891b2;
             font-weight: bold;
             margin-bottom: 15px;
         }
@@ -401,7 +451,7 @@
         }
         .add-to-cart-btn {
             width: 100%;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
             color: white;
             padding: 12px;
             border: none;
@@ -453,7 +503,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             width: 60px;
             height: 60px;
@@ -486,7 +536,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             width: 60px;
             height: 60px;
@@ -563,7 +613,14 @@
         </a>
         <div class="nav-icons">
             <a href="login.html" title="Вход"><i class="fas fa-user"></i></a>
-            <a href="#" title="Любими"><i class="fas fa-heart"></i></a>
+            <a href="favorites.html" title="Любими" style="position: relative;">
+                <i class="fas fa-heart"></i>
+                <span class="cart-badge favorites-badge" style="display: none;">0</span>
+            </a>
+            <a href="compare.html" title="Сравнение" style="position: relative;">
+                <i class="fas fa-balance-scale"></i>
+                <span class="cart-badge compare-badge" style="display: none;">0</span>
+            </a>
             <a href="cart.html" title="Количка">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cartCount">0</span>
@@ -706,6 +763,14 @@
     window.addEventListener('DOMContentLoaded', () => {
         loadProducts();
         setupFilters();
+        
+        // Update favorites and compare badges
+        if (typeof Favorites !== 'undefined') {
+            Favorites.updateBadges();
+        }
+        if (typeof Compare !== 'undefined') {
+            Compare.updateBadges();
+        }
     });
     
     // Get URL parameters
@@ -976,15 +1041,39 @@
     function createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.onclick = () => window.location.href = `product-detail.html?id=${product.product_id}`;
+        card.onclick = (e) => {
+            // Don't navigate if clicking action buttons
+            if (e.target.closest('.action-btn')) return;
+            window.location.href = `product-detail.html?id=${product.product_id}`;
+        };
         
         const features = product.features ? product.features.split(',').slice(0, 2).join(', ') : '';
+        
+        // Check if product is in favorites/compare
+        const isFavorite = typeof Favorites !== 'undefined' && Favorites.isFavorite(product.product_id);
+        const isComparing = typeof Compare !== 'undefined' && Compare.isInCompare(product.product_id);
         
         card.innerHTML = `
             <div class="product-image">
                 <img src="${product.main_image_url}" alt="${product.model_name}"
                      onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=${encodeURIComponent(product.model_name)}'">
                 <span class="product-badge">${product.energy_class}</span>
+                
+                <!-- Floating Action Buttons -->
+                <div class="product-actions">
+                    <button class="action-btn favorite-btn ${isFavorite ? 'active' : ''}" 
+                            data-product-id="${product.product_id}"
+                            onclick="event.stopPropagation(); toggleFavorite(${product.product_id}, this)"
+                            title="Добави в любими">
+                        <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
+                    </button>
+                    <button class="action-btn compare-btn ${isComparing ? 'active' : ''}" 
+                            data-product-id="${product.product_id}"
+                            onclick="event.stopPropagation(); toggleCompare(${product.product_id}, this)"
+                            title="Добави за сравнение">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>
+                </div>
             </div>
             <div class="product-content">
                 <div class="product-brand">${product.brand_name}</div>
@@ -1032,6 +1121,82 @@
         }
     }
     
+    // Toggle Favorite
+    function toggleFavorite(productId, button) {
+        const product = allProducts.find(p => p.product_id === productId);
+        
+        if (!product) {
+            alert('Грешка: Продуктът не е намерен');
+            return;
+        }
+        
+        // Prepare product data for favorites
+        const favoriteData = {
+            product_id: product.product_id,
+            product_name: product.model_name,
+            brand: product.brand_name,
+            price: parseFloat(product.price),
+            main_image_url: product.main_image_url,
+            btu_capacity: product.btu_power,
+            energy_class: product.energy_class
+        };
+        
+        const added = Favorites.toggleFavorite(favoriteData);
+        
+        // Update button appearance
+        const icon = button.querySelector('i');
+        if (added) {
+            button.classList.add('active');
+            icon.className = 'fas fa-heart';
+        } else {
+            button.classList.remove('active');
+            icon.className = 'far fa-heart';
+        }
+    }
+    
+    // Toggle Compare
+    function toggleCompare(productId, button) {
+        const product = allProducts.find(p => p.product_id === productId);
+        
+        if (!product) {
+            alert('Грешка: Продуктът не е намерен');
+            return;
+        }
+        
+        // Prepare product data for compare
+        const compareData = {
+            product_id: product.product_id,
+            product_name: product.model_name,
+            brand: product.brand_name,
+            price: parseFloat(product.price),
+            main_image_url: product.main_image_url,
+            btu_capacity: product.btu_power,
+            energy_class: product.energy_class,
+            cooling_capacity: product.cooling_capacity || 'N/A',
+            heating_capacity: product.heating_capacity || 'N/A',
+            noise_level_indoor: product.noise_level_indoor || 'N/A',
+            noise_level_outdoor: product.noise_level_outdoor || 'N/A',
+            weight: product.weight || 'N/A',
+            dimensions: product.dimensions || 'N/A',
+            refrigerant: product.refrigerant || 'N/A',
+            wifi_enabled: product.wifi_enabled || false
+        };
+        
+        const result = Compare.toggleCompare(compareData);
+        
+        // Update button appearance
+        if (result.added) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+        
+        // Show message if limit reached
+        if (!result.success && result.message) {
+            alert(result.message);
+        }
+    }
+    
     // Clear filters
     function clearFilters() {
         document.getElementById('searchInput').value = '';
@@ -1060,11 +1225,14 @@
     function showError(message) {
         const loading = document.getElementById('loading');
         loading.innerHTML = `
-            <i class="fas fa-exclamation-triangle" style="color: #E74C3C;"></i>
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
             <p>${message}</p>
-        `;
+        `;  
     }
 </script>
+<!-- Favorites & Compare Scripts -->
+<script src="assets/js/favorites.js"></script>
+<script src="assets/js/compare.js"></script>
 <script src="assets/js/navigation.js"></script>
 </body>
 </html>

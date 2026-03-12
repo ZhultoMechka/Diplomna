@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гаранция - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #2ECC71 0%, #0D5A33 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 60px;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .content-section h2 {
+            font-size: 2em;
+            color: #3E2723;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-section h2 i {
+            color: #2ECC71;
+        }
+
+        .content-section h3 {
+            font-size: 1.5em;
+            color: #FF8800;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content-section p {
+            color: #6D4C41;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .content-section ul li {
+            padding: 10px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: #6D4C41;
+            line-height: 1.6;
+        }
+
+        .content-section ul li i {
+            color: #2ECC71;
+            margin-top: 3px;
+            font-size: 18px;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: #FFF5E6;
+            border-left: 5px solid #FF8800;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h3 {
+            color: #FF8800;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box p {
+            color: #6D4C41;
+            margin-bottom: 10px;
+        }
+
+        /* Terms Grid */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .term-card {
+            background: #FAF6F0;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #2ECC71;
+        }
+
+        .term-card h4 {
+            color: #3E2723;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .term-card p {
+            color: #6D4C41;
+            font-size: 0.95em;
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .hero, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .content-section {
+                padding: 30px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1><i class="fas fa-shield-alt"></i> Гаранция</h1>
+    <p>Гаранционни условия и сервизно обслужване</p>
+</section>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Main Content -->
+    <div class="content-section">
+        <h2><i class="fas fa-certificate"></i> Гаранционни условия</h2>
+        
+        <p>Климатици ЕООД предоставя пълна гаранция на всички предлагани продукти и извършени услуги. Нашата цел е да осигурим най-високо качество на обслужване и сигурност за нашите клиенти.</p>
+
+        <h3>Гаранция на продуктите</h3>
+        <p>Всички климатични устройства се продават с официална гаранция от производителя:</p>
+        <ul>
+            <li><i class="fas fa-check-circle"></i> <strong>24 месеца гаранция</strong> на вътрешно и външно тяло</li>
+            <li><i class="fas fa-check-circle"></i> <strong>36 месеца гаранция</strong> на компресора (при някои модели)</li>
+            <li><i class="fas fa-check-circle"></i> <strong>60 месеца гаранция</strong> на премиум модели</li>
+            <li><i class="fas fa-check-circle"></i> Оригинален гаранционен талон от производителя</li>
+        </ul>
+
+        <div class="highlight-box">
+            <h3><i class="fas fa-exclamation-triangle"></i> Важно!</h3>
+            <p>За да запазите гаранцията, монтажът трябва да бъде извършен от сертифициран техник. Ние предоставяме професионален монтаж с гаранция.</p>
+        </div>
+
+        <h3>Гаранция на монтажа</h3>
+        <p>При монтаж от наши техници предоставяме допълнителна гаранция:</p>
+        <ul>
+            <li><i class="fas fa-check-circle"></i> <strong>12 месеца</strong> гаранция на основен монтаж</li>
+            <li><i class="fas fa-check-circle"></i> <strong>24 месеца</strong> гаранция на монтаж с допълнителни тръби</li>
+            <li><i class="fas fa-check-circle"></i> Безплатно отстраняване на дефекти, свързани с монтажа</li>
+            <li><i class="fas fa-check-circle"></i> Гаранция на всички използвани материали</li>
+        </ul>
+
+        <h3>Какво покрива гаранцията?</h3>
+        <div class="terms-grid">
+            <div class="term-card">
+                <h4><i class="fas fa-tools"></i> Производствени дефекти</h4>
+                <p>Дефекти в материали или производствен процес на климатика</p>
+            </div>
+
+            <div class="term-card">
+                <h4><i class="fas fa-cogs"></i> Повреди на компоненти</h4>
+                <p>Неизправности на вентилатор, компресор, електроника</p>
+            </div>
+
+            <div class="term-card">
+                <h4><i class="fas fa-wrench"></i> Монтажни грешки</h4>
+                <p>Проблеми, свързани с неправилен монтаж от наши техници</p>
+            </div>
+
+            <div class="term-card">
+                <h4><i class="fas fa-snowflake"></i> Течове на хладилен агент</h4>
+                <p>При течове, причинени от производствен дефект или монтаж</p>
+            </div>
+        </div>
+
+        <h3>Какво НЕ покрива гаранцията?</h3>
+        <ul>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Механични повреди от удар или падане</li>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Повреди от неправилна експлоатация</li>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Природни бедствия (буря, мълния, наводнение)</li>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Ремонт от несертифицирани лица</li>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Липса на редовна профилактика</li>
+            <li><i class="fas fa-times-circle" style="color: #E74C3C;"></i> Повреди от животни или вредители</li>
+        </ul>
+
+        <div class="highlight-box">
+            <h3><i class="fas fa-calendar-check"></i> Задължителна профилактика</h3>
+            <p><strong>Препоръчваме годишна профилактика</strong> за запазване на оптималната работа и продължаване на гаранцията. При някои производители редовната профилактика е задължително условие за запазване на гаранцията.</p>
+        </div>
+
+        <h3>Как да използвате гаранцията?</h3>
+        <p>При възникване на проблем, моля следвайте тези стъпки:</p>
+        <ul>
+            <li><i class="fas fa-phone"></i> <strong>Свържете се с нас</strong> - Обадете се на 0888 123 456</li>
+            <li><i class="fas fa-clipboard-list"></i> <strong>Опишете проблема</strong> - Нашият техник ще вземе информация</li>
+            <li><i class="fas fa-calendar"></i> <strong>Запазете час</strong> - Ще насрочим посещение на техник</li>
+            <li><i class="fas fa-id-card"></i> <strong>Подгответе документи</strong> - Гаранционен талон и фактура</li>
+            <li><i class="fas fa-tools"></i> <strong>Безплатен ремонт</strong> - При гаранционен случай</li>
+        </ul>
+
+        <h3>Извън гаранционен сервиз</h3>
+        <p>След изтичане на гаранцията продължаваме да предоставяме качествен сервиз:</p>
+        <ul>
+            <li><i class="fas fa-check-circle"></i> Професионален ремонт на всички марки</li>
+            <li><i class="fas fa-check-circle"></i> Оригинални резервни части</li>
+            <li><i class="fas fa-check-circle"></i> Безплатна диагностика</li>
+            <li><i class="fas fa-check-circle"></i> Гаранция на извършения ремонт - 6 месеца</li>
+            <li><i class="fas fa-check-circle"></i> Договори за абонаментна поддръжка</li>
+        </ul>
+
+        <div class="highlight-box" style="border-left-color: #2ECC71;">
+            <h3><i class="fas fa-headset"></i> Свържете се с нас</h3>
+            <p><strong>Телефон:</strong> 0888 123 456</p>
+            <p><strong>Email:</strong> support@klimatici-eood.bg</p>
+            <p><strong>Работно време:</strong> Понеделник - Петък, 9:00 - 18:00</p>
+            <p><strong>Спешни случаи:</strong> 24/7 техническа поддръжка</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+</body>
+</html>

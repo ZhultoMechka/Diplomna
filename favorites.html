@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Любими - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 60px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #6D4C41;
+            font-size: 1.1em;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #FFDAB9;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: #3E2723;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #6D4C41;
+            margin-bottom: 30px;
+        }
+
+        .empty-state .btn {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .empty-state .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #FAF6F0;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-brand {
+            color: #FF8800;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .product-name {
+            font-size: 1.1em;
+            color: #3E2723;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .product-specs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #6D4C41;
+        }
+
+        .spec {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .spec i {
+            color: #2ECC71;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            color: #FF8800;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-remove {
+            background: #E74C3C;
+            color: white;
+            width: 45px;
+        }
+
+        .btn-remove:hover {
+            background: #C0392B;
+        }
+
+        .actions-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .items-count {
+            font-size: 1.1em;
+            color: #3E2723;
+            font-weight: 600;
+        }
+
+        .clear-btn {
+            background: #E74C3C;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: #C0392B;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="products.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="fas fa-heart" style="color: #E74C3C;"></i> Любими продукти</h1>
+        <p>Вашите харесани климатици</p>
+    </div>
+
+    <!-- Actions Bar (hidden when empty) -->
+    <div class="actions-bar" id="actionsBar" style="display: none;">
+        <div class="items-count" id="itemsCount">0 продукта</div>
+        <button class="clear-btn" onclick="clearAllFavorites()">
+            <i class="fas fa-trash"></i> Изчисти всички
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+        <i class="far fa-heart"></i>
+        <h2>Нямате харесани продукти</h2>
+        <p>Започнете да добавяте любими климатици, за да ги намирате лесно по-късно</p>
+        <a href="products.html" class="btn">
+            <i class="fas fa-shopping-bag"></i> Разгледай продуктите
+        </a>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="productsGrid"></div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+<script src="assets/js/favorites.js"></script>
+<script>
+    // Load and display favorites
+    function loadFavorites() {
+        const favorites = Favorites.getFavorites();
+        const emptyState = document.getElementById('emptyState');
+        const productsGrid = document.getElementById('productsGrid');
+        const actionsBar = document.getElementById('actionsBar');
+        const itemsCount = document.getElementById('itemsCount');
+
+        if (favorites.length === 0) {
+            emptyState.style.display = 'block';
+            productsGrid.innerHTML = '';
+            actionsBar.style.display = 'none';
+        } else {
+            emptyState.style.display = 'none';
+            actionsBar.style.display = 'flex';
+            itemsCount.textContent = `${favorites.length} ${favorites.length === 1 ? 'продукт' : 'продукта'}`;
+            
+            productsGrid.innerHTML = favorites.map(product => `
+                <div class="product-card">
+                    <img src="${product.main_image_url}" alt="${product.product_name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <div class="product-name">${product.product_name}</div>
+                        <div class="product-specs">
+                            <div class="spec">
+                                <i class="fas fa-fan"></i>
+                                ${product.btu_capacity} BTU
+                            </div>
+                            <div class="spec">
+                                <i class="fas fa-leaf"></i>
+                                ${product.energy_class}
+                            </div>
+                        </div>
+                        <div class="product-price">${product.price} лв</div>
+                        <div class="product-actions">
+                            <a href="product-detail.html?id=${product.product_id}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i> Виж детайли
+                            </a>
+                            <button class="btn btn-remove" onclick="removeFavorite(${product.product_id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Remove favorite
+    function removeFavorite(productId) {
+        if (confirm('Сигурни ли сте, че искате да премахнете този продукт от любими?')) {
+            Favorites.removeFavorite(productId);
+            loadFavorites();
+        }
+    }
+
+    // Clear all favorites
+    function clearAllFavorites() {
+        if (confirm('Сигурни ли сте, че искате да изчистите всички любими продукти?')) {
+            Favorites.clearFavorites();
+            loadFavorites();
+        }
+    }
+
+    // Listen for favorites updates
+    window.addEventListener('favoritesUpdated', () => {
+        loadFavorites();
+    });
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', loadFavorites);
+</script>
+
+</body>
+</html>

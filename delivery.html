@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доставка - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 60px;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .info-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: white;
+        }
+
+        .info-card h3 {
+            font-size: 1.5em;
+            color: #3E2723;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: #6D4C41;
+            line-height: 1.6;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+
+        .pricing-section h2 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pricing-table th,
+        .pricing-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #FFDAB9;
+        }
+
+        .pricing-table th {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            font-weight: 600;
+        }
+
+        .pricing-table tr:hover {
+            background: #FFF5E6;
+        }
+
+        .price {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #FF8800;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .hero, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1><i class="fas fa-shipping-fast"></i> Доставка</h1>
+    <p>Бърза и сигурна доставка до вашия адрес</p>
+</section>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Info Cards -->
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <h3>Бърза доставка</h3>
+            <p>Доставяме в рамките на 1-5 работни дни в цяла България</p>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Застраховка</h3>
+            <p>Всички пратки са застраховани срещу повреди при транспорт</p>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+            <h3>Проследяване</h3>
+            <p>Можете да проследявате статуса на доставката в реално време</p>
+        </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing-section">
+        <h2>Цени за доставка</h2>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th>Вид доставка</th>
+                    <th>Срок</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Стандартна доставка</strong></td>
+                    <td>3-5 работни дни</td>
+                    <td class="price">30 лв</td>
+                </tr>
+                <tr>
+                    <td><strong>Експресна доставка</strong></td>
+                    <td>1-2 работни дни</td>
+                    <td class="price">60 лв</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: center; margin-top: 30px; color: #6D4C41;">
+            <i class="fas fa-info-circle"></i> Доставката се извършва до адрес на територията на България
+        </p>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+</body>
+</html>

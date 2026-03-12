@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Монтаж - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #2ECC71 0%, #0D5A33 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 60px;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            margin-bottom: 60px;
+        }
+
+        .steps-section h2 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .step-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2ECC71, #0D5A33);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step-card h3 {
+            color: #3E2723;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .step-card p {
+            color: #6D4C41;
+            line-height: 1.6;
+        }
+
+        /* Includes Section */
+        .includes-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+
+        .includes-section h2 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .includes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .include-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #FAF6F0;
+            border-radius: 10px;
+            border-left: 4px solid #2ECC71;
+        }
+
+        .include-item i {
+            font-size: 30px;
+            color: #2ECC71;
+        }
+
+        .include-item div h4 {
+            color: #3E2723;
+            margin-bottom: 5px;
+        }
+
+        .include-item div p {
+            color: #6D4C41;
+            font-size: 14px;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+
+        .pricing-section h2 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: #FAF6F0;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .price-card:hover {
+            border-color: #2ECC71;
+            transform: translateY(-5px);
+        }
+
+        .price-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #3E2723;
+        }
+
+        .price-card .price {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2ECC71;
+            margin-bottom: 20px;
+        }
+
+        .price-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .price-card ul li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6D4C41;
+        }
+
+        .price-card ul li i {
+            color: #2ECC71;
+        }
+
+        .request-btn {
+            background: #FF8800;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .request-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Warranty Section */
+        .warranty-section {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .warranty-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .warranty-section p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+        }
+
+        .warranty-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .warranty-item {
+            background: rgba(255,255,255,0.2);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .warranty-item i {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .warranty-item h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .hero, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .includes-grid,
+            .pricing-grid,
+            .warranty-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1><i class="fas fa-tools"></i> Професионален монтаж</h1>
+    <p>Качествен монтаж от опитни техници с пълна гаранция</p>
+</section>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Steps -->
+    <div class="steps-section">
+        <h2>Стъпки на монтажа</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Оглед на място</h3>
+                <p>Нашият техник прави безплатен оглед и определя оптималното място за монтаж</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Подготовка</h3>
+                <p>Подготовка на стена, пробиване на отвор, подготовка на електрическа част</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Монтаж</h3>
+                <p>Монтаж на вътрешно и външно тяло, свързване на тръбопроводи и кабели</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Тестване</h3>
+                <p>Пълно тестване на системата, настройка и демонстрация на работа</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Includes -->
+    <div class="includes-section">
+        <h2>Какво включва монтажът?</h2>
+        <div class="includes-grid">
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Транспорт и доставка</h4>
+                    <p>Безплатна доставка до обекта в София</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Всички материали</h4>
+                    <p>Тръби, кабели, носачи, изолация</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Пробиване</h4>
+                    <p>Пробиване на отвор до 50 см</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Електрическа част</h4>
+                    <p>Свързване към ел. табло с автомат</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Вакуумиране</h4>
+                    <p>Професионално вакуумиране на системата</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Тестване</h4>
+                    <p>Пълно тестване и настройка</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Почистване</h4>
+                    <p>Почистване след монтаж</p>
+                </div>
+            </div>
+
+            <div class="include-item">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h4>Инструктаж</h4>
+                    <p>Демонстрация и обучение за работа</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing-section">
+        <h2>Цени за монтаж</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Основен монтаж</h3>
+                <div class="price">150 лв</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Стандартен монтаж</li>
+                    <li><i class="fas fa-check"></i> Материали до 3м</li>
+                    <li><i class="fas fa-check"></i> Пробиване до 30см</li>
+                    <li><i class="fas fa-check"></i> Вакуумиране</li>
+                    <li><i class="fas fa-check"></i> Тестване и настройка</li>
+                    <li><i class="fas fa-check"></i> 12 месеца гаранция</li>
+                </ul>
+                <a href="repair.html" class="request-btn">Заяви монтаж</a>
+            </div>
+
+            <div class="price-card">
+                <h3>Монтаж с допълнителни тръби</h3>
+                <div class="price">250 лв</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Пълен монтаж</li>
+                    <li><i class="fas fa-check"></i> Материали до 10м</li>
+                    <li><i class="fas fa-check"></i> Пробиване до 50см</li>
+                    <li><i class="fas fa-check"></i> Вакуумиране</li>
+                    <li><i class="fas fa-check"></i> Тестване и настройка</li>
+                    <li><i class="fas fa-check"></i> 24 месеца гаранция</li>
+                </ul>
+                <a href="repair.html" class="request-btn">Заяви монтаж</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warranty -->
+    <div class="warranty-section">
+        <h2><i class="fas fa-shield-alt"></i> Гаранция за монтажа</h2>
+        <p>Предлагаме пълна гаранция на извършения монтаж и използваните материали. При възникване на проблем, свързан с монтажа, ние отстраняваме безплатно в гаранционния период.</p>
+        
+        <div class="warranty-features">
+            <div class="warranty-item">
+                <i class="fas fa-certificate"></i>
+                <h4>Сертифицирани техници</h4>
+                <p>Всички наши монтажисти са с международни сертификати</p>
+            </div>
+
+            <div class="warranty-item">
+                <i class="fas fa-headset"></i>
+                <h4>24/7 Поддръжка</h4>
+                <p>Денонощна поддръжка при нужда</p>
+            </div>
+
+            <div class="warranty-item">
+                <i class="fas fa-tools"></i>
+                <h4>Безплатен сервиз</h4>
+                <p>Безплатен сервиз в гаранционния период</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+</body>
+</html>

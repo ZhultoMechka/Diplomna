@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка за ремонт - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            color: white;
+            padding: 60px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 60px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-section h2 {
+            font-size: 2em;
+            color: #3E2723;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #3E2723;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #E74C3C;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #FFDAB9;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FF8800;
+            box-shadow: 0 0 0 3px rgba(255, 136, 0, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: #FFF5E6;
+            border-left: 4px solid #FF8800;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            color: #FF8800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box ul li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6D4C41;
+        }
+
+        .info-box ul li i {
+            color: #2ECC71;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #2ECC71;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-message i {
+            font-size: 48px;
+            color: #2ECC71;
+            margin-bottom: 10px;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: #f8d7da;
+            border: 2px solid #E74C3C;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .hero, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1><i class="fas fa-wrench"></i> Заявка за ремонт</h1>
+    <p>Попълнете формата и нашите техници ще се свържат с вас</p>
+</section>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <h2>Заявката е изпратена успешно!</h2>
+        <p>Ще се свържем с вас в рамките на 24 часа.</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage"></div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <h3><i class="fas fa-info-circle"></i> Информация за услугата</h3>
+        <ul>
+            <li><i class="fas fa-check"></i> Безплатен оглед и диагностика</li>
+            <li><i class="fas fa-check"></i> Гаранция на извършената работа</li>
+            <li><i class="fas fa-check"></i> Оригинални части и материали</li>
+            <li><i class="fas fa-check"></i> Отговор в рамките на 24 часа</li>
+        </ul>
+    </div>
+
+    <!-- Form -->
+    <div class="form-section">
+        <h2>Формуляр за заявка</h2>
+        
+        <form id="repairForm" onsubmit="submitRepairRequest(event)">
+            
+            <!-- Contact Info -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Вашето име <span class="required">*</span></label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон <span class="required">*</span></label>
+                    <input type="tel" id="phone" placeholder="0888 123 456" required>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Град <span class="required">*</span></label>
+                    <input type="text" id="city" value="София" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Адрес <span class="required">*</span></label>
+                    <input type="text" id="address" placeholder="ул. Примерна 10" required>
+                </div>
+            </div>
+
+            <!-- Service Type -->
+            <div class="form-group">
+                <label>Вид услуга <span class="required">*</span></label>
+                <select id="serviceType" required>
+                    <option value="">Изберете услуга...</option>
+                    <option value="5">Ремонт и профилактика</option>
+                    <option value="3">Монтаж на климатик</option>
+                </select>
+            </div>
+
+            <!-- Problem Description -->
+            <div class="form-group">
+                <label>Описание на проблема <span class="required">*</span></label>
+                <textarea id="description" placeholder="Опишете подробно проблема..." required></textarea>
+            </div>
+
+            <!-- Preferred Date & Time -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Предпочитана дата</label>
+                    <input type="date" id="preferredDate">
+                </div>
+
+                <div class="form-group">
+                    <label>Предпочитан час</label>
+                    <select id="preferredTime">
+                        <option value="">Без значение</option>
+                        <option value="09:00-12:00">09:00 - 12:00</option>
+                        <option value="12:00-15:00">12:00 - 15:00</option>
+                        <option value="15:00-18:00">15:00 - 18:00</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> Изпрати заявка
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+<script>
+    const API_URL = 'http://localhost/Diplomna/api';
+
+    // Set minimum date to today
+    const dateInput = document.getElementById('preferredDate');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    // Submit repair request
+    async function submitRepairRequest(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('successMessage');
+        const errorMsg = document.getElementById('errorMessage');
+
+        // Hide messages
+        successMsg.classList.remove('active');
+        errorMsg.classList.remove('active');
+
+        // Disable button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изпращане...';
+
+        // Get form data
+        const formData = {
+            service_id: parseInt(document.getElementById('serviceType').value),
+            contact_phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            description: document.getElementById('description').value,
+            preferred_date: document.getElementById('preferredDate').value || null,
+            preferred_time: document.getElementById('preferredTime').value || null,
+            full_name: document.getElementById('fullName').value
+        };
+
+        console.log('Sending request:', formData);
+
+        try {
+            const response = await fetch(`${API_URL}/service_requests/create.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            console.log('API Response:', result);
+
+            if (result.success) {
+                // Show success message
+                successMsg.classList.add('active');
+                
+                // Reset form
+                document.getElementById('repairForm').reset();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Show error
+                errorMsg.textContent = result.message || 'Грешка при изпращане на заявката';
+                errorMsg.classList.add('active');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            errorMsg.textContent = 'Грешка при свързване със сървъра';
+            errorMsg.classList.add('active');
+        } finally {
+            // Re-enable button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Изпрати заявка';
+        }
+    }
+</script>
+
+</body>
+</html>

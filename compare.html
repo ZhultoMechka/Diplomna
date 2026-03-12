@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 60px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            color: #3E2723;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #6D4C41;
+            font-size: 1.1em;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #FFDAB9;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: #3E2723;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #6D4C41;
+            margin-bottom: 30px;
+        }
+
+        .empty-state .btn {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .empty-state .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Actions Bar */
+        .actions-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .items-count {
+            font-size: 1.1em;
+            color: #3E2723;
+            font-weight: 600;
+        }
+
+        .clear-btn {
+            background: #E74C3C;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: #C0392B;
+        }
+
+        /* Comparison Table */
+        .comparison-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #FFDAB9;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .comparison-table th:first-child {
+            text-align: left;
+            background: #3E2723;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #FAF6F0;
+        }
+
+        .comparison-table tr:hover {
+            background: #FFF5E6;
+        }
+
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #3E2723;
+            background: white;
+            position: sticky;
+            left: 0;
+        }
+
+        .product-header {
+            padding: 30px 20px !important;
+        }
+
+        .product-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: block;
+            background: #FAF6F0;
+        }
+
+        .product-brand {
+            color: #FF8800;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .product-name {
+            color: #3E2723;
+            font-size: 1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            color: #2ECC71;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .remove-btn {
+            background: #E74C3C;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #C0392B;
+        }
+
+        .spec-value {
+            font-size: 1.1em;
+            color: #3E2723;
+        }
+
+        .spec-icon {
+            color: #2ECC71;
+            margin-right: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-yes {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-no {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="products.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="fas fa-balance-scale" style="color: #FF8800;"></i> Сравнение на продукти</h1>
+        <p>Сравнете характеристиките на избраните климатици</p>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="actions-bar" id="actionsBar" style="display: none;">
+        <div class="items-count" id="itemsCount">0 продукта</div>
+        <button class="clear-btn" onclick="clearAllCompare()">
+            <i class="fas fa-trash"></i> Изчисти всички
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+        <i class="fas fa-balance-scale"></i>
+        <h2>Нямате продукти за сравнение</h2>
+        <p>Добавете поне 2 климатика за да ги сравните един до друг</p>
+        <a href="products.html" class="btn">
+            <i class="fas fa-shopping-bag"></i> Разгледай продуктите
+        </a>
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="comparison-wrapper" id="comparisonWrapper" style="display: none;">
+        <table class="comparison-table" id="comparisonTable">
+            <thead>
+                <tr>
+                    <th>Характеристика</th>
+                    <!-- Product columns will be added here -->
+                </tr>
+            </thead>
+            <tbody id="comparisonBody">
+                <!-- Comparison rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+<script src="assets/js/compare.js"></script>
+<script>
+    // Load and display comparison
+    function loadComparison() {
+        const compareList = Compare.getCompareList();
+        const emptyState = document.getElementById('emptyState');
+        const comparisonWrapper = document.getElementById('comparisonWrapper');
+        const actionsBar = document.getElementById('actionsBar');
+        const itemsCount = document.getElementById('itemsCount');
+
+        if (compareList.length === 0) {
+            emptyState.style.display = 'block';
+            comparisonWrapper.style.display = 'none';
+            actionsBar.style.display = 'none';
+        } else {
+            emptyState.style.display = 'none';
+            comparisonWrapper.style.display = 'block';
+            actionsBar.style.display = 'flex';
+            itemsCount.textContent = `${compareList.length} ${compareList.length === 1 ? 'продукт' : 'продукта'}`;
+            
+            renderComparisonTable(compareList);
+        }
+    }
+
+    // Render comparison table
+    function renderComparisonTable(products) {
+        const table = document.getElementById('comparisonTable');
+        const tbody = document.getElementById('comparisonBody');
+
+        // Add product columns to header
+        const headerRow = table.querySelector('thead tr');
+        headerRow.innerHTML = '<th>Характеристика</th>';
+        products.forEach(product => {
+            headerRow.innerHTML += '<th></th>';
+        });
+
+        // Build comparison rows
+        const rows = [
+            // Product Info Row
+            {
+                label: '',
+                values: products.map(p => `
+                    <div class="product-header">
+                        <img src="${p.main_image_url}" alt="${p.product_name}" class="product-image">
+                        <div class="product-brand">${p.brand}</div>
+                        <div class="product-name">${p.product_name}</div>
+                        <div class="product-price">${p.price} лв</div>
+                        <button class="remove-btn" onclick="removeFromCompare(${p.product_id})">
+                            <i class="fas fa-times"></i> Премахни
+                        </button>
+                    </div>
+                `)
+            },
+            // Specifications
+            {
+                label: '<i class="spec-icon fas fa-fan"></i> BTU капацитет',
+                values: products.map(p => `<span class="spec-value">${p.btu_capacity} BTU</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-leaf"></i> Енергиен клас',
+                values: products.map(p => `<span class="spec-value">${p.energy_class}</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-snowflake"></i> Охлаждане',
+                values: products.map(p => `<span class="spec-value">${p.cooling_capacity || 'N/A'} kW</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-fire"></i> Отопление',
+                values: products.map(p => `<span class="spec-value">${p.heating_capacity || 'N/A'} kW</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-volume-down"></i> Шум вътре',
+                values: products.map(p => `<span class="spec-value">${p.noise_level_indoor || 'N/A'} dB</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-volume-up"></i> Шум вън',
+                values: products.map(p => `<span class="spec-value">${p.noise_level_outdoor || 'N/A'} dB</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-weight"></i> Тегло',
+                values: products.map(p => `<span class="spec-value">${p.weight || 'N/A'} kg</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-ruler-combined"></i> Размери',
+                values: products.map(p => `<span class="spec-value">${p.dimensions || 'N/A'}</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-flask"></i> Хладилен агент',
+                values: products.map(p => `<span class="spec-value">${p.refrigerant || 'N/A'}</span>`)
+            },
+            {
+                label: '<i class="spec-icon fas fa-wifi"></i> Wi-Fi',
+                values: products.map(p => `
+                    <span class="badge ${p.wifi_enabled ? 'badge-yes' : 'badge-no'}">
+                        ${p.wifi_enabled ? 'Да' : 'Не'}
+                    </span>
+                `)
+            }
+        ];
+
+        tbody.innerHTML = rows.map(row => `
+            <tr>
+                <td>${row.label}</td>
+                ${row.values.map(val => `<td>${val}</td>`).join('')}
+            </tr>
+        `).join('');
+    }
+
+    // Remove from compare
+    function removeFromCompare(productId) {
+        Compare.removeFromCompare(productId);
+        loadComparison();
+    }
+
+    // Clear all
+    function clearAllCompare() {
+        if (confirm('Сигурни ли сте, че искате да изчистите всички продукти за сравнение?')) {
+            Compare.clearCompare();
+            loadComparison();
+        }
+    }
+
+    // Listen for compare updates
+    window.addEventListener('compareUpdated', () => {
+        loadComparison();
+    });
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', loadComparison);
+</script>
+
+</body>
+</html>

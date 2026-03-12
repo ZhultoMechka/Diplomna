@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нашите партньори - Климатици ЕООД</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FAF6F0;
+            color: #3E2723;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #FF8800;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: #2ECC71;
+        }
+
+        .back-btn {
+            background: #FF8800;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #E67700;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 60px;
+        }
+
+        /* Intro Section */
+        .intro-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            font-size: 2.2em;
+            color: #3E2723;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            font-size: 1.1em;
+            color: #6D4C41;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Brands Grid */
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .brand-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 5px solid #FF8800;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .brand-card:nth-child(even) {
+            border-top-color: #2ECC71;
+        }
+
+        .brand-header {
+            background: linear-gradient(135deg, #FAF6F0 0%, #FFF5E6 100%);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .brand-logo {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .brand-tagline {
+            color: #6D4C41;
+            font-style: italic;
+            font-size: 1.05em;
+        }
+
+        .brand-body {
+            padding: 35px;
+        }
+
+        .brand-body h3 {
+            color: #3E2723;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .brand-body p {
+            color: #6D4C41;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .brand-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .brand-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #6D4C41;
+        }
+
+        .brand-features li i {
+            color: #2ECC71;
+            font-size: 16px;
+        }
+
+        .brand-btn {
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .brand-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+
+        .stats-section h2 {
+            font-size: 2.2em;
+            color: #3E2723;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: #FAF6F0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #FFF5E6, #FAF6F0);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FF8800;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #6D4C41;
+            font-size: 1.05em;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #2ECC71 0%, #0D5A33 100%);
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #2ECC71;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: #3E2723;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .top-bar, .hero, .container, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .intro-section, .stats-section, .cta-section {
+                padding: 30px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .brands-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .brand-header,
+            .brand-body {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="top-bar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-wind"></i>
+            <span>Климатици ЕООД</span>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1><i class="fas fa-handshake"></i> Нашите партньори</h1>
+    <p>Работим с водещите световни производители на климатична техника</p>
+</section>
+
+<!-- Container -->
+<div class="container">
+    
+    <!-- Intro -->
+    <div class="intro-section">
+        <h2>Качество и надеждност</h2>
+        <p>Климатици ЕООД е официален партньор на най-престижните марки в климатичната индустрия. Предлагаме само оригинални продукти с пълна гаранция от производителя. Нашите партньорства ни позволяват да предоставяме най-добрите цени, професионална поддръжка и достъп до най-новите технологии.</p>
+    </div>
+
+    <!-- Brands Grid -->
+    <div class="brands-grid">
+        
+        <!-- Daikin -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">DAIKIN</div>
+                <div class="brand-tagline">Номер 1 в света по продажби</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>Daikin е световен лидер в производството на климатични системи с над 90-годишна история. Японската компания е известна с иновациите си в областта на инверторната технология и енергийната ефективност.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> Най-продавана марка в света</li>
+                    <li><i class="fas fa-leaf"></i> Екологични хладилни агенти</li>
+                    <li><i class="fas fa-brain"></i> Интелигентни self-cleaning системи</li>
+                    <li><i class="fas fa-medal"></i> Енергиен клас A+++</li>
+                </ul>
+
+                <a href="products.html?brand=Daikin" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+        <!-- Mitsubishi Electric -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">MITSUBISHI</div>
+                <div class="brand-tagline">Японско качество и прецизност</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>Mitsubishi Electric е синоним на надеждност и иновации. Компанията разработва революционни технологии като Dual Barrier Coating и 3D i-see сензор за интелигентно разпределение на въздуха.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> Премиум клас японска марка</li>
+                    <li><i class="fas fa-volume-mute"></i> Изключително тихи модели</li>
+                    <li><i class="fas fa-thermometer-half"></i> Нагряване до -25°C</li>
+                    <li><i class="fas fa-shield-alt"></i> 5 години гаранция на компресора</li>
+                </ul>
+
+                <a href="products.html?brand=Mitsubishi" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+        <!-- Panasonic -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">PANASONIC</div>
+                <div class="brand-tagline">Иновации за по-добър живот</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>Panasonic съчетава японското качество с модерни smart технологии. Серията Etherea и nanoe™ X технологията предлагат не само охлаждане, но и пречистване на въздуха.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> nanoe™ X пречистваща технология</li>
+                    <li><i class="fas fa-wifi"></i> Wi-Fi управление</li>
+                    <li><i class="fas fa-filter"></i> Активни филтри срещу бактерии</li>
+                    <li><i class="fas fa-palette"></i> Елегантен дизайн</li>
+                </ul>
+
+                <a href="products.html?brand=Panasonic" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+        <!-- LG -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">LG</div>
+                <div class="brand-tagline">Life's Good с LG климатици</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>LG предлага съвременни климатични решения с фокус върху дизайна и smart функционалности. Компанията е пионер в dual inverter компресорите и ThinQ AI технологията.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> Dual Inverter компресор</li>
+                    <li><i class="fas fa-mobile-alt"></i> ThinQ AI управление</li>
+                    <li><i class="fas fa-bolt"></i> 70% по-ниска консумация</li>
+                    <li><i class="fas fa-award"></i> 10 години гаранция на компресора</li>
+                </ul>
+
+                <a href="products.html?brand=LG" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+        <!-- Samsung -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">SAMSUNG</div>
+                <div class="brand-tagline">Inspire the World, Create the Future</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>Samsung внася иновации от смартфон индустрията в климатичната техника. Wind-Free™ технологията и SmartThings интеграцията правят климатиците част от smart home екосистемата.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> Wind-Free™ охлаждане</li>
+                    <li><i class="fas fa-home"></i> SmartThings интеграция</li>
+                    <li><i class="fas fa-microchip"></i> AI Auto Cooling</li>
+                    <li><i class="fas fa-paint-brush"></i> Premium дизайн</li>
+                </ul>
+
+                <a href="products.html?brand=Samsung" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+        <!-- Toshiba -->
+        <div class="brand-card">
+            <div class="brand-header">
+                <div class="brand-logo">TOSHIBA</div>
+                <div class="brand-tagline">Leading Innovation</div>
+            </div>
+            <div class="brand-body">
+                <h3>За марката</h3>
+                <p>Toshiba е японска марка с богата история в електрониката. Daiseikai серията предлага отлично съотношение цена-качество с доказана надеждност и енергийна ефективност.</p>
+                
+                <ul class="brand-features">
+                    <li><i class="fas fa-star"></i> Отлично съотношение цена-качество</li>
+                    <li><i class="fas fa-sun"></i> Работа до +50°C</li>
+                    <li><i class="fas fa-stopwatch"></i> Бърза 30-минутна инсталация</li>
+                    <li><i class="fas fa-check-circle"></i> Надеждна японска техника</li>
+                </ul>
+
+                <a href="products.html?brand=Toshiba" class="brand-btn">
+                    <i class="fas fa-th-large"></i>
+                    Виж продуктите
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-section">
+        <h2>Нашите постижения</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-number">6</div>
+                <div class="stat-label">Официални партньорства</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Модела в наличност</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Оригинални продукти</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stat-number">24-60</div>
+                <div class="stat-label">Месеца гаранция</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>Готови за перфектния климат?</h2>
+        <p>Разгледайте нашия каталог и намерете идеалния климатик от водещите световни марки</p>
+        <a href="products.html" class="cta-btn">
+            <i class="fas fa-shopping-bag"></i>
+            Виж всички продукти
+        </a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 Климатици ЕООД. Всички права запазени.</p>
+</footer>
+
+</body>
+</html>
