@@ -538,7 +538,7 @@
                 <div class="stat-label">Активни</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value" id="totalSpent">0 лв</div>
+                <div class="stat-value" id="totalSpent">0 €</div>
                 <div class="stat-label">Обща сума</div>
             </div>
         </div>
@@ -572,6 +572,20 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
+    
     let currentUser = null;
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -688,7 +702,7 @@
 
                     <div class="order-footer">
                         <div class="order-total">
-                            ${parseFloat(order.total_amount).toFixed(2)} лв
+                            ${formatEUR(parseFloat(order.total_amount))}
                         </div>
                         <button class="view-details-btn" onclick="viewOrder(${order.order_id})">
                             <i class="fas fa-eye"></i> Детайли
@@ -717,7 +731,7 @@
         document.getElementById('totalOrders').textContent = stats.total;
         document.getElementById('ordersCount').textContent = stats.total;
         document.getElementById('activeOrders').textContent = stats.active;
-        document.getElementById('totalSpent').textContent = stats.spent.toFixed(2) + ' лв';
+        document.getElementById('totalSpent').textContent = formatEUR(stats.spent);
     }
 
     // Виж детайли за поръчка

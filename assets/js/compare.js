@@ -5,9 +5,49 @@
 
 class CompareManager {
     constructor() {
-        this.storageKey = 'klimatici_compare';
+        // Get current user for user-specific storage
+        const user = this.getCurrentUser();
+        const userId = user ? user.user_id : 'guest';
+        
+        // User-specific storage key
+        this.storageKey = `klimatici_compare_${userId}`;
         this.maxProducts = 4; // Maximum products to compare
         this.compareList = this.loadCompare();
+        
+        // Migrate old global compare to user-specific (one-time)
+        this.migrateOldCompare();
+    }
+    
+    // Get current logged in user
+    getCurrentUser() {
+        try {
+            const userData = localStorage.getItem('user');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    // Migrate old global compare to user-specific storage (one-time migration)
+    migrateOldCompare() {
+        const oldKey = 'klimatici_compare';
+        const oldData = localStorage.getItem(oldKey);
+        
+        // Only migrate if old key exists and current key is empty
+        if (oldData && !localStorage.getItem(this.storageKey)) {
+            try {
+                const user = this.getCurrentUser();
+                // Only migrate if logged in (don't migrate to guest)
+                if (user && user.user_id) {
+                    localStorage.setItem(this.storageKey, oldData);
+                    console.log('Migrated compare to user-specific storage');
+                }
+                // Remove old global key
+                localStorage.removeItem(oldKey);
+            } catch (error) {
+                console.error('Error migrating compare:', error);
+            }
+        }
     }
 
     // Load compare list from localStorage

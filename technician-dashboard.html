@@ -56,6 +56,25 @@
             box-shadow: 0 5px 15px rgba(255,255,255,0.3);
         }
 
+        .home-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 25px;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 15px;
+        }
+
+        .home-btn:hover {
+            background: white;
+            color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
         /* Container */
         .container {
             max-width: 1400px;
@@ -480,9 +499,14 @@
             <i class="fas fa-tools"></i>
             Техник Dashboard
         </h1>
-        <button class="logout-btn" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i> Изход
-        </button>
+        <div>
+            <button class="home-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i> Начална страница
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Изход
+            </button>
+        </div>
     </div>
 </div>
 
@@ -602,6 +626,20 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
+    
     let allOrders = [];
     let currentFilter = 'all';
 
@@ -629,23 +667,49 @@
         try {
             const response = await fetch(`${API_URL}/orders/get_technician_orders.php`);
             const result = await response.json();
+            
+            console.log('API Response:', result);
 
             if (result.success) {
-                allOrders = result.orders;
+                // Deduplicate orders by order_id (just in case API returns duplicates)
+                const uniqueOrders = [];
+                const seenIds = new Set();
+                
+                for (const order of result.orders) {
+                    if (!seenIds.has(order.order_id)) {
+                        seenIds.add(order.order_id);
+                        uniqueOrders.push(order);
+                    } else {
+                        console.warn(`Duplicate order found: ${order.order_id}, skipping...`);
+                    }
+                }
+                
+                allOrders = uniqueOrders;
+                
+                console.log(`Total orders: ${result.orders.length}, Unique: ${uniqueOrders.length}`);
+                
+                // Debug: log first order to see structure
+                if (allOrders.length > 0) {
+                    console.log('First order structure:', allOrders[0]);
+                    console.log('Services:', allOrders[0].services);
+                }
                 
                 displayOrders(allOrders);
                 updateStats(result.stats);
             } else {
+                console.error('API returned error:', result.message);
                 showError('Грешка при зареждане на поръчките');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error loading orders:', error);
             showError('Грешка при свързване със сървъра');
         }
     }
 
     // Display orders
     function displayOrders(orders) {
+        console.log(`displayOrders called with ${orders.length} orders`);
+        
         const loading = document.getElementById('loading');
         const table = document.getElementById('ordersTable');
         const mobile = document.getElementById('ordersMobile');
@@ -665,10 +729,18 @@
 
         // Desktop table
         const tableBody = document.getElementById('ordersTableBody');
+        
+        console.log('Building table with orders:', orders.map(o => o.order_id));
+        
         tableBody.innerHTML = orders.map(order => {
             const orderNumber = String(order.order_id).padStart(4, '0');
             const date = new Date(order.created_at).toLocaleDateString('bg-BG');
-            const services = order.services.map(s => s.service_name).join(', ');
+            
+            // Safe services handling
+            let services = 'Няма услуги';
+            if (order.services && Array.isArray(order.services) && order.services.length > 0) {
+                services = order.services.map(s => s.service_name).join(', ');
+            }
 
             return `
                 <tr>
@@ -677,7 +749,7 @@
                     <td>${date}</td>
                     <td>${services}</td>
                     <td><span class="status-badge ${order.order_status}">${getStatusLabel(order.order_status)}</span></td>
-                    <td><strong>${parseFloat(order.total_amount).toFixed(2)} лв</strong></td>
+                    <td><strong>${formatEUR(parseFloat(order.total_amount || 0))}</strong></td>
                     <td>
                         <button class="action-btn" onclick="openUpdateModal(${order.order_id}, '${order.order_status}')">
                             <i class="fas fa-edit"></i> Промени
@@ -691,7 +763,12 @@
         mobile.innerHTML = orders.map(order => {
             const orderNumber = String(order.order_id).padStart(4, '0');
             const date = new Date(order.created_at).toLocaleDateString('bg-BG');
-            const services = order.services.map(s => s.service_name).join(', ');
+            
+            // Safe services handling
+            let services = 'Няма услуги';
+            if (order.services && Array.isArray(order.services) && order.services.length > 0) {
+                services = order.services.map(s => s.service_name).join(', ');
+            }
 
             return `
                 <div class="order-card-mobile">
@@ -713,7 +790,7 @@
                     </div>
                     <div class="order-card-row">
                         <span class="order-card-label">Сума:</span>
-                        <span class="order-card-value" style="color: #f59e0b;">${parseFloat(order.total_amount).toFixed(2)} лв</span>
+                        <span class="order-card-value" style="color: #f59e0b;">${formatEUR(parseFloat(order.total_amount || 0))}</span>
                     </div>
                     <div class="order-card-actions">
                         <button class="action-btn" onclick="openUpdateModal(${order.order_id}, '${order.order_status}')">

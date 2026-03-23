@@ -700,19 +700,19 @@
             <div class="price-breakdown">
                 <div class="price-row">
                     <span class="label">Продукти:</span>
-                    <span class="value" id="productsTotal">0.00 лв</span>
+                    <span class="value" id="productsTotal">0.00 €</span>
                 </div>
                 <div class="price-row">
                     <span class="label">Услуги:</span>
-                    <span class="value" id="servicesTotal">0.00 лв</span>
+                    <span class="value" id="servicesTotal">0.00 €</span>
                 </div>
                 <div class="price-row">
                     <span class="label">Доставка:</span>
-                    <span class="value" id="deliveryTotal">0.00 лв</span>
+                    <span class="value" id="deliveryTotal">0.00 €</span>
                 </div>
                 <div class="price-row total">
                     <span>Обща сума:</span>
-                    <span id="grandTotal">0.00 лв</span>
+                    <span id="grandTotal">0.00 €</span>
                 </div>
             </div>
 
@@ -751,6 +751,21 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION HELPERS
+    // ============================================
+    const EUR_RATE = 1.95583; // 1 EUR = 1.95583 BGN
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        const eurAmount = toEUR(bgnAmount);
+        return eurAmount.toFixed(2) + ' €';
+    }
+    
     let selectedDelivery = null;
     let deliveryServices = [];
 
@@ -813,7 +828,7 @@
                     <div class="delivery-name">${service.service_name}</div>
                     <div class="delivery-desc">${service.description || ''}</div>
                 </div>
-                <div class="delivery-price">${parseFloat(service.price).toFixed(2)} лв</div>
+                <div class="delivery-price">${formatEUR(parseFloat(service.price))}</div>
             </div>
         `).join('');
 
@@ -880,7 +895,7 @@
                         </div>
                     ` : ''}
                 </div>
-                <div class="summary-item-price">${item.totalPrice.toFixed(2)} лв</div>
+                <div class="summary-item-price">${formatEUR(item.totalPrice)}</div>
             </div>
         `).join('');
 
@@ -902,10 +917,10 @@
         const deliveryPrice = selectedDelivery ? selectedDelivery.price : 0;
         const grandTotal = productsTotal + servicesTotal + deliveryPrice;
 
-        document.getElementById('productsTotal').textContent = productsTotal.toFixed(2) + ' лв';
-        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' лв';
-        document.getElementById('deliveryTotal').textContent = deliveryPrice.toFixed(2) + ' лв';
-        document.getElementById('grandTotal').textContent = grandTotal.toFixed(2) + ' лв';
+        document.getElementById('productsTotal').textContent = formatEUR(productsTotal);
+        document.getElementById('servicesTotal').textContent = formatEUR(servicesTotal);
+        document.getElementById('deliveryTotal').textContent = formatEUR(deliveryPrice);
+        document.getElementById('grandTotal').textContent = formatEUR(grandTotal);
     }
 
     // Форматиране на номер на карта
@@ -1001,7 +1016,7 @@
             btn.innerHTML = '<i class="fas fa-check-circle"></i> Потвърди поръчката';
         }
     }
-</script>
-
+</script>   
+<script src="assets/js/currency.js"></script>
 </body>
 </html>

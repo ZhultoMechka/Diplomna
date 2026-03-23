@@ -14,12 +14,12 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #FAF6F0;
+            background: #f5f5f5;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
             color: white;
             padding: 20px 40px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -77,6 +77,26 @@
 
         .logout-btn:hover {
             background: rgba(255,255,255,0.3);
+        }
+
+        .home-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            margin-right: 15px;
+        }
+
+        .home-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
         }
 
         /* Main Container */
@@ -193,7 +213,7 @@
         }
 
         .content-card h2 i {
-            color: #FF8800;
+            color: #0891b2;
         }
 
         /* Recent Orders */
@@ -202,7 +222,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #FAF6F0;
+            border-bottom: 1px solid #f5f5f5;
         }
 
         .order-item:last-child {
@@ -215,7 +235,7 @@
 
         .order-number {
             font-weight: 600;
-            color: #FF8800;
+            color: #0891b2;
             margin-bottom: 5px;
         }
 
@@ -247,7 +267,7 @@
             align-items: center;
             gap: 15px;
             padding: 15px 0;
-            border-bottom: 1px solid #FAF6F0;
+            border-bottom: 1px solid #f5f5f5;
         }
 
         .product-item:last-child {
@@ -316,7 +336,7 @@
             width: 60px;
             height: 60px;
             border-radius: 12px;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -346,7 +366,7 @@
         /* View All Link */
         .view-all {
             display: inline-block;
-            color: #FF8800;
+            color: #0891b2;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
@@ -392,10 +412,16 @@
             <h3 id="userName">Администратор</h3>
             <p>Добре дошли в панела</p>
         </div>
-        <button class="logout-btn" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            Изход
-        </button>
+        <div style="display: flex; align-items: center;">
+            <button class="home-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+                <span>Начална страница</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Изход
+            </button>
+        </div>
     </div>
 </div>
 
@@ -522,6 +548,19 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
 
     // Check if user is admin
     window.addEventListener('DOMContentLoaded', () => {
@@ -551,7 +590,7 @@
                 document.getElementById('productsCount').textContent = result.stats.total_products;
                 document.getElementById('ordersCount').textContent = result.stats.total_orders;
                 document.getElementById('activeOrders').textContent = result.stats.active_orders;
-                document.getElementById('revenueCount').textContent = result.stats.total_revenue.toFixed(2) + ' лв';
+                document.getElementById('revenueCount').textContent = formatEUR(result.stats.total_revenue);
 
                 // Display recent orders
                 displayRecentOrders(result.recent_orders);
@@ -594,7 +633,7 @@
                     <span class="order-status ${order.order_status}">
                         ${statusLabels[order.order_status] || order.order_status}
                     </span>
-                    <div class="order-amount">${parseFloat(order.total_amount).toFixed(2)} лв</div>
+                    <div class="order-amount">${formatEUR(parseFloat(order.total_amount))}</div>
                 </div>
             `;
         }).join('');

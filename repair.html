@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заявка за ремонт - Климатици ЕООД</title>
+    <title>Заявка за ремонт и/или профилактика - Климатици ЕООД</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -288,7 +288,7 @@
 
 <!-- Hero -->
 <section class="hero">
-    <h1><i class="fas fa-wrench"></i> Заявка за ремонт</h1>
+    <h1><i class="fas fa-wrench"></i> Заявка за ремонт и/или профилактика</h1>
     <p>Попълнете формата и нашите техници ще се свържат с вас</p>
 </section>
 
@@ -353,8 +353,9 @@
                 <label>Вид услуга <span class="required">*</span></label>
                 <select id="serviceType" required>
                     <option value="">Изберете услуга...</option>
-                    <option value="5">Ремонт и профилактика</option>
-                    <option value="3">Монтаж на климатик</option>
+                    <option value="repair">Ремонт</option>
+                    <option value="maintenance">Профилактика</option>
+                    <option value="repair_maintenance">Ремонт и профилактика</option>
                 </select>
             </div>
 
@@ -399,6 +400,14 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // Service type mapping
+    // NOTE: Update these IDs based on your database services table
+    const SERVICE_TYPE_MAP = {
+        'repair': 6,              // Ремонт
+        'maintenance': 7,          // Профилактика  
+        'repair_maintenance': 5    // Ремонт и профилактика
+    };
 
     // Set minimum date to today
     const dateInput = document.getElementById('preferredDate');
@@ -422,8 +431,19 @@
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изпращане...';
 
         // Get form data
+        const serviceTypeValue = document.getElementById('serviceType').value;
+        const serviceId = SERVICE_TYPE_MAP[serviceTypeValue];
+        
+        if (!serviceId) {
+            errorMsg.textContent = 'Моля изберете вид услуга';
+            errorMsg.classList.add('active');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Изпрати заявка';
+            return;
+        }
+        
         const formData = {
-            service_id: parseInt(document.getElementById('serviceType').value),
+            service_id: serviceId,
             contact_phone: document.getElementById('phone').value,
             address: document.getElementById('address').value,
             city: document.getElementById('city').value,

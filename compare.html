@@ -174,7 +174,7 @@
         .comparison-table td {
             padding: 20px;
             text-align: center;
-            border: 2px solid #FFDAB9;
+            border: 1px solid #FFDAB9;
         }
 
         .comparison-table th {
@@ -409,9 +409,17 @@
             headerRow.innerHTML += '<th></th>';
         });
 
-        // Build comparison rows
-        const rows = [
-            // Product Info Row
+        // Helper: Check if at least one product has valid value
+        function hasValidValue(products, field) {
+            return products.some(p => {
+                const value = p[field];
+                return value && value !== 'N/A' && value !== '' && value !== null && value !== undefined;
+            });
+        }
+
+        // Build comparison rows (all possible rows)
+        const allRows = [
+            // Product Info Row (always show)
             {
                 label: '',
                 values: products.map(p => `
@@ -424,54 +432,81 @@
                             <i class="fas fa-times"></i> Премахни
                         </button>
                     </div>
-                `)
+                `),
+                alwaysShow: true
             },
-            // Specifications
+            // BTU (always show)
             {
                 label: '<i class="spec-icon fas fa-fan"></i> BTU капацитет',
-                values: products.map(p => `<span class="spec-value">${p.btu_capacity} BTU</span>`)
+                values: products.map(p => `<span class="spec-value">${p.btu_capacity} BTU</span>`),
+                alwaysShow: true
             },
+            // Energy class (always show)
             {
                 label: '<i class="spec-icon fas fa-leaf"></i> Енергиен клас',
-                values: products.map(p => `<span class="spec-value">${p.energy_class}</span>`)
+                values: products.map(p => `<span class="spec-value">${p.energy_class}</span>`),
+                alwaysShow: true
             },
+            // Cooling capacity (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-snowflake"></i> Охлаждане',
-                values: products.map(p => `<span class="spec-value">${p.cooling_capacity || 'N/A'} kW</span>`)
+                values: products.map(p => `<span class="spec-value">${p.cooling_capacity || 'N/A'} kW</span>`),
+                field: 'cooling_capacity'
             },
+            // Heating capacity (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-fire"></i> Отопление',
-                values: products.map(p => `<span class="spec-value">${p.heating_capacity || 'N/A'} kW</span>`)
+                values: products.map(p => `<span class="spec-value">${p.heating_capacity || 'N/A'} kW</span>`),
+                field: 'heating_capacity'
             },
+            // Indoor noise (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-volume-down"></i> Шум вътре',
-                values: products.map(p => `<span class="spec-value">${p.noise_level_indoor || 'N/A'} dB</span>`)
+                values: products.map(p => `<span class="spec-value">${p.noise_level_indoor || 'N/A'} dB</span>`),
+                field: 'noise_level_indoor'
             },
+            // Outdoor noise (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-volume-up"></i> Шум вън',
-                values: products.map(p => `<span class="spec-value">${p.noise_level_outdoor || 'N/A'} dB</span>`)
+                values: products.map(p => `<span class="spec-value">${p.noise_level_outdoor || 'N/A'} dB</span>`),
+                field: 'noise_level_outdoor'
             },
+            // Weight (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-weight"></i> Тегло',
-                values: products.map(p => `<span class="spec-value">${p.weight || 'N/A'} kg</span>`)
+                values: products.map(p => `<span class="spec-value">${p.weight || 'N/A'} kg</span>`),
+                field: 'weight'
             },
+            // Dimensions (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-ruler-combined"></i> Размери',
-                values: products.map(p => `<span class="spec-value">${p.dimensions || 'N/A'}</span>`)
+                values: products.map(p => `<span class="spec-value">${p.dimensions || 'N/A'}</span>`),
+                field: 'dimensions'
             },
+            // Refrigerant (show only if has data)
             {
                 label: '<i class="spec-icon fas fa-flask"></i> Хладилен агент',
-                values: products.map(p => `<span class="spec-value">${p.refrigerant || 'N/A'}</span>`)
+                values: products.map(p => `<span class="spec-value">${p.refrigerant || 'N/A'}</span>`),
+                field: 'refrigerant'
             },
+            // WiFi (show only if at least one has wifi)
             {
                 label: '<i class="spec-icon fas fa-wifi"></i> Wi-Fi',
                 values: products.map(p => `
                     <span class="badge ${p.wifi_enabled ? 'badge-yes' : 'badge-no'}">
                         ${p.wifi_enabled ? 'Да' : 'Не'}
                     </span>
-                `)
+                `),
+                field: 'wifi_enabled'
             }
         ];
+
+        // Filter: Show only rows that have valid data OR are marked as alwaysShow
+        const rows = allRows.filter(row => {
+            if (row.alwaysShow) return true;
+            if (!row.field) return true;
+            return hasValidValue(products, row.field);
+        });
 
         tbody.innerHTML = rows.map(row => `
             <tr>

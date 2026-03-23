@@ -442,15 +442,15 @@
                 <div class="price-summary">
                     <div class="price-row">
                         <span class="label">Продукти:</span>
-                        <span class="value" id="productsTotal">0.00 лв</span>
+                        <span class="value" id="productsTotal">0.00 €</span>
                     </div>
                     <div class="price-row">
                         <span class="label">Услуги:</span>
-                        <span class="value" id="servicesTotal">0.00 лв</span>
+                        <span class="value" id="servicesTotal">0.00 €</span>
                     </div>
                     <div class="price-row total">
                         <span>Обща сума:</span>
-                        <span id="orderTotal">0.00 лв</span>
+                        <span id="orderTotal">0.00 €</span>
                     </div>
                 </div>
             </div>
@@ -483,6 +483,20 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
+    
     let orderId = null;
     let currentOrder = null;
 
@@ -573,8 +587,8 @@
                 <div class="product-info">
                     <div class="product-name">${item.brand_name} ${item.model_name}</div>
                     <div class="product-detail">Количество: ${item.quantity} бр.</div>
-                    <div class="product-detail">Цена: ${parseFloat(item.unit_price).toFixed(2)} лв/бр.</div>
-                    <div class="product-price">${parseFloat(item.subtotal).toFixed(2)} лв</div>
+                    <div class="product-detail">Цена: ${formatEUR(parseFloat(item.unit_price))}/бр.</div>
+                    <div class="product-price">${formatEUR(parseFloat(item.subtotal))}</div>
                 </div>
             </div>
         `).join('');
@@ -604,9 +618,9 @@
             });
         }
 
-        document.getElementById('productsTotal').textContent = productsTotal.toFixed(2) + ' лв';
-        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' лв';
-        document.getElementById('orderTotal').textContent = parseFloat(order.total_amount).toFixed(2) + ' лв';
+        document.getElementById('productsTotal').textContent = formatEUR(productsTotal);
+        document.getElementById('servicesTotal').textContent = formatEUR(servicesTotal);
+        document.getElementById('orderTotal').textContent = formatEUR(parseFloat(order.total_amount));
 
         // Set current status
         document.getElementById('newStatus').value = order.status;

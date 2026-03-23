@@ -2,7 +2,10 @@
 // ============================================
 // get_technician_orders.php - Orders for Technicians
 // GET: api/orders/get_technician_orders.php
-// Returns only orders with services (installation, repair, maintenance)
+// Returns ALL orders (with or without services)
+// FIXED: Uses DISTINCT to avoid duplicates
+// FIXED: Uses LEFT JOIN to show all orders
+// FIXED: Always returns services as array (may be empty)
 // ============================================
 
 require_once '../config.php';
@@ -10,9 +13,10 @@ require_once '../config.php';
 try {
     $conn = getDBConnection();
 
-    // Get all orders with services
+    // Get ALL orders (not just those with services)
+    // Use DISTINCT to avoid duplicates
     $sql = "
-        SELECT 
+        SELECT DISTINCT
             o.order_id,
             o.user_id,
             u.full_name as customer_name,
@@ -25,9 +29,7 @@ try {
             o.created_at,
             o.updated_at
         FROM orders o
-        INNER JOIN order_services os ON o.order_id = os.order_id
         LEFT JOIN users u ON o.user_id = u.user_id
-        GROUP BY o.order_id
         ORDER BY 
             CASE o.order_status
                 WHEN 'confirmed' THEN 1
@@ -46,7 +48,7 @@ try {
 
     // For each order, get services
     foreach ($orders as &$order) {
-        // Get services
+        // Get services (may be empty array)
         $services_sql = "
             SELECT 
                 os.order_service_id,
@@ -61,7 +63,10 @@ try {
         ";
         $services_stmt = $conn->prepare($services_sql);
         $services_stmt->execute([':order_id' => $order['order_id']]);
-        $order['services'] = $services_stmt->fetchAll();
+        $services = $services_stmt->fetchAll();
+        
+        // Always set services as array (may be empty)
+        $order['services'] = $services ? $services : [];
 
         // Get products count
         $products_sql = "
@@ -71,7 +76,8 @@ try {
         ";
         $products_stmt = $conn->prepare($products_sql);
         $products_stmt->execute([':order_id' => $order['order_id']]);
-        $order['product_count'] = $products_stmt->fetch()['product_count'];
+        $result = $products_stmt->fetch();
+        $order['product_count'] = $result ? $result['product_count'] : 0;
     }
 
     // Calculate statistics
@@ -96,7 +102,12 @@ try {
         'success' => true,
         'orders' => $orders,
         'stats' => $stats,
-        'count' => count($orders)
+        'count' => count($orders),
+        'debug' => [
+            'total_orders_in_db' => count($orders),
+            'query_used' => 'DISTINCT with LEFT JOIN',
+            'note' => 'Shows ALL orders, not just those with services'
+        ]
     ]);
 
 } catch (PDOException $e) {

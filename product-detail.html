@@ -735,7 +735,7 @@
                     <i class="fas fa-check-circle"></i> На склад
                 </div>
 
-                <div class="product-price" id="productPrice">0.00 лв</div>
+                <div class="product-price" id="productPrice">0.00 €</div>
 
                 <!-- Specifications -->
                 <div class="specs-section">
@@ -773,15 +773,15 @@
                 <div class="price-summary">
                     <div class="price-row">
                         <span>Цена на продукт:</span>
-                        <span id="productPriceCalc">0.00 лв</span>
+                        <span id="productPriceCalc">0.00 €</span>
                     </div>
                     <div class="price-row" id="servicesRow" style="display: none;">
                         <span>Допълнителни услуги:</span>
-                        <span id="servicesPriceCalc">0.00 лв</span>
+                        <span id="servicesPriceCalc">0.00 €</span>
                     </div>
                     <div class="price-row total">
                         <span>Обща цена:</span>
-                        <span id="totalPrice">0.00 лв</span>
+                        <span id="totalPrice">0.00 €</span>
                     </div>
                 </div>
 
@@ -1462,6 +1462,20 @@ async function submitReview(e) {
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
+    
     let currentProduct = null;
     let selectedServices = [];
     let availableServices = [];
@@ -1524,7 +1538,7 @@ async function submitReview(e) {
 
         // Price
         const price = parseFloat(product.price);
-        document.getElementById('productPrice').textContent = `${price.toFixed(2)} лв`;
+        document.getElementById('productPrice').textContent = formatEUR(price);
 
         // Availability
         const availabilityEl = document.getElementById('availability');
@@ -1685,7 +1699,7 @@ async function submitReview(e) {
                     <div class="service-name">${service.service_name}</div>
                     <div class="service-description">${service.description || ''}</div>
                 </div>
-                <div class="service-price">+${parseFloat(service.price).toFixed(2)} лв</div>
+                <div class="service-price">+${formatEUR(parseFloat(service.price))}</div>
             </div>
         `).join('');
     }
@@ -1708,7 +1722,7 @@ async function submitReview(e) {
             const service = availableServices.find(s => s.service_id === serviceId);
             if (service && !selectedServices.find(s => s.service_id === serviceId)) {
                 selectedServices.push(service);
-                console.log('✅ Service added:', service.service_name, '+' + service.price + ' лв');
+                console.log('✅ Service added:', service.service_name, '+' + formatEUR(service.price));
             }
         } else {
             serviceDiv.classList.remove('selected');
@@ -1759,27 +1773,27 @@ async function submitReview(e) {
             if (isDelivery) {
                 // Доставка - еднократна, не се множи
                 servicesPrice += price;
-                serviceDetails.push(`${service.service_name}: ${price.toFixed(2)} лв (еднократна)`);
+                serviceDetails.push(`${service.service_name}: ${formatEUR(price)} (еднократна)`);
             } else {
                 // Монтаж, ремонт, профилактика - × брой климатици
                 servicesPrice += price * quantity;
-                serviceDetails.push(`${service.service_name}: ${price.toFixed(2)} × ${quantity} = ${(price * quantity).toFixed(2)} лв`);
+                serviceDetails.push(`${service.service_name}: ${formatEUR(price)} × ${quantity} = ${formatEUR(price * quantity)}`);
             }
         });
 
         const totalPrice = productPrice + servicesPrice;
 
         console.log('💰 Price calculation:', {
-            productPrice: `${parseFloat(currentProduct.price).toFixed(2)} × ${quantity} = ${productPrice.toFixed(2)}`,
+            productPrice: `${formatEUR(parseFloat(currentProduct.price))} × ${quantity} = ${formatEUR(productPrice)}`,
             services: serviceDetails,
-            servicesTotal: servicesPrice.toFixed(2),
-            totalPrice: totalPrice.toFixed(2)
+            servicesTotal: formatEUR(servicesPrice),
+            totalPrice: formatEUR(totalPrice)
         });
 
         // Обновяваме display
-        document.getElementById('productPriceCalc').textContent = `${productPrice.toFixed(2)} лв`;
-        document.getElementById('servicesPriceCalc').textContent = `${servicesPrice.toFixed(2)} лв`;
-        document.getElementById('totalPrice').textContent = `${totalPrice.toFixed(2)} лв`;
+        document.getElementById('productPriceCalc').textContent = formatEUR(productPrice);
+        document.getElementById('servicesPriceCalc').textContent = formatEUR(servicesPrice);
+        document.getElementById('totalPrice').textContent = formatEUR(totalPrice);
 
         // Показваме/скриваме ред за услуги
         const servicesRow = document.getElementById('servicesRow');
@@ -1860,10 +1874,10 @@ async function submitReview(e) {
             const result = CartManager.addProduct(currentProduct, quantity, selectedServices);
             console.log('✅ Added to cart:', result); // Debug
 
-            const totalPrice = parseFloat(document.getElementById('totalPrice').textContent);
+            const totalPriceText = document.getElementById('totalPrice').textContent;
 
             // Show success message with option to go to cart
-            const goToCart = confirm(`✅ Добавено в количката!\n\n${currentProduct.model_name}\nКоличество: ${quantity}\nОбща цена: ${totalPrice.toFixed(2)} лв\n\nИскате ли да отидете в количката?`);
+            const goToCart = confirm(`✅ Добавено в количката!\n\n${currentProduct.model_name}\nКоличество: ${quantity}\nОбща цена: ${totalPriceText}\n\nИскате ли да отидете в количката?`);
             
             if (goToCart) {
                 window.location.href = 'cart.html';
@@ -1890,7 +1904,7 @@ async function submitReview(e) {
                 <div class="related-info">
                     <div class="related-brand">${product.brand_name}</div>
                     <div class="related-name">${product.model_name}</div>
-                    <div class="related-price">${parseFloat(product.price).toFixed(2)} лв</div>
+                    <div class="related-price">${formatEUR(parseFloat(product.price))}</div>
                 </div>
             </a>
         `).join('');

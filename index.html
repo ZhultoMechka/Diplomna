@@ -284,6 +284,51 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
+        /* DASHBOARD QUICK ACCESS */
+        .dashboard-quick-access {
+            display: none;
+            background: linear-gradient(135deg, #FF8800 0%, #E67700 100%);
+            padding: 30px 60px;
+            text-align: center;
+        }
+
+        .dashboard-quick-access.show {
+            display: block;
+        }
+
+        .dashboard-quick-access h3 {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-btn {
+            background: white;
+            color: #FF8800;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-btn:hover {
+            background: #FFA533;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-btn i {
+            font-size: 20px;
+        }
+
         /* SERVICES SECTION */
         .services {
             padding: 60px 40px;
@@ -522,6 +567,20 @@
                 border-bottom: 1px solid rgba(255,255,255,0.1);
             }
 
+            .dashboard-quick-access {
+                padding: 20px;
+            }
+
+            .dashboard-quick-access h3 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+
+            .dashboard-btn {
+                font-size: 16px;
+                padding: 12px 30px;
+            }
+
             .dropdown {
                 position: static;
                 box-shadow: none;
@@ -643,26 +702,35 @@
     </div>
 </section>
 
+<!-- DASHBOARD QUICK ACCESS -->
+<section class="dashboard-quick-access" id="dashboardQuickAccess">
+    <h3 id="dashboardTitle">Влезте в панела си</h3>
+    <button class="dashboard-btn" id="dashboardBtn" onclick="goToDashboard()">
+        <i class="fas fa-tachometer-alt"></i>
+        <span id="dashboardBtnText">Към Dashboard</span>
+    </button>
+</section>
+
 <!-- SERVICES -->
 <section class="services" id="services">
     <h2>Нашите услуги</h2>
     <div class="services-grid">
-        <div class="service-card">
+        <div class="service-card" onclick="window.location.href='#contact'" style="cursor: pointer;">
             <i class="fas fa-headset"></i>
             <h3>Консултация</h3>
             <p>Безплатна консултация за избор на най-подходящия климатик</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="window.location.href='delivery.html'" style="cursor: pointer;">
             <i class="fas fa-truck"></i>
             <h3>Доставка</h3>
             <p>Бърза и сигурна доставка до всяка точка на страната</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="window.location.href='installation.html'" style="cursor: pointer;">
             <i class="fas fa-tools"></i>
             <h3>Монтаж</h3>
             <p>Професионален монтаж от сертифицирани техници</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="window.location.href='repair.html'" style="cursor: pointer;">
             <i class="fas fa-wrench"></i>
             <h3>Ремонт</h3>
             <p>Ремонт и поддръжка на всички марки климатици</p>
@@ -724,7 +792,7 @@
 </footer>
 
 <!-- Cart Manager Library -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/cart-manager.js"></script>
+<script src="assets/js/cart-manager.js"></script>
 
 <script>
     function toggleMenu() {
@@ -742,29 +810,133 @@
     });
 
     // Search functionality
+    // Define services for search
+    const SERVICES = [
+        { 
+            keywords: ['доставка', 'доставки', 'delivery', 'транспорт'],
+            url: 'delivery.html',
+            name: 'Доставка'
+        },
+        { 
+            keywords: ['монтаж', 'installation', 'инсталация', 'монтиране'],
+            url: 'installation.html',
+            name: 'Монтаж'
+        },
+        { 
+            keywords: ['ремонт', 'repair', 'поправка', 'сервиз', 'профилактика', 'maintenance'],
+            url: 'repair.html',
+            name: 'Ремонт и профилактика'
+        },
+        { 
+            keywords: ['консултация', 'consultation', 'помощ', 'въпрос', 'съвет'],
+            url: '#contact',
+            name: 'Консултация'
+        }
+    ];
+
     function searchProducts(event) {
         event.preventDefault();
-        const searchTerm = document.getElementById('searchInput').value;
-        if (searchTerm.trim()) {
-            window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
-        } else {
+        const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+        
+        if (!searchTerm) {
             window.location.href = 'products.html';
+            return;
         }
+        
+        // Check if search term matches a service
+        for (const service of SERVICES) {
+            if (service.keywords.some(keyword => searchTerm.includes(keyword) || keyword.includes(searchTerm))) {
+                // Found a service match - redirect to service page
+                if (service.url.startsWith('#')) {
+                    window.location.href = 'index.html' + service.url;
+                } else {
+                    window.location.href = service.url;
+                }
+                return;
+            }
+        }
+        
+        // No service match - search in products
+        window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
     }
 </script>
 <!-- Favorites & Compare Scripts -->
 <script src="assets/js/favorites.js"></script>
 <script src="assets/js/compare.js"></script>
 <script>
-    // Update favorites and compare badges on page load
+    // Check user type and update navigation
     window.addEventListener('DOMContentLoaded', () => {
+        // Update favorites and compare badges
         if (typeof Favorites !== 'undefined') {
             Favorites.updateBadges();
         }
         if (typeof Compare !== 'undefined') {
             Compare.updateBadges();
         }
+        
+        // Check if user is logged in and update login/dashboard button
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        const loginLink = document.querySelector('a[href="login.html"]');
+        
+        // Dashboard quick access elements
+        const dashboardSection = document.getElementById('dashboardQuickAccess');
+        const dashboardTitle = document.getElementById('dashboardTitle');
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const dashboardBtnText = document.getElementById('dashboardBtnText');
+        const dashboardBtnIcon = dashboardBtn.querySelector('i');
+        
+        if (user && loginLink) {
+            if (user.user_type === 'admin') {
+                // Update nav icon
+                loginLink.href = 'admin.html';
+                loginLink.title = 'Admin Dashboard';
+                loginLink.innerHTML = '<i class="fas fa-tachometer-alt"></i>';
+                
+                // Show dashboard quick access
+                dashboardSection.classList.add('show');
+                dashboardTitle.textContent = 'Добре дошли, ' + (user.full_name || 'Администратор');
+                dashboardBtnText.textContent = 'Админ панел';
+                dashboardBtnIcon.className = 'fas fa-tachometer-alt';
+                dashboardBtn.setAttribute('data-url', 'admin.html');
+                
+            } else if (user.user_type === 'technician') {
+                // Update nav icon
+                loginLink.href = 'technician-dashboard.html';
+                loginLink.title = 'Техник Dashboard';
+                loginLink.innerHTML = '<i class="fas fa-tools"></i>';
+                
+                // Show dashboard quick access
+                dashboardSection.classList.add('show');
+                dashboardTitle.textContent = 'Добре дошли, ' + (user.full_name || 'Техник');
+                dashboardBtnText.textContent = 'Техник панел';
+                dashboardBtnIcon.className = 'fas fa-tools';
+                dashboardBtn.setAttribute('data-url', 'technician-dashboard.html');
+                
+            } else {
+                // Regular customer - show user profile
+                loginLink.href = 'user-profile.html';
+                loginLink.title = 'Моят профил';
+                loginLink.innerHTML = '<i class="fas fa-user-circle"></i>';
+                
+                // Hide dashboard for customers
+                dashboardSection.classList.remove('show');
+            }
+        } else {
+            // Not logged in - hide dashboard
+            if (dashboardSection) {
+                dashboardSection.classList.remove('show');
+            }
+        }
     });
+    
+    // Navigate to dashboard
+    function goToDashboard() {
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const url = dashboardBtn.getAttribute('data-url');
+        if (url) {
+            window.location.href = url;
+        }
+    }
 </script>
 <script src="assets/js/navigation.js"></script>
 <!-- Currency Converter (BGN to EUR) -->

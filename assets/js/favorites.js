@@ -5,8 +5,48 @@
 
 class FavoritesManager {
     constructor() {
-        this.storageKey = 'klimatici_favorites';
+        // Get current user for user-specific storage
+        const user = this.getCurrentUser();
+        const userId = user ? user.user_id : 'guest';
+        
+        // User-specific storage key
+        this.storageKey = `klimatici_favorites_${userId}`;
         this.favorites = this.loadFavorites();
+        
+        // Migrate old global favorites to user-specific (one-time)
+        this.migrateOldFavorites();
+    }
+    
+    // Get current logged in user
+    getCurrentUser() {
+        try {
+            const userData = localStorage.getItem('user');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    // Migrate old global favorites to user-specific storage (one-time migration)
+    migrateOldFavorites() {
+        const oldKey = 'klimatici_favorites';
+        const oldData = localStorage.getItem(oldKey);
+        
+        // Only migrate if old key exists and current key is empty
+        if (oldData && !localStorage.getItem(this.storageKey)) {
+            try {
+                const user = this.getCurrentUser();
+                // Only migrate if logged in (don't migrate to guest)
+                if (user && user.user_id) {
+                    localStorage.setItem(this.storageKey, oldData);
+                    console.log('Migrated favorites to user-specific storage');
+                }
+                // Remove old global key
+                localStorage.removeItem(oldKey);
+            } catch (error) {
+                console.error('Error migrating favorites:', error);
+            }
+        }
     }
 
     // Load favorites from localStorage

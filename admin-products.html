@@ -403,6 +403,20 @@
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
+    
+    // ============================================
+    // EUR CONVERSION
+    // ============================================
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return bgnAmount / EUR_RATE;
+    }
+    
+    function formatEUR(bgnAmount) {
+        return toEUR(bgnAmount).toFixed(2) + ' €';
+    }
+    
     let allProducts = [];
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -473,7 +487,7 @@
                         </div>
                     </div>
                 </td>
-                <td><strong>${parseFloat(p.price).toFixed(2)} лв</strong></td>
+                <td><strong>${formatEUR(parseFloat(p.price))}</strong></td>
                 <td>${p.btu_power} BTU</td>
                 <td><span class="badge energy">${p.energy_class}</span></td>
                 <td>${p.stock_quantity} бр.</td>
