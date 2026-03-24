@@ -524,6 +524,29 @@
 
             .summary-section { position: static; }
         }
+
+        /* Notification animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -779,9 +802,126 @@
             return;
         }
 
+        // Автопопълване на данните за логнат потребител
+        autofillUserData();
+
         loadDeliveryOptions();
         renderSummary(cart);
     });
+
+    // Автопопълване на данните на потребителя
+    function autofillUserData() {
+        try {
+            const userDataString = localStorage.getItem('user');
+            if (!userDataString) {
+                console.log('No user logged in - fields will be empty');
+                return;
+            }
+
+            const user = JSON.parse(userDataString);
+            console.log('Autofilling user data:', user);
+
+            // Попълни име (ако има)
+            if (user.full_name) {
+                const nameField = document.getElementById('fullName');
+                nameField.value = user.full_name;
+                markAsAutofilled(nameField);
+                console.log('✓ Name filled:', user.full_name);
+            }
+
+            // Попълни телефон (ако има)
+            if (user.phone) {
+                const phoneField = document.getElementById('phone');
+                phoneField.value = user.phone;
+                markAsAutofilled(phoneField);
+                console.log('✓ Phone filled:', user.phone);
+            }
+
+            // Попълни email (ако има и ако полето съществува)
+            const emailField = document.getElementById('email');
+            if (emailField && user.email) {
+                emailField.value = user.email;
+                markAsAutofilled(emailField);
+                console.log('✓ Email filled:', user.email);
+            }
+
+            // Показваме съобщение че данните са попълнени
+            showAutofillNotification();
+
+        } catch (error) {
+            console.error('Error autofilling user data:', error);
+        }
+    }
+
+    // Маркира поле като автоматично попълнено
+    function markAsAutofilled(field) {
+        field.style.background = '#f0fdf4';
+        field.style.borderColor = '#10b981';
+        
+        // Добави check icon до полето
+        const parent = field.parentElement;
+        const checkIcon = document.createElement('i');
+        checkIcon.className = 'fas fa-check-circle';
+        checkIcon.style.cssText = `
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            color: #10b981;
+            font-size: 18px;
+        `;
+        
+        // Ако parent няма position, задай я
+        if (parent.style.position !== 'relative') {
+            parent.style.position = 'relative';
+        }
+        
+        parent.appendChild(checkIcon);
+        
+        // Премахни стиловете и иконата когато user промени полето
+        field.addEventListener('input', function handler() {
+            field.style.background = '';
+            field.style.borderColor = '';
+            if (checkIcon.parentElement) {
+                checkIcon.remove();
+            }
+            field.removeEventListener('input', handler);
+        }, { once: true });
+    }
+
+    // Показва notification че данните са попълнени автоматично
+    function showAutofillNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+            <div>
+                <strong>Данните са попълнени автоматично</strong><br>
+                <small>Проверете адреса за доставка</small>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Премахни след 4 секунди
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
+    }
 
     // Зареди опциите за доставка от API
     async function loadDeliveryOptions() {

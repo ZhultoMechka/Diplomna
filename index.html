@@ -284,51 +284,6 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        /* DASHBOARD QUICK ACCESS */
-        .dashboard-quick-access {
-            display: none;
-            background: linear-gradient(135deg, #FF8800 0%, #E67700 100%);
-            padding: 30px 60px;
-            text-align: center;
-        }
-
-        .dashboard-quick-access.show {
-            display: block;
-        }
-
-        .dashboard-quick-access h3 {
-            color: white;
-            font-size: 1.5em;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-btn {
-            background: white;
-            color: #FF8800;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dashboard-btn:hover {
-            background: #FFA533;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .dashboard-btn i {
-            font-size: 20px;
-        }
-
         /* SERVICES SECTION */
         .services {
             padding: 60px 40px;
@@ -701,16 +656,6 @@
         </button>
     </div>
 </section>
-
-<!-- DASHBOARD QUICK ACCESS -->
-<section class="dashboard-quick-access" id="dashboardQuickAccess">
-    <h3 id="dashboardTitle">Влезте в панела си</h3>
-    <button class="dashboard-btn" id="dashboardBtn" onclick="goToDashboard()">
-        <i class="fas fa-tachometer-alt"></i>
-        <span id="dashboardBtnText">Към Dashboard</span>
-    </button>
-</section>
-
 <!-- SERVICES -->
 <section class="services" id="services">
     <h2>Нашите услуги</h2>
@@ -866,6 +811,10 @@
 <script>
     // Check user type and update navigation
     window.addEventListener('DOMContentLoaded', () => {
+        
+        // Update cart count badge first
+        updateCartBadge();
+        
         // Update favorites and compare badges
         if (typeof Favorites !== 'undefined') {
             Favorites.updateBadges();
@@ -876,65 +825,71 @@
         
         // Check if user is logged in and update login/dashboard button
         const user = JSON.parse(localStorage.getItem('user') || 'null');
-        const loginLink = document.querySelector('a[href="login.html"]');
         
-        // Dashboard quick access elements
-        const dashboardSection = document.getElementById('dashboardQuickAccess');
-        const dashboardTitle = document.getElementById('dashboardTitle');
-        const dashboardBtn = document.getElementById('dashboardBtn');
-        const dashboardBtnText = document.getElementById('dashboardBtnText');
-        const dashboardBtnIcon = dashboardBtn.querySelector('i');
+        // Better selector for login link - get the FIRST icon in nav-icons
+        const navIcons = document.querySelector('.nav-icons');
+        let loginLink = navIcons ? navIcons.querySelector('a:first-child') : null;
         
-        if (user && loginLink) {
-            if (user.user_type === 'admin') {
+        
+        
+        if (user) {
+            
+            // Treat "employee" as "technician"
+            const userType = user.user_type === 'employee' ? 'technician' : user.user_type;
+            
+            if (userType === 'admin') {
+                
                 // Update nav icon
-                loginLink.href = 'admin.html';
-                loginLink.title = 'Admin Dashboard';
-                loginLink.innerHTML = '<i class="fas fa-tachometer-alt"></i>';
+                if (loginLink) {
+                    loginLink.href = 'admin.html';
+                    loginLink.title = 'Admin Dashboard';
+                    loginLink.innerHTML = '<i class="fas fa-tachometer-alt"></i>';
+                }
                 
-                // Show dashboard quick access
-                dashboardSection.classList.add('show');
-                dashboardTitle.textContent = 'Добре дошли, ' + (user.full_name || 'Администратор');
-                dashboardBtnText.textContent = 'Админ панел';
-                dashboardBtnIcon.className = 'fas fa-tachometer-alt';
-                dashboardBtn.setAttribute('data-url', 'admin.html');
+            } else if (userType === 'technician') {
                 
-            } else if (user.user_type === 'technician') {
                 // Update nav icon
-                loginLink.href = 'technician-dashboard.html';
-                loginLink.title = 'Техник Dashboard';
-                loginLink.innerHTML = '<i class="fas fa-tools"></i>';
-                
-                // Show dashboard quick access
-                dashboardSection.classList.add('show');
-                dashboardTitle.textContent = 'Добре дошли, ' + (user.full_name || 'Техник');
-                dashboardBtnText.textContent = 'Техник панел';
-                dashboardBtnIcon.className = 'fas fa-tools';
-                dashboardBtn.setAttribute('data-url', 'technician-dashboard.html');
+                if (loginLink) {
+                    loginLink.href = 'technician-dashboard.html';
+                    loginLink.title = 'Техник Dashboard';
+                    loginLink.innerHTML = '<i class="fas fa-tools"></i>';
+                }
                 
             } else {
                 // Regular customer - show user profile
-                loginLink.href = 'user-profile.html';
-                loginLink.title = 'Моят профил';
-                loginLink.innerHTML = '<i class="fas fa-user-circle"></i>';
-                
-                // Hide dashboard for customers
-                dashboardSection.classList.remove('show');
+                if (loginLink) {
+                    loginLink.href = 'user-profile.html';
+                    loginLink.title = 'Моят профил';
+                    loginLink.innerHTML = '<i class="fas fa-user-circle"></i>';
+                }
             }
         } else {
-            // Not logged in - hide dashboard
-            if (dashboardSection) {
-                dashboardSection.classList.remove('show');
-            }
         }
+        
     });
     
-    // Navigate to dashboard
-    function goToDashboard() {
-        const dashboardBtn = document.getElementById('dashboardBtn');
-        const url = dashboardBtn.getAttribute('data-url');
-        if (url) {
-            window.location.href = url;
+    // Update cart badge from CartManager
+    function updateCartBadge() {
+        try {
+            const cartCountElement = document.getElementById('cartCount');
+            if (!cartCountElement) {
+                console.warn('Cart count element not found');
+                return;
+            }
+            
+            // Check if CartManager is available
+            if (typeof CartManager !== 'undefined' && typeof CartManager.getCart === 'function') {
+                const cart = CartManager.getCart();
+                const count = cart.length;
+                cartCountElement.textContent = count;
+                cartCountElement.style.display = count > 0 ? 'inline-block' : 'none';
+            } else {
+                // CartManager not loaded yet - set to 0
+                cartCountElement.textContent = '0';
+                cartCountElement.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error updating cart badge:', error);
         }
     }
 </script>
