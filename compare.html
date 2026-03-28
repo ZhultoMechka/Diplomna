@@ -375,6 +375,13 @@
 
 <script src="assets/js/compare.js"></script>
 <script>
+    // EUR Conversion
+    const EUR_RATE = 1.95583;
+    
+    function toEUR(bgnAmount) {
+        return (bgnAmount / EUR_RATE).toFixed(2);
+    }
+    
     // Load and display comparison
     function loadComparison() {
         const compareList = Compare.getCompareList();
@@ -433,6 +440,12 @@
                         </button>
                     </div>
                 `),
+                alwaysShow: true
+            },
+            // Price (always show) - ДОБАВЕН РЕД
+            {
+                label: '<i class="spec-icon fas fa-tag"></i> Цена',
+                values: products.map(p => `<span class="spec-value" style="color: #FF8800; font-size: 18px; font-weight: 600;">${toEUR(p.price)} €</span>`),
                 alwaysShow: true
             },
             // BTU (always show)
