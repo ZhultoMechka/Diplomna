@@ -515,19 +515,6 @@
 
 <script>
     // ============================================
-    // EUR CONVERSION HELPERS
-    // ============================================
-    const EUR_RATE = 1.95583; // 1 EUR = 1.95583 BGN
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        const eurAmount = toEUR(bgnAmount);
-        return eurAmount.toFixed(2) + ' €';
-    }
-    
     // Load cart on page load
     window.addEventListener('DOMContentLoaded', () => {
         displayCart();
@@ -573,8 +560,8 @@
                         <div class="item-name">${item.product.model_name}</div>
                         ${servicesHTML}
                         <div class="item-price">
-                            Цена: <strong>${formatEUR(item.unitPrice)}</strong>
-                            ${item.servicesPrice > 0 ? `+ ${formatEUR(item.servicesPrice)} услуги` : ''}
+                            Цена: <strong>${item.unitPrice.toFixed(2)} €</strong>
+                            ${item.servicesPrice > 0 ? `+ ${item.servicesPrice.toFixed(2)} € услуги` : ''}
                         </div>
                     </div>
                     
@@ -588,7 +575,7 @@
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                        <div class="item-total">${formatEUR(item.totalPrice)}</div>
+                        <div class="item-total">${item.totalPrice.toFixed(2)} €</div>
                         <button class="remove-btn" onclick="removeItem(${index})">
                             <i class="fas fa-trash"></i> Премахни
                         </button>
@@ -615,9 +602,9 @@
         const total = subtotal + servicesTotal;
 
         document.getElementById('itemCount').textContent = CartManager.getTotalItems();
-        document.getElementById('subtotal').textContent = formatEUR(subtotal);
-        document.getElementById('servicesTotal').textContent = formatEUR(servicesTotal);
-        document.getElementById('totalPrice').textContent = formatEUR(total);
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' €';
+        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' €';
+        document.getElementById('totalPrice').textContent = total.toFixed(2) + ' €';
     }
 
     // Change quantity
@@ -663,6 +650,5 @@
     }
 </script>
     <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/currency.js"></script>  
 </body>
 </html>

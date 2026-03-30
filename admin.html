@@ -474,6 +474,16 @@
                 <p>Общи приходи</p>
             </div>
         </div>
+
+        <div class="stat-card" onclick="showTechniciansModal()" style="cursor: pointer;">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                <i class="fas fa-users-cog"></i>
+            </div>
+            <div class="stat-content">
+                <h3 id="techniciansCount">-</h3>
+                <p>Активни техници</p>
+            </div>
+        </div>
     </div>
 
     <!-- Recent Content -->
@@ -535,6 +545,14 @@
                 <p>Преглед и управление на всички поръчки от клиенти</p>
             </a>
 
+            <a href="#" onclick="event.preventDefault(); showTechniciansModal();" class="action-card" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border: 2px solid #8b5cf6;">
+                <div class="action-card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Управление на технициите</h3>
+                <p>Добавяне, преглед и управление на техниците в системата</p>
+            </a>
+
             <a href="index.html" class="action-card">
                 <div class="action-card-icon">
                     <i class="fas fa-store"></i>
@@ -550,18 +568,6 @@
     const API_URL = 'http://localhost/Diplomna/api';
     
     // ============================================
-    // EUR CONVERSION
-    // ============================================
-    const EUR_RATE = 1.95583;
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        return toEUR(bgnAmount).toFixed(2) + ' €';
-    }
-
     // Check if user is admin
     window.addEventListener('DOMContentLoaded', () => {
         const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -590,7 +596,7 @@
                 document.getElementById('productsCount').textContent = result.stats.total_products;
                 document.getElementById('ordersCount').textContent = result.stats.total_orders;
                 document.getElementById('activeOrders').textContent = result.stats.active_orders;
-                document.getElementById('revenueCount').textContent = formatEUR(result.stats.total_revenue);
+                document.getElementById('revenueCount').textContent = parseFloat(result.stats.total_revenue).toFixed(2) + ' €';
 
                 // Display recent orders
                 displayRecentOrders(result.recent_orders);
@@ -633,7 +639,7 @@
                     <span class="order-status ${order.order_status}">
                         ${statusLabels[order.order_status] || order.order_status}
                     </span>
-                    <div class="order-amount">${formatEUR(parseFloat(order.total_amount))}</div>
+                    <div class="order-amount">${parseFloat(order.total_amount).toFixed(2)} €</div>
                 </div>
             `;
         }).join('');
@@ -666,6 +672,780 @@
             window.location.href = 'login.html';
         }
     }
+</script>
+
+<!-- ========================================== -->
+<!-- TECHNICIANS MANAGEMENT MODAL -->
+<!-- ========================================== -->
+
+<style>
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.8em;
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.modal-tab {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.modal-tab.active {
+    color: #8b5cf6;
+    border-bottom-color: #8b5cf6;
+}
+
+.modal-tab:hover {
+    color: #8b5cf6;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Add Technician Form */
+.tech-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.tech-form .form-group {
+    margin-bottom: 0;
+}
+
+.tech-form .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.tech-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.tech-form input,
+.tech-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.tech-form input:focus,
+.tech-form select:focus {
+    outline: none;
+    border-color: #8b5cf6;
+}
+
+/* Validation styles */
+.tech-form input.valid {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.tech-form input.invalid {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.tech-form .error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.tech-form .error-message.show {
+    display: block;
+}
+
+.tech-form .helper-text {
+    color: #6b7280;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.tech-form button[type="submit"] {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tech-form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Technicians List */
+.technicians-list {
+    display: grid;
+    gap: 15px;
+}
+
+.tech-card {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.tech-card:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+.tech-info {
+    flex: 1;
+}
+
+.tech-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.tech-details {
+    display: flex;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.tech-detail {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tech-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.tech-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.tech-btn-delete {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.tech-btn-delete:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.tech-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tech-status.active {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.tech-status.inactive {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+</style>
+
+<!-- Modal HTML -->
+<div id="techniciansModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>
+                <i class="fas fa-users-cog"></i>
+                Управление на техниците
+            </h2>
+            <button class="modal-close" onclick="closeTechniciansModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Tabs -->
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchModalTab('add')">
+                    <i class="fas fa-plus-circle"></i> Добави техник
+                </button>
+                <button class="modal-tab" onclick="switchModalTab('list')">
+                    <i class="fas fa-list"></i> Списък техници
+                </button>
+            </div>
+            
+            <!-- Add Technician Tab -->
+            <div id="addTab" class="tab-content active">
+                <form id="addTechnicianForm" class="tech-form">
+                    <div class="form-group">
+                        <label>Име и фамилия *</label>
+                        <input type="text" id="tech_full_name" name="full_name" placeholder="Иван Петров" required>
+                        <div class="error-message" id="tech_full_name-error"></div>
+                        <div class="helper-text">Само букви (кирилица или латиница)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="tech_email" name="email" placeholder="ivan@example.com" required>
+                        <div class="error-message" id="tech_email-error"></div>
+                        <div class="helper-text">Валиден email адрес</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="tel" id="tech_phone" name="phone" placeholder="0888123456" required>
+                        <div class="error-message" id="tech_phone-error"></div>
+                        <div class="helper-text">Български мобилен номер (10 цифри)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Позиция *</label>
+                        <select name="position" required>
+                            <option value="technician">Техник</option>
+                            <option value="installer">Монтажист</option>
+                            <option value="service_tech">Сервизен техник</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label>Парола *</label>
+                        <input type="password" id="tech_password" name="password" placeholder="Минимум 8 символа" required minlength="8">
+                        <div class="error-message" id="tech_password-error"></div>
+                        <div class="helper-text">Минимум 8 символа, поне 1 главна буква, 1 цифра</div>
+                    </div>
+                    
+                    <button type="submit">
+                        <i class="fas fa-user-plus"></i> Добави техник
+                    </button>
+                </form>
+            </div>
+            
+            <!-- List Technicians Tab -->
+            <div id="listTab" class="tab-content">
+                <div id="techniciansList" class="technicians-list">
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Зареждане...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// VALIDATION FUNCTIONS FOR TECHNICIAN FORM
+// ============================================
+
+// Validate Bulgarian phone number
+function validateTechPhone(phone) {
+    const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+    
+    if (cleaned.startsWith('+359')) {
+        const number = cleaned.substring(4);
+        return /^(87|88|89)\d{7}$/.test(number);
+    } else if (cleaned.startsWith('359')) {
+        const number = cleaned.substring(3);
+        return /^(87|88|89)\d{7}$/.test(number);
+    } else if (cleaned.startsWith('0')) {
+        return /^0(87|88|89)\d{7}$/.test(cleaned);
+    }
+    
+    return false;
+}
+
+// Validate email
+function validateTechEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Validate full name
+function validateTechFullName(name) {
+    const re = /^[a-zA-Zа-яА-ЯёЁ\s]{2,}$/;
+    return re.test(name.trim());
+}
+
+// Validate password
+function validateTechPassword(password) {
+    if (password.length < 8) return false;
+    
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    
+    return hasUpperCase && hasLowerCase && hasNumber;
+}
+
+// Show validation
+function showTechValidation(inputId, isValid, errorMessage = '') {
+    const input = document.getElementById(inputId);
+    const errorDiv = document.getElementById(inputId + '-error');
+    
+    if (isValid) {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+        if (errorDiv) {
+            errorDiv.classList.remove('show');
+        }
+    } else {
+        input.classList.remove('valid');
+        input.classList.add('invalid');
+        if (errorDiv && errorMessage) {
+            errorDiv.textContent = errorMessage;
+            errorDiv.classList.add('show');
+        }
+    }
+}
+
+// Clear validation
+function clearTechValidation(inputId) {
+    const input = document.getElementById(inputId);
+    const errorDiv = document.getElementById(inputId + '-error');
+    
+    input.classList.remove('valid', 'invalid');
+    if (errorDiv) {
+        errorDiv.classList.remove('show');
+    }
+}
+
+// Setup real-time validation
+function setupTechFormValidation() {
+    // Full Name
+    const fullNameInput = document.getElementById('tech_full_name');
+    if (fullNameInput) {
+        fullNameInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value.length === 0) {
+                clearTechValidation('tech_full_name');
+            } else if (validateTechFullName(value)) {
+                showTechValidation('tech_full_name', true);
+            } else {
+                showTechValidation('tech_full_name', false, 'Само букви (кирилица или латиница)');
+            }
+        });
+    }
+
+    // Email
+    const emailInput = document.getElementById('tech_email');
+    if (emailInput) {
+        emailInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value.length === 0) {
+                clearTechValidation('tech_email');
+            } else if (validateTechEmail(value)) {
+                showTechValidation('tech_email', true);
+            } else {
+                showTechValidation('tech_email', false, 'Невалиден email адрес');
+            }
+        });
+    }
+
+    // Phone
+    const phoneInput = document.getElementById('tech_phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value.length === 0) {
+                clearTechValidation('tech_phone');
+            } else if (validateTechPhone(value)) {
+                showTechValidation('tech_phone', true);
+            } else {
+                showTechValidation('tech_phone', false, 'Невалиден телефонен номер (напр. 0888123456)');
+            }
+        });
+    }
+
+    // Password
+    const passwordInput = document.getElementById('tech_password');
+    if (passwordInput) {
+        passwordInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value.length === 0) {
+                clearTechValidation('tech_password');
+            } else if (validateTechPassword(value)) {
+                showTechValidation('tech_password', true);
+            } else {
+                showTechValidation('tech_password', false, 'Минимум 8 символа, 1 главна буква, 1 цифра');
+            }
+        });
+    }
+}
+
+// ============================================
+// TECHNICIANS MANAGEMENT FUNCTIONS
+// ============================================
+
+// Show modal
+function showTechniciansModal() {
+    document.getElementById('techniciansModal').classList.add('active');
+    setupTechFormValidation(); // Setup validation
+    loadTechnicians(); // Load technicians when opening modal
+}
+
+// Close modal
+function closeTechniciansModal() {
+    document.getElementById('techniciansModal').classList.remove('active');
+}
+
+// Switch modal tabs
+function switchModalTab(tab) {
+    // Update tabs
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Update content
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(tab + 'Tab').classList.add('active');
+    
+    // Load technicians if switching to list tab
+    if (tab === 'list') {
+        loadTechnicians();
+    }
+}
+
+// Load technicians
+async function loadTechnicians() {
+    const listContainer = document.getElementById('techniciansList');
+    listContainer.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Зареждане...</p></div>';
+    
+    try {
+        const response = await fetch(`${API_URL}/admin/get-technicians.php`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.technicians.length > 0) {
+            listContainer.innerHTML = result.technicians.map(tech => `
+                <div class="tech-card">
+                    <div class="tech-info">
+                        <div class="tech-name">${tech.full_name}</div>
+                        <div class="tech-details">
+                            <div class="tech-detail">
+                                <i class="fas fa-envelope"></i>
+                                ${tech.email}
+                            </div>
+                            <div class="tech-detail">
+                                <i class="fas fa-phone"></i>
+                                ${tech.phone}
+                            </div>
+                            <div class="tech-detail">
+                                <i class="fas fa-briefcase"></i>
+                                ${tech.position}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-actions">
+                        <span class="tech-status ${tech.is_active ? 'active' : 'inactive'}">
+                            ${tech.is_active ? 'Активен' : 'Неактивен'}
+                        </span>
+                        <button class="tech-btn tech-btn-delete" onclick="deleteTechnician(${tech.user_id}, '${tech.full_name}')">
+                            <i class="fas fa-trash"></i> Изтрий
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update count
+            document.getElementById('techniciansCount').textContent = result.count;
+        } else {
+            listContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-users-slash"></i>
+                    <p>Няма добавени технициете</p>
+                </div>
+            `;
+            document.getElementById('techniciansCount').textContent = '0';
+        }
+    } catch (error) {
+        console.error('Error loading technicians:', error);
+        listContainer.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Грешка при зареждане на техниците</p>
+            </div>
+        `;
+    }
+}
+
+// Add technician
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('addTechnicianForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Validation check before submit
+            let hasErrors = false;
+            
+            if (!validateTechFullName(data.full_name)) {
+                showTechValidation('tech_full_name', false, 'Невалидно име');
+                hasErrors = true;
+            }
+            
+            if (!validateTechEmail(data.email)) {
+                showTechValidation('tech_email', false, 'Невалиден email');
+                hasErrors = true;
+            }
+            
+            if (!validateTechPhone(data.phone)) {
+                showTechValidation('tech_phone', false, 'Невалиден телефон');
+                hasErrors = true;
+            }
+            
+            if (!validateTechPassword(data.password)) {
+                showTechValidation('tech_password', false, 'Слаба парола');
+                hasErrors = true;
+            }
+            
+            if (hasErrors) {
+                alert('❌ Моля поправете грешките във формата');
+                return;
+            }
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Добавяне...';
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/add-technician.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // Log response for debugging
+                console.log('Response status:', response.status);
+                console.log('Response OK:', response.ok);
+                
+                // Check if response is OK (status 200-299)
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', errorText);
+                    alert('❌ Грешка от сървъра. Проверете Console (F12) за детайли.');
+                    return;
+                }
+                
+                // Parse JSON
+                let result;
+                try {
+                    result = await response.json();
+                    console.log('API Response:', result);
+                } catch (jsonError) {
+                    console.error('JSON Parse Error:', jsonError);
+                    alert('❌ Невалиден отговор от сървъра');
+                    return;
+                }
+                
+                // Check success
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    form.reset();
+                    // Clear validation states
+                    clearTechValidation('tech_full_name');
+                    clearTechValidation('tech_email');
+                    clearTechValidation('tech_phone');
+                    clearTechValidation('tech_password');
+                    
+                    // Reload list and switch tab (with error handling)
+                    try {
+                        loadTechnicians(); // Reload list
+                        switchModalTab('list'); // Switch to list tab
+                    } catch (uiError) {
+                        console.warn('UI update error (non-critical):', uiError);
+                        // Don't show error alert - technician was added successfully
+                    }
+                } else {
+                    // API returned success: false
+                    console.warn('API returned error:', result.message);
+                    alert('❌ ' + result.message);
+                }
+            } catch (error) {
+                // Network error or other exception
+                console.error('Network/Exception error:', error);
+                alert('❌ Грешка при свързване. Проверете интернет връзката.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    }
+});
+
+// Delete technician
+async function deleteTechnician(userId, name) {
+    if (!confirm(`Сигурни ли сте, че искате да изтриете техника "${name}"?`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_URL}/admin/delete-technician.php?user_id=${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ ' + result.message);
+            loadTechnicians(); // Reload list
+        } else {
+            alert('❌ ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error deleting technician:', error);
+        alert('❌ Грешка при изтриване на техник');
+    }
+}
+
+// Load technician count on page load
+window.addEventListener('DOMContentLoaded', () => {
+    loadTechnicians();
+});
 </script>
 
 </body>

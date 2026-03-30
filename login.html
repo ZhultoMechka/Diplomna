@@ -149,7 +149,7 @@
             border: 2px solid #e5e7eb;
             border-radius: 10px;
             font-size: 15px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
             outline: none;
         }
 
@@ -158,11 +158,61 @@
             border-color: #0891b2;
         }
 
+        /* VALIDATION STYLES */
+        .form-group input.valid {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+
+        .form-group input.invalid {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+        .form-group .validation-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            display: none;
+        }
+
+        .form-group .validation-icon.valid {
+            color: #10b981;
+            display: block;
+        }
+
+        .form-group .validation-icon.invalid {
+            color: #ef4444;
+            display: block;
+        }
+
+        .form-group .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group .error-message.show {
+            display: block;
+        }
+
+        .form-group .helper-text {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
         .form-group .input-icon {
             position: relative;
         }
 
-        .form-group .input-icon i {
+        .form-group .input-icon i.fa-user,
+        .form-group .input-icon i.fa-envelope,
+        .form-group .input-icon i.fa-phone,
+        .form-group .input-icon i.fa-lock {
             position: absolute;
             left: 15px;
             top: 50%;
@@ -172,6 +222,7 @@
 
         .form-group .input-icon input {
             padding-left: 45px;
+            padding-right: 45px;
         }
 
         .user-type-selector {
@@ -201,11 +252,6 @@
         }
 
         .user-type:hover {
-            border-color: #0891b2;
-            background: #f0f9ff;
-        }
-
-        .user-type input[type="radio"]:checked + label {
             border-color: #0891b2;
             background: #f0f9ff;
         }
@@ -255,6 +301,12 @@
         .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(8, 145, 178, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .divider {
@@ -323,7 +375,7 @@
 
         .back-home a:hover {
             background: rgba(255,255,255,0.3);
-            }
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -396,7 +448,7 @@
                     <label>Имейл или потребителско име</label>
                     <div class="input-icon">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Въведете имейл или потребителско име" required>
+                        <input type="text" id="login-email" placeholder="Въведете имейл или потребителско име" required>
                     </div>
                 </div>
 
@@ -404,7 +456,7 @@
                     <label>Парола</label>
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Въведете парола" required>
+                        <input type="password" id="login-password" placeholder="Въведете парола" required>
                     </div>
                 </div>
 
@@ -428,69 +480,82 @@
                     </button>
                     <button type="button" class="social-btn">
                         <i class="fab fa-facebook"></i> Facebook
-        </button>
-    </div>
+                    </button>
+                </div>
             </form>
         </div>
 
         <!-- Register Form -->
         <div id="register-form" class="form-container">
-            <form onsubmit="handleRegister(event)">
+            <form onsubmit="handleRegister(event)" id="registration-form">
                 <div class="form-group">
                     <label>Тип потребител</label>
-                    <div class="user-type-selector">
-                        <div class="user-type selected" onclick="selectUserType('client', this)">
+                    <div class="user-type-selector" style="justify-content: center;">
+                        <div class="user-type selected" style="max-width: 300px; pointer-events: none; opacity: 0.9;">
                             <i class="fas fa-user"></i>
                             <div style="font-weight: bold;">Клиент</div>
-                            <small style="color: #666;">Поръчвам услуги</small>
-        </div>
-                        <div class="user-type" onclick="selectUserType('technician', this)">
-            <i class="fas fa-tools"></i>
-                            <div style="font-weight: bold;">Техник</div>
-                            <small style="color: #666;">Предлагам услуги</small>
-        </div>
+                            <small style="color: #666;">Регистрация за клиенти</small>
+                        </div>
                     </div>
                     <input type="hidden" id="userType" value="client">
+                    <div style="text-align: center; margin-top: 10px; font-size: 13px; color: #666;">
+                        <i class="fas fa-info-circle"></i> Техниците се добавят от администратор
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>Име и фамилия</label>
                     <div class="input-icon">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Вашето име" required>
-        </div>
-    </div>
+                        <input type="text" id="fullName" placeholder="Вашето име" required>
+                        <i class="fas validation-icon"></i>
+                    </div>
+                    <div class="error-message" id="fullName-error"></div>
+                    <div class="helper-text">Само букви (кирилица или латиница)</div>
+                </div>
 
                 <div class="form-group">
                     <label>Имейл</label>
                     <div class="input-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="example@email.com" required>
-            </div>
-    </div>
+                        <input type="email" id="email" placeholder="example@email.com" required>
+                        <i class="fas validation-icon"></i>
+                    </div>
+                    <div class="error-message" id="email-error"></div>
+                    <div class="helper-text">Валиден email адрес</div>
+                </div>
     
                 <div class="form-group">
                     <label>Телефон</label>
                     <div class="input-icon">
                         <i class="fas fa-phone"></i>
-                        <input type="tel" placeholder="0888 123 456" required>
-    </div>
+                        <input type="tel" id="phone" placeholder="0888 123 456" required>
+                        <i class="fas validation-icon"></i>
+                    </div>
+                    <div class="error-message" id="phone-error"></div>
+                    <div class="helper-text">Български мобилен номер (10 цифри)</div>
                 </div>
 
                 <div class="form-group">
                     <label>Парола</label>
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Минимум 6 символа" required minlength="6">
-        </div>
-        </div>
+                        <input type="password" id="password" placeholder="Минимум 8 символа" required>
+                        <i class="fas validation-icon"></i>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                    <div class="helper-text">Минимум 8 символа, поне 1 главна буква, 1 цифра</div>
+                </div>
 
                 <div class="form-group">
                     <label>Потвърди парола</label>
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Повтори паролата" required minlength="6">
+                        <input type="password" id="confirmPassword" placeholder="Повтори паролата" required>
+                        <i class="fas validation-icon"></i>
                     </div>
+                    <div class="error-message" id="confirmPassword-error"></div>
+                    <div class="helper-text">Паролите трябва да съвпадат</div>
                 </div>
 
                 <div class="remember-forgot">
@@ -500,44 +565,229 @@
                     </label>
                 </div>
 
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="registerBtn">
                     <i class="fas fa-user-plus"></i> Регистрирай се
                 </button>
             </form>
         </div>
     </div>
-    </div>
+</div>
 
 <script>
-    // Switch between Login and Register tabs
+    // ========================================================================
+    // VALIDATION FUNCTIONS
+    // ========================================================================
+
+    // Validate Bulgarian phone number
+    function validatePhone(phone) {
+        const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+        
+        if (cleaned.startsWith('+359')) {
+            const number = cleaned.substring(4);
+            return /^(87|88|89)\d{7}$/.test(number);
+        } else if (cleaned.startsWith('359')) {
+            const number = cleaned.substring(3);
+            return /^(87|88|89)\d{7}$/.test(number);
+        } else if (cleaned.startsWith('0')) {
+            return /^0(87|88|89)\d{7}$/.test(cleaned);
+        }
+        
+        return false;
+    }
+
+    // Validate email
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Validate full name
+    function validateFullName(name) {
+        const re = /^[a-zA-Zа-яА-ЯёЁ\s]{2,}$/;
+        return re.test(name.trim());
+    }
+
+    // Validate password
+    function validatePassword(password) {
+        if (password.length < 8) return false;
+        
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        
+        return hasUpperCase && hasLowerCase && hasNumber;
+    }
+
+    // Show validation
+    function showValidation(inputId, isValid, errorMessage = '') {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling;
+        const errorDiv = document.getElementById(inputId + '-error');
+        
+        if (isValid) {
+            input.classList.remove('invalid');
+            input.classList.add('valid');
+            icon.classList.remove('fa-times-circle', 'invalid');
+            icon.classList.add('fa-check-circle', 'valid');
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+            }
+        } else {
+            input.classList.remove('valid');
+            input.classList.add('invalid');
+            icon.classList.remove('fa-check-circle', 'valid');
+            icon.classList.add('fa-times-circle', 'invalid');
+            if (errorDiv && errorMessage) {
+                errorDiv.textContent = errorMessage;
+                errorDiv.classList.add('show');
+            }
+        }
+    }
+
+    // Clear validation
+    function clearValidation(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling;
+        const errorDiv = document.getElementById(inputId + '-error');
+        
+        input.classList.remove('valid', 'invalid');
+        icon.classList.remove('fa-check-circle', 'fa-times-circle', 'valid', 'invalid');
+        if (errorDiv) {
+            errorDiv.classList.remove('show');
+        }
+    }
+
+    // ========================================================================
+    // REAL-TIME VALIDATION
+    // ========================================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Full Name
+        const fullNameInput = document.getElementById('fullName');
+        if (fullNameInput) {
+            fullNameInput.addEventListener('input', (e) => {
+                const value = e.target.value;
+                if (value.length === 0) {
+                    clearValidation('fullName');
+                } else if (validateFullName(value)) {
+                    showValidation('fullName', true);
+                } else {
+                    showValidation('fullName', false, 'Само букви (кирилица или латиница)');
+                }
+            });
+        }
+
+        // Email
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+            emailInput.addEventListener('input', (e) => {
+                const value = e.target.value;
+                if (value.length === 0) {
+                    clearValidation('email');
+                } else if (validateEmail(value)) {
+                    showValidation('email', true);
+                } else {
+                    showValidation('email', false, 'Невалиден email адрес');
+                }
+            });
+        }
+
+        // Phone
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                const value = e.target.value;
+                if (value.length === 0) {
+                    clearValidation('phone');
+                } else if (validatePhone(value)) {
+                    showValidation('phone', true);
+                } else {
+                    showValidation('phone', false, 'Невалиден телефонен номер (напр. 0888123456)');
+                }
+            });
+        }
+
+        // Password
+        const passwordInput = document.getElementById('password');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', (e) => {
+                const value = e.target.value;
+                if (value.length === 0) {
+                    clearValidation('password');
+                } else if (validatePassword(value)) {
+                    showValidation('password', true);
+                } else {
+                    showValidation('password', false, 'Минимум 8 символа, 1 главна буква, 1 цифра');
+                }
+                
+                // Check confirm password
+                const confirmPassword = document.getElementById('confirmPassword');
+                if (confirmPassword && confirmPassword.value.length > 0) {
+                    if (value === confirmPassword.value) {
+                        showValidation('confirmPassword', true);
+                    } else {
+                        showValidation('confirmPassword', false, 'Паролите не съвпадат');
+                    }
+                }
+            });
+        }
+
+        // Confirm Password
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        if (confirmPasswordInput) {
+            confirmPasswordInput.addEventListener('input', (e) => {
+                const value = e.target.value;
+                const password = document.getElementById('password').value;
+                
+                if (value.length === 0) {
+                    clearValidation('confirmPassword');
+                } else if (value === password) {
+                    showValidation('confirmPassword', true);
+                } else {
+                    showValidation('confirmPassword', false, 'Паролите не съвпадат');
+                }
+            });
+        }
+    });
+
+    // ========================================================================
+    // TAB SWITCHING
+    // ========================================================================
+    
     function switchTab(tab) {
-        // Update tabs
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active');
         
-        // Update forms
         document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
         document.getElementById(tab + '-form').classList.add('active');
     }
 
-    // Select user type
+    // ========================================================================
+    // USER TYPE SELECTION
+    // ========================================================================
+    
     function selectUserType(type, element) {
         document.querySelectorAll('.user-type').forEach(t => t.classList.remove('selected'));
         element.classList.add('selected');
         document.getElementById('userType').value = type;
     }
 
-    // API Base URL
+    // ========================================================================
+    // API CONFIG
+    // ========================================================================
+    
     const API_URL = 'http://localhost/Diplomna/api';
 
-    // Handle Login - REAL API CONNECTION
+    // ========================================================================
+    // LOGIN HANDLER
+    // ========================================================================
+    
     async function handleLogin(event) {
         event.preventDefault();
         
-        const email = event.target[0].value;
-        const password = event.target[1].value;
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
         
-        // Show loading state
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
@@ -558,21 +808,17 @@
             const result = await response.json();
             
             if (result.success) {
-                // Success - save user data and redirect
                 localStorage.setItem('user', JSON.stringify(result.user));
-                
                 alert('✅ ' + result.message);
                 
-                // Redirect based on user type
                 if (result.user.user_type === 'admin') {
-                    window.location.href = 'admin.html'; // Admin panel - пълен контрол
+                    window.location.href = 'admin.html';
                 } else if (result.user.user_type === 'employee') {
-                    window.location.href = 'technician-dashboard.html'; // Техник панел - само неговите задачи
+                    window.location.href = 'technician-dashboard.html';
                 } else {
-                    window.location.href = 'index.html'; // Магазин за клиенти
+                    window.location.href = 'index.html';
                 }
             } else {
-                // Error
                 alert('❌ ' + result.message);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
@@ -580,49 +826,72 @@
             
         } catch (error) {
             console.error('Login error:', error);
-            alert('❌ Грешка при свързване със сървъра. Проверете дали Apache е пуснат.');
+            alert('❌ Грешка при свързване със сървъра.');
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
     }
 
-    // Handle Register - REAL API CONNECTION
+    // ========================================================================
+    // REGISTER HANDLER WITH VALIDATION
+    // ========================================================================
+    
     async function handleRegister(event) {
         event.preventDefault();
         
         const userType = document.getElementById('userType').value;
-        const name = event.target[1].value;
-        const email = event.target[2].value;
-        const phone = event.target[3].value;
-        const password = event.target[4].value;
-        const confirmPassword = event.target[5].value;
+        const fullName = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
         
-        // Validate passwords match
+        // Final validation
+        let hasErrors = false;
+        
+        if (!validateFullName(fullName)) {
+            showValidation('fullName', false, 'Невалидно име');
+            hasErrors = true;
+        }
+        
+        if (!validateEmail(email)) {
+            showValidation('email', false, 'Невалиден email');
+            hasErrors = true;
+        }
+        
+        if (!validatePhone(phone)) {
+            showValidation('phone', false, 'Невалиден телефон');
+            hasErrors = true;
+        }
+        
+        if (!validatePassword(password)) {
+            showValidation('password', false, 'Слаба парола');
+            hasErrors = true;
+        }
+        
         if (password !== confirmPassword) {
-            alert('❌ Паролите не съвпадат!');
+            showValidation('confirmPassword', false, 'Паролите не съвпадат');
+            hasErrors = true;
+        }
+        
+        if (hasErrors) {
+            alert('❌ Моля поправете грешките във формата');
             return;
         }
         
-        // Show loading state
-        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const submitBtn = document.getElementById('registerBtn');
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Регистрация...';
         
         try {
-            // Prepare request data
             const requestData = {
                 email: email,
                 password: password,
-                full_name: name,
+                full_name: fullName,
                 phone: phone,
-                user_type: userType === 'technician' ? 'employee' : userType  // Convert technician to employee
+                user_type: 'client' // Always register as client
             };
-            
-            // Add position for employees
-            if (userType === 'technician') {
-                requestData.position = 'technician';
-            }
             
             const response = await fetch(`${API_URL}/auth/register.php`, {
                 method: 'POST',
@@ -635,21 +904,17 @@
             const result = await response.json();
             
             if (result.success) {
-                // Success - save user data and redirect
                 localStorage.setItem('user', JSON.stringify(result.user));
-                
                 alert('✅ ' + result.message);
                 
-                // Redirect based on user type
                 if (result.user.user_type === 'admin') {
-                    window.location.href = 'admin.html'; // Admin panel - пълен контрол
+                    window.location.href = 'admin.html';
                 } else if (result.user.user_type === 'employee') {
-                    window.location.href = 'technician-dashboard.html'; // Техник панел - само неговите задачи
-        } else {
-                    window.location.href = 'index.html'; // Магазин за клиенти
+                    window.location.href = 'technician-dashboard.html';
+                } else {
+                    window.location.href = 'index.html';
                 }
             } else {
-                // Error
                 alert('❌ ' + result.message);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
@@ -657,7 +922,7 @@
             
         } catch (error) {
             console.error('Register error:', error);
-            alert('❌ Грешка при свързване със сървъра. Проверете дали Apache е пуснат.');
+            alert('❌ Грешка при свързване със сървъра.');
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
@@ -665,4 +930,4 @@
 </script>
 
 </body>
-</html> 
+</html>

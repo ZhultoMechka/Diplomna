@@ -775,20 +775,6 @@
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
     
-    // ============================================
-    // EUR CONVERSION HELPERS
-    // ============================================
-    const EUR_RATE = 1.95583; // 1 EUR = 1.95583 BGN
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        const eurAmount = toEUR(bgnAmount);
-        return eurAmount.toFixed(2) + ' €';
-    }
-    
     let selectedDelivery = null;
     let deliveryServices = [];
 
@@ -968,7 +954,7 @@
                     <div class="delivery-name">${service.service_name}</div>
                     <div class="delivery-desc">${service.description || ''}</div>
                 </div>
-                <div class="delivery-price">${formatEUR(parseFloat(service.price))}</div>
+                <div class="delivery-price">${parseFloat(service.price).toFixed(2)} €</div>
             </div>
         `).join('');
 
@@ -1035,7 +1021,7 @@
                         </div>
                     ` : ''}
                 </div>
-                <div class="summary-item-price">${formatEUR(item.totalPrice)}</div>
+                <div class="summary-item-price">${item.totalPrice.toFixed(2)} €</div>
             </div>
         `).join('');
 
@@ -1057,10 +1043,10 @@
         const deliveryPrice = selectedDelivery ? selectedDelivery.price : 0;
         const grandTotal = productsTotal + servicesTotal + deliveryPrice;
 
-        document.getElementById('productsTotal').textContent = formatEUR(productsTotal);
-        document.getElementById('servicesTotal').textContent = formatEUR(servicesTotal);
-        document.getElementById('deliveryTotal').textContent = formatEUR(deliveryPrice);
-        document.getElementById('grandTotal').textContent = formatEUR(grandTotal);
+        document.getElementById('productsTotal').textContent = productsTotal.toFixed(2) + ' €';
+        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' €';
+        document.getElementById('deliveryTotal').textContent = deliveryPrice.toFixed(2) + ' €';
+        document.getElementById('grandTotal').textContent = grandTotal.toFixed(2) + ' €';
     }
 
     // Форматиране на номер на карта
@@ -1156,7 +1142,6 @@
             btn.innerHTML = '<i class="fas fa-check-circle"></i> Потвърди поръчката';
         }
     }
-</script>   
-<script src="assets/js/currency.js"></script>
+</script>
 </body>
 </html>

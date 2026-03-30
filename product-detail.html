@@ -1464,18 +1464,6 @@ async function submitReview(e) {
     const API_URL = 'http://localhost/Diplomna/api';
     
     // ============================================
-    // EUR CONVERSION
-    // ============================================
-    const EUR_RATE = 1.95583;
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        return toEUR(bgnAmount).toFixed(2) + ' €';
-    }
-    
     let currentProduct = null;
     let selectedServices = [];
     let availableServices = [];
@@ -1538,7 +1526,7 @@ async function submitReview(e) {
 
         // Price
         const price = parseFloat(product.price);
-        document.getElementById('productPrice').textContent = formatEUR(price);
+        document.getElementById('productPrice').textContent = price + ' €';
 
         // Availability
         const availabilityEl = document.getElementById('availability');
@@ -1699,7 +1687,7 @@ async function submitReview(e) {
                     <div class="service-name">${service.service_name}</div>
                     <div class="service-description">${service.description || ''}</div>
                 </div>
-                <div class="service-price">+${formatEUR(parseFloat(service.price))}</div>
+                <div class="service-price">+${parseFloat(service.price)} €</div>
             </div>
         `).join('');
     }
@@ -1722,7 +1710,7 @@ async function submitReview(e) {
             const service = availableServices.find(s => s.service_id === serviceId);
             if (service && !selectedServices.find(s => s.service_id === serviceId)) {
                 selectedServices.push(service);
-                console.log('✅ Service added:', service.service_name, '+' + formatEUR(service.price));
+                console.log('✅ Service added:', service.service_name, '+' + service.price + ' €');
             }
         } else {
             serviceDiv.classList.remove('selected');
@@ -1773,27 +1761,27 @@ async function submitReview(e) {
             if (isDelivery) {
                 // Доставка - еднократна, не се множи
                 servicesPrice += price;
-                serviceDetails.push(`${service.service_name}: ${formatEUR(price)} (еднократна)`);
+                serviceDetails.push(`${service.service_name}: ${price} € (еднократна)`);
             } else {
                 // Монтаж, ремонт, профилактика - × брой климатици
                 servicesPrice += price * quantity;
-                serviceDetails.push(`${service.service_name}: ${formatEUR(price)} × ${quantity} = ${formatEUR(price * quantity)}`);
+                serviceDetails.push(`${service.service_name}: ${price} € × ${quantity} = ${(price * quantity).toFixed(2)} €`);
             }
         });
 
         const totalPrice = productPrice + servicesPrice;
 
         console.log('💰 Price calculation:', {
-            productPrice: `${formatEUR(parseFloat(currentProduct.price))} × ${quantity} = ${formatEUR(productPrice)}`,
+            productPrice: `${parseFloat(currentProduct.price)} € × ${quantity} = ${productPrice.toFixed(2)} €`,
             services: serviceDetails,
-            servicesTotal: formatEUR(servicesPrice),
-            totalPrice: formatEUR(totalPrice)
+            servicesTotal: servicesPrice.toFixed(2) + ' €',
+            totalPrice: totalPrice.toFixed(2) + ' €'
         });
 
         // Обновяваме display
-        document.getElementById('productPriceCalc').textContent = formatEUR(productPrice);
-        document.getElementById('servicesPriceCalc').textContent = formatEUR(servicesPrice);
-        document.getElementById('totalPrice').textContent = formatEUR(totalPrice);
+        document.getElementById('productPriceCalc').textContent = productPrice.toFixed(2) + ' €';
+        document.getElementById('servicesPriceCalc').textContent = servicesPrice.toFixed(2) + ' €';
+        document.getElementById('totalPrice').textContent = totalPrice.toFixed(2) + ' €';
 
         // Показваме/скриваме ред за услуги
         const servicesRow = document.getElementById('servicesRow');
@@ -1904,7 +1892,7 @@ async function submitReview(e) {
                 <div class="related-info">
                     <div class="related-brand">${product.brand_name}</div>
                     <div class="related-name">${product.model_name}</div>
-                    <div class="related-price">${formatEUR(parseFloat(product.price))}</div>
+                    <div class="related-price">${parseFloat(product.price)} €</div>
                 </div>
             </a>
         `).join('');
@@ -2018,7 +2006,5 @@ async function submitReview(e) {
 <script src="assets/js/favorites.js"></script>
 <script src="assets/js/compare.js"></script>
 <script src="assets/js/navigation.js"></script>
-<!-- Currency Converter (BGN to EUR) -->
-<script src="assets/js/currency.js"></script>
 </body>
 </html>

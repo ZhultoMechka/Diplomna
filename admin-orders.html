@@ -466,18 +466,6 @@
     const API_URL = 'http://localhost/Diplomna/api';
     
     // ============================================
-    // EUR CONVERSION
-    // ============================================
-    const EUR_RATE = 1.95583;
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        return toEUR(bgnAmount).toFixed(2) + ' €';
-    }
-    
     let allOrders = [];
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -563,7 +551,7 @@
                         <div class="order-info-group">
                             <span class="info-label">Сума</span>
                             <span class="info-value" style="color: #0891b2; font-size: 1.3em;">
-                                ${formatEUR(parseFloat(order.total_amount))}
+                                ${parseFloat(order.total_amount).toFixed(2)} €
                             </span>
                             <span style="color: #999; font-size: 12px;">${order.items_count} продукта</span>
                         </div>
@@ -609,7 +597,7 @@
         document.getElementById('statPending').textContent = stats.pending;
         document.getElementById('statProcessing').textContent = stats.processing;
         document.getElementById('statCompleted').textContent = stats.completed;
-        document.getElementById('statRevenue').textContent = formatEUR(stats.revenue);
+        document.getElementById('statRevenue').textContent = stats.revenue.toFixed(2) + ' €';
     }
 
     // Филтриране

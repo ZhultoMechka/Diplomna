@@ -757,19 +757,6 @@
 <script>
     const API_URL = 'http://localhost/Diplomna/api';
     
-    // ============================================
-    // EUR CONVERSION
-    // ============================================
-    const EUR_RATE = 1.95583;
-    
-    function toEUR(bgnAmount) {
-        return bgnAmount / EUR_RATE;
-    }
-    
-    function formatEUR(bgnAmount) {
-        return toEUR(bgnAmount).toFixed(2) + ' €';
-    }
-    
     let allProducts = [];
     let filteredProducts = [];
     
@@ -1101,7 +1088,7 @@
                     </span>
                 </div>
                 <div class="product-features">${features}</div>
-                <div class="product-price">${formatEUR(parseFloat(product.price))}</div>
+                <div class="product-price">${product.price} €</div>
                 <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.product_id}, '${product.model_name.replace(/'/g, "\\'")}')">
                     <i class="fas fa-shopping-cart"></i>
                     Добави в количка
@@ -1248,7 +1235,5 @@
 <script src="assets/js/favorites.js"></script>
 <script src="assets/js/compare.js"></script>
 <script src="assets/js/navigation.js"></script>
-<!-- Currency Converter (BGN to EUR) -->
-<script src="assets/js/currency.js"></script>
 </body>
 </html>
