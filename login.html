@@ -84,7 +84,10 @@
 
         /* Right Side - Forms */
         .auth-forms {
-            padding: 60px 40px;
+            padding: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .tabs {
@@ -309,51 +312,6 @@
             transform: none;
         }
 
-        .divider {
-            text-align: center;
-            margin: 25px 0;
-            color: #999;
-            position: relative;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40%;
-            height: 1px;
-            background: #e5e7eb;
-        }
-
-        .divider::before { left: 0; }
-        .divider::after { right: 0; }
-
-        .social-login {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .social-btn:hover {
-            border-color: #0891b2;
-            background: #f0f9ff;
-        }
-
         .back-home {
             position: absolute;
             top: 20px;
@@ -399,6 +357,79 @@
                 flex-direction: column;
             }
         }
+
+        /* TERMS MODAL */
+        .terms-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .terms-modal.active { display: flex; }
+        .terms-modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .terms-modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terms-modal-header h3 { font-size: 1.2em; color: #1a1a1a; }
+        .terms-modal-body {
+            padding: 20px 25px;
+            overflow-y: auto;
+            flex: 1;
+            color: #444;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+        .terms-modal-body h4 { color: #1a1a1a; margin: 15px 0 8px; }
+        .terms-modal-footer {
+            padding: 15px 25px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .terms-accept-btn {
+            background: linear-gradient(135deg, #0891b2, #0284c7);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .terms-close-btn {
+            background: white;
+            color: #666;
+            border: 2px solid #e5e7eb;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .terms-body { padding:20px 25px; overflow-y:auto; flex:1; color:#444; line-height:1.7; font-size:14px; }
+        .terms-body h4 { color:#1a1a1a; margin:15px 0 8px; }
+        .terms-footer { padding:15px 25px; border-top:1px solid #e5e7eb; display:flex; gap:10px; justify-content:flex-end; }
+        .btn-accept { background:linear-gradient(135deg,#0891b2,#0284c7); color:white; border:none; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:600; }
+        .btn-close-terms { background:white; color:#666; border:2px solid #e5e7eb; padding:10px 20px; border-radius:8px; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -457,12 +488,13 @@
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="login-password" placeholder="Въведете парола" required>
+                        <i class="fas fa-eye" id="eye1" onclick="togglePass('login-password','eye1')" style="cursor:pointer;position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#999;z-index:10;"></i>
                     </div>
                 </div>
 
                 <div class="remember-forgot">
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="rememberMe">
                         <span>Запомни ме</span>
                     </label>
                     <a href="#">Забравена парола?</a>
@@ -472,16 +504,6 @@
                     <i class="fas fa-sign-in-alt"></i> Влез
                 </button>
 
-                <div class="divider">или</div>
-
-                <div class="social-login">
-                    <button type="button" class="social-btn">
-                        <i class="fab fa-google"></i> Google
-                    </button>
-                    <button type="button" class="social-btn">
-                        <i class="fab fa-facebook"></i> Facebook
-                    </button>
-                </div>
             </form>
         </div>
 
@@ -541,6 +563,7 @@
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="password" placeholder="Минимум 8 символа" required>
+                        <i class="fas fa-eye" id="eye2" onclick="togglePass('password','eye2')" style="cursor:pointer;position:absolute;right:35px;top:50%;transform:translateY(-50%);color:#999;z-index:10;"></i>
                         <i class="fas validation-icon"></i>
                     </div>
                     <div class="error-message" id="password-error"></div>
@@ -552,6 +575,7 @@
                     <div class="input-icon">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="confirmPassword" placeholder="Повтори паролата" required>
+                        <i class="fas fa-eye" id="eye3" onclick="togglePass('confirmPassword','eye3')" style="cursor:pointer;position:absolute;right:35px;top:50%;transform:translateY(-50%);color:#999;z-index:10;"></i>
                         <i class="fas validation-icon"></i>
                     </div>
                     <div class="error-message" id="confirmPassword-error"></div>
@@ -560,8 +584,8 @@
 
                 <div class="remember-forgot">
                     <label>
-                        <input type="checkbox" required>
-                        <span>Приемам <a href="#">условията за ползване</a></span>
+                        <input type="checkbox" id="termsCheckbox">
+                        <span>Приемам <a href="#" onclick="openTermsModal(event)">условията за ползване</a></span>
                     </label>
                 </div>
 
@@ -662,6 +686,17 @@
     // ========================================================================
 
     document.addEventListener('DOMContentLoaded', () => {
+        // Зареди запомнен имейл
+        const remembered = localStorage.getItem('rememberedEmail');
+        if (remembered) {
+            const emailField = document.getElementById('login-email');
+            if (emailField) {
+                emailField.value = remembered;
+                const cb = document.getElementById('rememberMe');
+                if (cb) cb.checked = true;
+            }
+        }
+
         // Full Name
         const fullNameInput = document.getElementById('fullName');
         if (fullNameInput) {
@@ -838,6 +873,12 @@
     
     async function handleRegister(event) {
         event.preventDefault();
+
+        // Проверка за общите условия
+        if (!document.getElementById('termsCheckbox').checked) {
+            alert('⚠️ За да се регистрирате, трябва да се съгласите с общите условия за ползване.');
+            return;
+        }
         
         const userType = document.getElementById('userType').value;
         const fullName = document.getElementById('fullName').value;
@@ -927,7 +968,85 @@
             submitBtn.innerHTML = originalText;
         }
     }
+
+    // ПОКАЖИ/СКРИЙ ПАРОЛА
+    function togglePass(inputId, iconId) {
+        const inp = document.getElementById(inputId);
+        const ico = document.getElementById(iconId);
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            ico.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            inp.type = 'password';
+            ico.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    // УСЛОВИЯ ЗА ПОЛЗВАНЕ
+    function openTermsModal(e) {
+        e.preventDefault();
+        document.getElementById('termsModal').classList.add('active');
+    }
+    function closeTermsModal() {
+        document.getElementById('termsModal').classList.remove('active');
+    }
+    function acceptTerms() {
+        document.getElementById('termsCheckbox').checked = true;
+        closeTermsModal();
+    }
+
+    // GOOGLE / FACEBOOK
+    function loginWithGoogle() {
+        alert('Google вход не е конфигуриран.\nНеобходим е Google OAuth Client ID.');
+    }
+    function loginWithFacebook() {
+        alert('Facebook вход не е конфигуриран.\nНеобходим е Facebook App ID.');
+    }
+
+    // ЗАПОМНИ МЕ — зареди при старт
+    window.addEventListener('DOMContentLoaded', () => {
+        const rem = localStorage.getItem('rememberedEmail');
+        if (rem) {
+            const f = document.getElementById('login-email');
+            if (f) { f.value = rem; document.getElementById('rememberMe').checked = true; }
+        }
+    });
+
 </script>
 
+<!-- TERMS MODAL -->
+<div class="terms-modal" id="termsModal">
+    <div class="terms-modal-content">
+        <div class="terms-modal-header">
+            <h3><i class="fas fa-file-contract" style="color:#0891b2; margin-right:8px;"></i> Условия за ползване</h3>
+            <button onclick="closeTermsModal()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666;">×</button>
+        </div>
+        <div class="terms-modal-body">
+            <h4>1. Общи условия</h4>
+            <p>С регистрацията си в Климатици ЕООД вие се съгласявате с настоящите условия за ползване. Моля прочетете ги внимателно преди да продължите.</p>
+
+            <h4>2. Лични данни</h4>
+            <p>Вашите лични данни (имена, имейл, телефон) се събират единствено с цел обработка на поръчки и предоставяне на услуги. Данните не се предоставят на трети страни без ваше съгласие.</p>
+
+            <h4>3. Поръчки и плащания</h4>
+            <p>Всички поръчки са обвързващи след потвърждение от наша страна. Цените включват ДДС. Запазваме правото да откажем поръчка при изчерпани количества.</p>
+
+            <h4>4. Доставка</h4>
+            <p>Доставките се извършват на територията на България в рамките на 1-5 работни дни. Рискът от повреда по време на транспорт е за наша сметка.</p>
+
+            <h4>5. Гаранция и рекламации</h4>
+            <p>Всички продукти се предлагат с минимум 24 месеца гаранция. При рекламация се свържете с нас в рамките на гаранционния срок.</p>
+
+            <h4>6. Отказ от поръчка</h4>
+            <p>Имате право да се откажете от поръчката в рамките на 14 дни от получаването й, ако продуктът не е използван и е в оригинална опаковка.</p>
+        </div>
+        <div class="terms-modal-footer">
+            <button class="terms-close-btn" onclick="closeTermsModal()">Затвори</button>
+            <button class="terms-accept-btn" onclick="acceptTerms()">
+                <i class="fas fa-check"></i> Приемам условията
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

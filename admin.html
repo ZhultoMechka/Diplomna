@@ -126,7 +126,7 @@
         /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -311,7 +311,7 @@
 
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 25px;
         }
 
@@ -395,6 +395,25 @@
                 grid-template-columns: 1fr;
             }
         }
+        .requests-table { width:100%; border-collapse:collapse; }
+        .requests-table th, .requests-table td { padding:12px 15px; text-align:left; border-bottom:1px solid #e5e7eb; font-size:14px; }
+        .requests-table th { background:#f8fafc; font-weight:600; color:#555; }
+        .requests-table tbody tr:hover { background:#f8fafc; }
+        .req-status { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+        .req-status.pending    { background:#fef3c7; color:#92400e; }
+        .req-status.confirmed  { background:#dbeafe; color:#1e40af; }
+        .req-status.in_progress { background:#e0e7ff; color:#4338ca; }
+        .req-status.completed  { background:#d1fae5; color:#065f46; }
+        .req-status.cancelled  { background:#fee2e2; color:#991b1b; }
+        .req-btn { padding:6px 14px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; }
+        .req-btn-status { background:#0891b2; color:white; }
+        .req-btn-status:hover { background:#0e7490; }
+        .req-form-group { margin-bottom:15px; }
+        .req-form-group label { display:block; font-weight:600; margin-bottom:6px; color:#444; font-size:14px; }
+        .req-form-group select, .req-form-group textarea { width:100%; padding:10px 14px; border:2px solid #e5e7eb; border-radius:8px; font-size:14px; outline:none; }
+        .req-form-group select:focus, .req-form-group textarea:focus { border-color:#0891b2; }
+        .req-save-btn { flex:1; background:linear-gradient(135deg,#0891b2,#0284c7); color:white; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; }
+        .req-cancel-btn { flex:1; background:white; color:#666; border:2px solid #e5e7eb; padding:12px; border-radius:8px; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -563,6 +582,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     const API_URL = 'http://localhost/Diplomna/api';

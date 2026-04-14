@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Техник Dashboard - Климатици ЕООД</title>
+    <title>Technician Panel - Климатици ЕООД</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -526,7 +526,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background:#3b82f6;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -626,7 +626,7 @@
         }
 
         .chat-modal-header {
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #3cad07 0%, #2ECC71 100%);
             color: white;
             padding: 20px;
             border-radius: 15px 15px 0 0;
@@ -692,7 +692,7 @@
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: #2478ff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -710,7 +710,7 @@
         }
 
         .chat-modal-message.sent .message-bubble {
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: #102360;
             color: white;
         }
 
@@ -746,14 +746,14 @@
         }
 
         .chat-modal-input input:focus {
-            border-color: #FF8800;
+            border-color: #102360;
         }
 
         .chat-send-btn {
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #102360 20%, #176537 100%);
             border: none;
             color: white;
             cursor: pointer;
@@ -781,7 +781,7 @@
         }
 
         .chat-modal-messages::-webkit-scrollbar-thumb {
-            background: #FF8800;
+            background: #102360;
             border-radius: 3px;
         }
 
@@ -801,6 +801,416 @@
             margin-bottom: 10px;
             color: #374151;
         }
+
+        /* REVIEWS SECTION */
+        .reviews-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .review-pending-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .review-pending-card:hover {
+            border-color: #0891b2;
+        }
+
+        .review-pending-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .review-pending-meta h4 {
+            font-size: 1em;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .review-pending-meta span {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .review-pending-stars i {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        .review-pending-product {
+            font-size: 0.85em;
+            color: #0891b2;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .review-pending-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .review-pending-text {
+            color: #444;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #0891b2, #0284c7);
+            color: white;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(8,145,178,0.4);
+        }
+
+        .btn-reject {
+            background: white;
+            color: #ef4444;
+            border: 2px solid #ef4444;
+            padding: 9px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reject:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .no-pending-reviews {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+
+        .no-pending-reviews i {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .reviews-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 700;
+        }
+
+        /* TECH PROFILE AVATAR */
+        .tech-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tech-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #f59e0b;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .tech-avatar:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+
+        .tech-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+
+        .tech-info-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: white;
+        }
+
+        .tech-info-role {
+            font-size: 12px;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .edit-profile-link {
+            font-size: 12px;
+            color: rgba(255,255,255,0.85);
+            cursor: pointer;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .edit-profile-link:hover { color: white; }
+
+        /* EDIT MODAL */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edit-modal.active { display: flex; }
+
+        .edit-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            width: 90%;
+            max-width: 460px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .edit-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .edit-modal-header h3 {
+            font-size: 1.3em;
+            color: #1a1a1a;
+        }
+
+        .edit-modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .edit-form-group {
+            margin-bottom: 18px;
+        }
+
+        .edit-form-group label {
+            display: block;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 7px;
+            font-size: 0.9em;
+        }
+
+        .edit-form-group input {
+            width: 100%;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 11px 15px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .edit-form-group input:focus { border-color: #0891b2; }
+
+        .edit-form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .edit-save-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #0891b2, #0284c7);
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(8,145,178,0.4);
+        }
+
+        .edit-cancel-btn {
+            flex: 1;
+            background: white;
+            color: #666;
+            border: 2px solid #e5e7eb;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-cancel-btn:hover {
+            border-color: #0891b2;
+            color: #0891b2;
+        }
+
+        .edit-error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .edit-success {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* AVATAR UPLOAD */
+        .avatar-upload-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0891b2, #0284c7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            overflow: hidden;
+            margin-bottom: 10px;
+            position: relative;
+            cursor: pointer;
+            border: 3px solid #e5e7eb;
+            transition: border-color 0.3s;
+        }
+
+        .avatar-preview:hover { border-color: #0891b2; }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-preview .avatar-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .avatar-preview:hover .avatar-overlay { display: flex; }
+
+        .avatar-upload-btn {
+            background: none;
+            border: none;
+            color: #0891b2;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        #avatarFileInput { display: none; }
+
+        /* SERVICE REQUESTS */
+        .requests-section { background:white; border-radius:15px; padding:30px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+        .requests-section h2 { font-size:1.6em; color:#333; margin-bottom:25px; display:flex; align-items:center; gap:10px; }
+        .requests-table { width:100%; border-collapse:collapse; }
+        .requests-table th, .requests-table td { padding:12px 15px; text-align:left; border-bottom:1px solid #e5e7eb; font-size:14px; }
+        .requests-table th { background:#f8fafc; font-weight:600; color:#555; }
+        .requests-table tbody tr:hover { background:#f8fafc; }
+        .req-status { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+        .req-status.pending    { background:#fef3c7; color:#92400e; }
+        .req-status.confirmed  { background:#dbeafe; color:#1e40af; }
+        .req-status.in_progress{ background:#e0e7ff; color:#4338ca; }
+        .req-status.completed  { background:#d1fae5; color:#065f46; }
+        .req-status.cancelled  { background:#fee2e2; color:#991b1b; }
+        .req-btn { padding:6px 14px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; }
+        .req-btn-status { background:#f59e0b; color:white; }
+        .req-btn-status:hover { background:#d97706; }
+        .req-badge { background:#ef4444; color:white; font-size:12px; padding:2px 8px; border-radius:10px; margin-left:8px; font-weight:700; }
+        .req-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000; justify-content:center; align-items:center; }
+        .req-modal.active { display:flex; }
+        .req-modal-content { background:white; border-radius:15px; padding:30px; width:90%; max-width:460px; }
+        .req-modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .req-modal-header h3 { color:#1a1a1a; }
+        .req-form-group { margin-bottom:15px; }
+        .req-form-group label { display:block; font-weight:600; margin-bottom:6px; color:#444; font-size:14px; }
+        .req-form-group select, .req-form-group textarea { width:100%; padding:10px 14px; border:2px solid #e5e7eb; border-radius:8px; font-size:14px; outline:none; }
+        .req-form-group select:focus, .req-form-group textarea:focus { border-color:#f59e0b; }
+        .req-modal-actions { display:flex; gap:10px; margin-top:20px; }
+        .req-save-btn { flex:1; background:#f59e0b; color:white; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; }
+        .req-cancel-btn { flex:1; background:white; color:#666; border:2px solid #e5e7eb; padding:12px; border-radius:8px; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -810,9 +1220,19 @@
     <div class="header-content">
         <h1>
             <i class="fas fa-tools"></i>
-            Техник Dashboard
+            Technician Panel
         </h1>
-        <div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="tech-profile" onclick="openEditModal()" title="Редактирай профила">
+                <div class="tech-avatar" id="techAvatar"></div>
+                <div class="tech-info">
+                    <span class="tech-info-name" id="techName"></span>
+                    <span class="tech-info-role">Техник</span>
+                </div>
+            </div>
+            <button class="home-btn" onclick="window.location.href='technician-products.html'">
+                <i class="fas fa-box"></i> Продукти
+            </button>
             <button class="home-btn" onclick="window.location.href='index.html'">
                 <i class="fas fa-home"></i> Начална страница
             </button>
@@ -839,7 +1259,7 @@
             <div class="stat-icon">
                 <i class="fas fa-cog"></i>
             </div>
-            <div class="stat-label">В процес</div>
+            <div class="stat-label">В обработка</div>
             <div class="stat-value" id="processingCount">0</div>
         </div>
 
@@ -867,7 +1287,7 @@
             <div class="filter-tabs">
                 <button class="filter-tab active" onclick="filterOrders('all')">Всички</button>
                 <button class="filter-tab" onclick="filterOrders('confirmed')">Потвърдени</button>
-                <button class="filter-tab" onclick="filterOrders('processing')">В процес</button>
+                <button class="filter-tab" onclick="filterOrders('processing')">В обработка</button>
                 <button class="filter-tab" onclick="filterOrders('shipped')">Изпратени</button>
             </div>
         </div>
@@ -904,6 +1324,83 @@
             <i class="fas fa-inbox"></i>
             <h3>Няма поръчки</h3>
             <p>Все още нямате назначени поръчки</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- REVIEWS SECTION -->
+<!-- ============================================ -->
+<div class="container" style="margin-top: 0;">
+    <div class="reviews-section">
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-star" style="color:#fbbf24;"></i>
+                Отзиви за одобрение
+                <span class="reviews-badge" id="reviewsBadge" style="display:none;">0</span>
+            </h2>
+        </div>
+
+        <div id="reviewsLoading" style="text-align:center; padding:30px; color:#666;">
+            <i class="fas fa-spinner fa-spin"></i> Зареждане...
+        </div>
+
+        <div id="pendingReviewsList"></div>
+    </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- SERVICE REQUESTS SECTION -->
+<!-- ============================================ -->
+<div class="container" style="margin-top: 0;">
+    <div class="requests-section">
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-clipboard-list" style="color:#f59e0b;"></i>
+                Сервизни заявки
+                <span class="req-badge" id="pendingReqBadge" style="display:none;">0</span>
+            </h2>
+        </div>
+        <div id="requestsLoading" style="text-align:center; padding:30px; color:#666;">
+            <i class="fas fa-spinner fa-spin"></i> Зареждане...
+        </div>
+        <div id="requestsTableWrapper" style="display:none; overflow-x:auto;">
+            <table class="requests-table">
+                <thead><tr><th>#</th><th>Клиент</th><th>Телефон</th><th>Услуга</th><th>Дата</th><th>Описание</th><th>Статус</th><th>Действия</th></tr></thead>
+                <tbody id="requestsTableBody"></tbody>
+            </table>
+        </div>
+        <div id="noRequests" style="display:none; text-align:center; padding:40px; color:#999;">
+            <i class="fas fa-check-circle" style="font-size:48px; color:#22c55e; display:block; margin-bottom:15px;"></i>
+            <p>Няма нови сервизни заявки</p>
+        </div>
+    </div>
+</div>
+
+<div class="req-modal" id="reqModal">
+    <div class="req-modal-content">
+        <div class="req-modal-header">
+            <h3><i class="fas fa-edit" style="color:#f59e0b; margin-right:8px;"></i> Обнови заявка</h3>
+            <button onclick="closeReqModal()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666;">×</button>
+        </div>
+        <input type="hidden" id="reqModalId">
+        <div class="req-form-group"><label>Статус</label>
+            <select id="reqModalStatus">
+                <option value="pending">Чакаща</option>
+                <option value="confirmed">Потвърдена</option>
+                <option value="in_progress">В обработка</option>
+                <option value="completed">Завършена</option>
+                <option value="cancelled">Отказана</option>
+            </select>
+        </div>
+        <div class="req-form-group"><label>Бележка (опционално)</label>
+            <textarea id="reqModalNote" rows="3" placeholder="Добавете бележка..."></textarea>
+        </div>
+        <div class="req-modal-actions">
+            <button class="req-cancel-btn" onclick="closeReqModal()">Отказ</button>
+            <button class="req-save-btn" onclick="saveReqStatus()"><i class="fas fa-save"></i> Запази</button>
         </div>
     </div>
 </div>
@@ -1014,6 +1511,159 @@
     let allOrders = [];
     let currentFilter = 'all';
 
+
+
+    function previewAvatar(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Проверка за размер (макс 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Снимката трябва да е по-малка от 2MB.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64 = e.target.result;
+            // Показваме preview
+            const preview = document.getElementById('editAvatarPreview');
+            preview.innerHTML = `<img src="${base64}" alt="Аватар"><div class="avatar-overlay"><i class="fas fa-camera"></i></div>`;
+
+            // Запазваме временно
+            window._pendingAvatar = base64;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function loadAvatarInModal() {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user) return;
+
+        const preview = document.getElementById('editAvatarPreview');
+        window._pendingAvatar = null;
+
+        if (user.avatar) {
+            preview.innerHTML = `<img src="${user.avatar}" alt="Аватар"><div class="avatar-overlay"><i class="fas fa-camera"></i></div>`;
+        } else {
+            const initial = (user.full_name || 'T').charAt(0).toUpperCase();
+            preview.innerHTML = `<span id="editAvatarInitial">${initial}</span><div class="avatar-overlay"><i class="fas fa-camera"></i></div>`;
+        }
+    }
+
+    function applyAvatarToUI(avatarBase64, fullName) {
+        // Обновяваме главния аватар на страницата
+        const mainAvatar = document.getElementById('techAvatar');
+        if (!mainAvatar) return;
+
+        if (avatarBase64) {
+            mainAvatar.innerHTML = `<img src="${avatarBase64}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        } else {
+            mainAvatar.innerHTML = (fullName || '?').charAt(0).toUpperCase();
+        }
+    }
+
+    // ============================================
+    // ПРОФИЛ НА ТЕХНИКА
+    // ============================================
+    function initTechProfile() {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user) return;
+
+        const name = user.full_name || 'Техник';
+        document.getElementById('techName').textContent = name;
+        applyAvatarToUI(user.avatar, name);
+    }
+
+    function openEditModal() {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user) return;
+
+        document.getElementById('editFullName').value = user.full_name || '';
+        document.getElementById('editPhone').value    = user.phone    || '';
+        document.getElementById('editEmail').value    = user.email    || '';
+        document.getElementById('editError').style.display   = 'none';
+        document.getElementById('editSuccess').style.display = 'none';
+
+        loadAvatarInModal();
+        document.getElementById('editModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    async function saveProfile() {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user) return;
+
+        const fullName = document.getElementById('editFullName').value.trim();
+        const phone    = document.getElementById('editPhone').value.trim();
+        const email    = document.getElementById('editEmail').value.trim();
+
+        const errorEl   = document.getElementById('editError');
+        const successEl = document.getElementById('editSuccess');
+        errorEl.style.display   = 'none';
+        successEl.style.display = 'none';
+
+        if (!fullName) {
+            errorEl.textContent = 'Моля въведете пълно име.';
+            errorEl.style.display = 'block';
+            return;
+        }
+        if (!email) {
+            errorEl.textContent = 'Моля въведете имейл.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/users/update_profile.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id:   user.user_id,
+                    full_name: fullName,
+                    phone:     phone,
+                    email:     email
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                user.full_name = fullName;
+                user.phone     = phone;
+                user.email     = email;
+                if (window._pendingAvatar) {
+                    user.avatar = window._pendingAvatar;
+                }
+                localStorage.setItem('user', JSON.stringify(user));
+                applyAvatarToUI(user.avatar, fullName);
+
+                // Обновяваме аватара и името в хедъра
+                document.getElementById('techName').textContent   = fullName;
+                document.getElementById('techAvatar').textContent = fullName.charAt(0).toUpperCase();
+
+                successEl.textContent = '✅ Профилът е обновен успешно!';
+                successEl.style.display = 'block';
+                setTimeout(() => closeEditModal(), 1500);
+            } else {
+                errorEl.textContent = result.message || 'Грешка при запазване.';
+                errorEl.style.display = 'block';
+            }
+        } catch (error) {
+            errorEl.textContent = 'Грешка при свързване със сървъра.';
+            errorEl.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeEditModal();
+    });
+
     // Check authentication
     window.addEventListener('DOMContentLoaded', () => {
         const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -1026,10 +1676,11 @@
         }
 
         // Optional: Show warning if not technician, but allow access
-        if (user.user_type !== 'technician' && user.user_type !== 'admin') {
+        if (user.user_type !== 'technician' && user.user_type !== 'employee' && user.user_type !== 'employee' && user.user_type !== 'admin') {
             console.warn('User is not a technician, but allowing access for testing');
         }
 
+        initTechProfile();
         loadOrders();
     });
 
@@ -1505,6 +2156,226 @@
         return date.toLocaleDateString('bg-BG', { day: 'numeric', month: 'short' });
     }
 </script>
+
+<script>
+    // ============================================
+    // REVIEWS МОДЕРАЦИЯ
+    // ============================================
+    async function loadPendingReviews() {
+        try {
+            const response = await fetch(`${API_URL}/reviews/manage_reviews.php`);
+            const result = await response.json();
+
+            document.getElementById('reviewsLoading').style.display = 'none';
+
+            if (!result.success) {
+                document.getElementById('pendingReviewsList').innerHTML = '<p style="color:red;">Грешка при зареждане.</p>';
+                return;
+            }
+
+            const badge = document.getElementById('reviewsBadge');
+            if (result.count > 0) {
+                badge.textContent = result.count;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            if (result.reviews.length === 0) {
+                document.getElementById('pendingReviewsList').innerHTML = `
+                    <div class="no-pending-reviews">
+                        <i class="fas fa-check-circle" style="color:#22c55e; font-size:50px; display:block; margin-bottom:15px;"></i>
+                        <p>Няма чакащи отзиви за одобрение</p>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('pendingReviewsList').innerHTML = result.reviews.map(review => {
+                const stars = Array.from({length: 5}, (_, i) =>
+                    `<i class="${i < review.rating ? 'fas' : 'far'} fa-star"></i>`
+                ).join('');
+                const date = new Date(review.created_at).toLocaleDateString('bg-BG');
+                return `
+                    <div class="review-pending-card" id="reviewCard_${review.review_id}">
+                        <div class="review-pending-header">
+                            <div class="review-pending-meta">
+                                <h4>${review.reviewer_name}</h4>
+                                <span>${date}</span>
+                            </div>
+                            <div class="review-pending-stars">${stars}</div>
+                        </div>
+                        <div class="review-pending-product">
+                            <i class="fas fa-wind"></i> ${review.product_name}
+                        </div>
+                        ${review.title ? `<div class="review-pending-title">${review.title}</div>` : ''}
+                        ${review.review_text ? `<div class="review-pending-text">${review.review_text}</div>` : ''}
+                        <div class="review-actions">
+                            <button class="btn-approve" onclick="reviewAction(${review.review_id}, 'approve')">
+                                <i class="fas fa-check"></i> Одобри
+                            </button>
+                            <button class="btn-reject" onclick="reviewAction(${review.review_id}, 'reject')">
+                                <i class="fas fa-times"></i> Отхвърли
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+        } catch (error) {
+            console.error('Error loading reviews:', error);
+            document.getElementById('reviewsLoading').style.display = 'none';
+        }
+    }
+
+    async function reviewAction(reviewId, action) {
+        const label = action === 'approve' ? 'одобрите' : 'отхвърлите';
+        if (!confirm(`Сигурни ли сте, че искате да ${label} този отзив?`)) return;
+
+        try {
+            const response = await fetch(`${API_URL}/reviews/manage_reviews.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ review_id: reviewId, action: action })
+            });
+            const result = await response.json();
+            if (result.success) {
+                const card = document.getElementById(`reviewCard_${reviewId}`);
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(20px)';
+                card.style.transition = 'all 0.3s';
+                setTimeout(() => { card.remove(); loadPendingReviews(); }, 300);
+            } else {
+                alert('Грешка: ' + result.message);
+            }
+        } catch (error) {
+            alert('Грешка при свързване със сървъра');
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadPendingReviews();
+    });
+
+    // ============================================
+    // СЕРВИЗНИ ЗАЯВКИ
+    // ============================================
+    const REQ_STATUS_LABELS = {
+        pending: 'Чакаща', confirmed: 'Потвърдена',
+        in_progress: 'В процес', completed: 'Завършена', cancelled: 'Отказана'
+    };
+
+    async function loadServiceRequests() {
+        try {
+            const response = await fetch(`${API_URL}/service_requests/get_all.php`);
+            const result = await response.json();
+            document.getElementById('requestsLoading').style.display = 'none';
+            if (!result.success || !result.requests || result.requests.length === 0) {
+                document.getElementById('noRequests').style.display = 'block';
+                return;
+            }
+            const pending = result.requests.filter(r => r.request_status === 'pending').length;
+            if (pending > 0) {
+                const badge = document.getElementById('pendingReqBadge');
+                badge.textContent = pending;
+                badge.style.display = 'inline';
+            }
+            document.getElementById('requestsTableWrapper').style.display = 'block';
+            document.getElementById('requestsTableBody').innerHTML = result.requests.map(req => {
+                const date = req.preferred_date ? new Date(req.preferred_date).toLocaleDateString('bg-BG') : '-';
+                const desc = req.description ? req.description.substring(0, 40) + '...' : '-';
+                return `<tr>
+                    <td><strong>#${req.request_id}</strong></td>
+                    <td>${req.customer_name || '-'}</td>
+                    <td>${req.contact_phone || '-'}</td>
+                    <td>${req.service_name || '-'}</td>
+                    <td>${date}</td>
+                    <td title="${req.description || ''}">${desc}</td>
+                    <td><span class="req-status ${req.request_status}">${REQ_STATUS_LABELS[req.request_status] || req.request_status}</span></td>
+                    <td><button class="req-btn req-btn-status" onclick="openReqModal(${req.request_id}, '${req.request_status}')"><i class="fas fa-edit"></i> Обнови</button></td>
+                </tr>`;
+            }).join('');
+        } catch (e) {
+            document.getElementById('requestsLoading').innerHTML = '<p style="color:red;">Грешка при зареждане</p>';
+        }
+    }
+
+    function openReqModal(id, status) {
+        document.getElementById('reqModalId').value = id;
+        document.getElementById('reqModalStatus').value = status;
+        document.getElementById('reqModalNote').value = '';
+        document.getElementById('reqModal').classList.add('active');
+    }
+
+    function closeReqModal() {
+        document.getElementById('reqModal').classList.remove('active');
+    }
+
+    async function saveReqStatus() {
+        const id = document.getElementById('reqModalId').value;
+        const status = document.getElementById('reqModalStatus').value;
+        const note = document.getElementById('reqModalNote').value;
+        try {
+            const response = await fetch(`${API_URL}/service_requests/update_status.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ request_id: parseInt(id), status, note })
+            });
+            const result = await response.json();
+            if (result.success) { closeReqModal(); loadServiceRequests(); }
+            else alert('Грешка: ' + result.message);
+        } catch (e) { alert('Грешка при свързване'); }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { loadServiceRequests(); });
+</script>
+
+<!-- EDIT PROFILE MODAL -->
+<div class="edit-modal" id="editModal">
+    <div class="edit-modal-content">
+        <div class="edit-modal-header">
+            <h3><i class="fas fa-user-edit" style="color:#0891b2;"></i> Редактиране на профил</h3>
+            <button class="edit-modal-close" onclick="closeEditModal()">×</button>
+        </div>
+
+        <div class="edit-error" id="editError"></div>
+        <div class="edit-success" id="editSuccess"></div>
+
+
+        <!-- Avatar Upload -->
+        <div class="avatar-upload-wrapper">
+            <div class="avatar-preview" id="editAvatarPreview" onclick="document.getElementById('avatarFileInput').click()">
+                <span id="editAvatarInitial">?</span>
+                <div class="avatar-overlay"><i class="fas fa-camera"></i></div>
+            </div>
+            <input type="file" id="avatarFileInput" accept="image/*" onchange="previewAvatar(event)">
+
+        </div>
+
+        <div class="edit-form-group">
+            <label>Пълно име</label>
+            <input type="text" id="editFullName" placeholder="Иван Иванов">
+        </div>
+
+        <div class="edit-form-group">
+            <label>Телефон</label>
+            <input type="tel" id="editPhone" placeholder="0888 123 456">
+        </div>
+
+        <div class="edit-form-group">
+            <label>Имейл</label>
+            <input type="email" id="editEmail" placeholder="email@example.com">
+        </div>
+
+        <div class="edit-form-actions">
+            <button class="edit-cancel-btn" onclick="closeEditModal()">Отказ</button>
+            <button class="edit-save-btn" onclick="saveProfile()">
+                <i class="fas fa-save"></i> Запази
+            </button>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

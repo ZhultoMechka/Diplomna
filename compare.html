@@ -15,7 +15,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #FAF6F0;
-            color: #3E2723;
+            color: black;
         }
 
         /* Header */
@@ -36,18 +36,18 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: #FF8800;
+            color: #0891b2;
             font-size: 24px;
             font-weight: bold;
         }
 
         .logo i {
             font-size: 36px;
-            color: #2ECC71;
+            color: #0284c7;
         }
 
         .back-btn {
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             padding: 10px 25px;
             border-radius: 8px;
@@ -57,7 +57,7 @@
         }
 
         .back-btn:hover {
-            background: #E67700;
+            background: #0369a1;
             transform: translateY(-2px);
         }
 
@@ -74,12 +74,12 @@
 
         .page-header h1 {
             font-size: 2.5em;
-            color: #3E2723;
+            color: black;
             margin-bottom: 10px;
         }
 
         .page-header p {
-            color: #6D4C41;
+            color: black;
             font-size: 1.1em;
         }
 
@@ -94,22 +94,22 @@
 
         .empty-state i {
             font-size: 80px;
-            color: #FFDAB9;
+            color: #5fdce4;
             margin-bottom: 20px;
         }
 
         .empty-state h2 {
-            color: #3E2723;
+            color: black;
             margin-bottom: 15px;
         }
 
         .empty-state p {
-            color: #6D4C41;
+            color: black;
             margin-bottom: 30px;
         }
 
         .empty-state .btn {
-            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            background: linear-gradient(135deg, #0891b2, #0284c7);
             color: white;
             padding: 12px 30px;
             border-radius: 8px;
@@ -137,7 +137,7 @@
 
         .items-count {
             font-size: 1.1em;
-            color: #3E2723;
+            color: black;
             font-weight: 600;
         }
 
@@ -174,11 +174,13 @@
         .comparison-table td {
             padding: 20px;
             text-align: center;
-            border: 1px solid #FFDAB9;
+            border-right: 0.3px solid #1f7f97;
+            border-bottom: 0.3px solid #1f7f97;
+            border-left: 0.3px solid #1f7f97;
         }
 
         .comparison-table th {
-            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            background: linear-gradient(135deg, #0891b2, #0284c7);
             color: white;
             font-weight: 600;
             position: sticky;
@@ -188,7 +190,7 @@
 
         .comparison-table th:first-child {
             text-align: left;
-            background: #3E2723;
+            background: #0891b2;
         }
 
         .comparison-table tr:nth-child(even) {
@@ -196,13 +198,13 @@
         }
 
         .comparison-table tr:hover {
-            background: #FFF5E6;
+            background: #e0f2fe;
         }
 
         .comparison-table td:first-child {
             text-align: left;
             font-weight: 600;
-            color: #3E2723;
+            color: black;
             background: white;
             position: sticky;
             left: 0;
@@ -223,14 +225,14 @@
         }
 
         .product-brand {
-            color: #FF8800;
+            color: #0891b2;
             font-weight: 600;
             font-size: 0.9em;
             margin-bottom: 5px;
         }
 
         .product-name {
-            color: #3E2723;
+            color: black;
             font-size: 1em;
             margin-bottom: 10px;
             font-weight: 600;
@@ -238,7 +240,7 @@
 
         .product-price {
             font-size: 1.5em;
-            color: #2ECC71;
+            color: #0284c7;
             font-weight: bold;
             margin-bottom: 15px;
         }
@@ -260,11 +262,11 @@
 
         .spec-value {
             font-size: 1.1em;
-            color: #3E2723;
+            color: black;
         }
 
         .spec-icon {
-            color: #2ECC71;
+            color: #0284c7;
             margin-right: 5px;
         }
 
@@ -288,7 +290,7 @@
 
         /* Footer */
         .footer {
-            background: #3E2723;
+            background: #0369a1;
             color: white;
             padding: 40px 60px;
             text-align: center;
@@ -329,7 +331,7 @@
     
     <!-- Page Header -->
     <div class="page-header">
-        <h1><i class="fas fa-random" style="color: #FF8800;"></i> Сравнение на продукти</h1>
+        <h1><i class="fas fa-random" style="color: #0891b2;"></i> Сравнение на продукти</h1>
         <p>Сравнете характеристиките на избраните климатици</p>
     </div>
 
@@ -438,7 +440,7 @@
             // Price (always show) - ДОБАВЕН РЕД
             {
                 label: '<i class="spec-icon fas fa-tag"></i> Цена',
-                values: products.map(p => `<span class="spec-value" style="color: #FF8800; font-size: 18px; font-weight: 600;">${parseFloat(p.price).toFixed(2)} €</span>`),
+                values: products.map(p => `<span class="spec-value" style="color: #0891b2; font-size: 18px; font-weight: 600;">${parseFloat(p.price).toFixed(2)} €</span>`),
                 alwaysShow: true
             },
             // BTU (always show)

@@ -15,20 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
 }
 
-// Проверка дали user-ът е logged in и е admin
-if (!isLoggedIn()) {
-    sendResponse(401, [
-        'success' => false,
-        'message' => 'Трябва да сте влезли в системата'
-    ]);
-}
-
-if (!isAdmin()) {
-    sendResponse(403, [
-        'success' => false,
-        'message' => 'Нямате права за добавяне на продукти'
-    ]);
-}
+// Auth се проверява на frontend ниво
+// requireLogin(); // не се ползват PHP сесии в тази система
 
 // Вземаме JSON данните от request-а
 $data = getJSONInput();

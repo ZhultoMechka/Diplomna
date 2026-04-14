@@ -1256,6 +1256,7 @@
 
 <!-- Reviews JavaScript -->
 <script>
+const REVIEWS_API_URL = 'http://localhost/Diplomna/api';
 let selectedRating = 0;
 
 // Load reviews when page loads
@@ -1302,7 +1303,7 @@ function updateStars(rating) {
 async function loadReviews() {
     try {
         const productId = new URLSearchParams(window.location.search).get('id');
-        const response = await fetch(`${API_URL}/reviews/get_by_product.php?product_id=${productId}`);
+        const response = await fetch(`${REVIEWS_API_URL}/reviews/get_by_product.php?product_id=${productId}`);
         const result = await response.json();
 
         if (result.success) {
@@ -1388,8 +1389,15 @@ function displayReviews(reviews) {
 
 function generateStars(rating) {
     let stars = '';
+    const rounded = Math.round(rating);   // закръгляме за цели звезди
     for (let i = 1; i <= 5; i++) {
-        stars += `<i class="fas fa-star${i <= rating ? '' : '-o'}" style="color: ${i <= rating ? '#fbbf24' : '#e5e7eb'}"></i>`;
+        if (i <= rounded) {
+            // Пълна звезда — Font Awesome 6: fas fa-star
+            stars += `<i class="fas fa-star" style="color:#fbbf24;"></i>`;
+        } else {
+            // Празна звезда — Font Awesome 6: far fa-star (НЕ fa-star-o!)
+            stars += `<i class="far fa-star" style="color:#e5e7eb;"></i>`;
+        }
     }
     return stars;
 }
@@ -1430,7 +1438,7 @@ async function submitReview(e) {
     };
 
     try {
-        const response = await fetch(`${API_URL}/reviews/create.php`, {
+        const response = await fetch(`${REVIEWS_API_URL}/reviews/create.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -1439,7 +1447,7 @@ async function submitReview(e) {
         const result = await response.json();
 
         if (result.success) {
-            alert('✅ Благодарим за отзива!');
+            alert('✅ Благодарим за отзива!\n\nПреди да бъде публикуван, отзивът ще бъде прегледан от наш техник.');
             closeReviewModal();
             loadReviews(); // Reload reviews
         } else {

@@ -340,6 +340,13 @@
             font-size: 15px;
         }
 
+        /* ДДС ред */
+        .summary-row.vat-row .summary-label,
+        .summary-row.vat-row .summary-value {
+            color: #0369a1;
+            font-style: italic;
+        }
+
         .summary-total {
             margin-top: 20px;
             padding-top: 20px;
@@ -398,7 +405,8 @@
             background: #dc2626;
         }
 
-        /* Responsive */
+
+                /* Responsive */
         @media (max-width: 968px) {
             .container {
                 grid-template-columns: 1fr;
@@ -480,6 +488,7 @@
 
     <!-- Summary -->
     <div class="summary-section">
+
         <h3>Обобщение</h3>
         
         <div class="summary-row">
@@ -492,8 +501,19 @@
             <span class="summary-value" id="servicesTotal">0.00 €</span>
         </div>
 
+        <div class="summary-row">
+            <span class="summary-label">Междинна сума:</span>
+            <span class="summary-value" id="subtotalBeforeVAT">0.00 €</span>
+        </div>
+
+        <!-- ДДС ред — добавен -->
+        <div class="summary-row vat-row">
+            <span class="summary-label"><i class="fas fa-info-circle"></i> ДДС (20%):</span>
+            <span class="summary-value" id="vatAmount">0.00 €</span>
+        </div>
+
         <div class="summary-row summary-total">
-            <span class="summary-label">Обща сума:</span>
+            <span class="summary-label">Обща сума с ДДС:</span>
             <span class="summary-value" id="totalPrice">0.00 €</span>
         </div>
 
@@ -587,7 +607,9 @@
         updateSummary();
     }
 
-    // Update summary
+    // ============================================
+    // Автоматично изчисление на суми с ДДС 20%
+    // ============================================
     function updateSummary() {
         const cart = CartManager.getCart();
         
@@ -599,12 +621,15 @@
             servicesTotal += item.servicesPrice * item.quantity;
         });
 
-        const total = subtotal + servicesTotal;
+        const vat = subtotal * 0.20;                        // ДДС само върху продуктите
+        const totalWithVAT = subtotal + vat + servicesTotal; // Услугите без ДДС
 
-        document.getElementById('itemCount').textContent = CartManager.getTotalItems();
-        document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' €';
-        document.getElementById('servicesTotal').textContent = servicesTotal.toFixed(2) + ' €';
-        document.getElementById('totalPrice').textContent = total.toFixed(2) + ' €';
+        document.getElementById('itemCount').textContent         = CartManager.getTotalItems();
+        document.getElementById('subtotal').textContent          = subtotal.toFixed(2) + ' €';
+        document.getElementById('servicesTotal').textContent     = servicesTotal.toFixed(2) + ' €';
+        document.getElementById('subtotalBeforeVAT').textContent = (subtotal + servicesTotal).toFixed(2) + ' €';
+        document.getElementById('vatAmount').textContent         = vat.toFixed(2) + ' €';
+        document.getElementById('totalPrice').textContent        = totalWithVAT.toFixed(2) + ' €';
     }
 
     // Change quantity

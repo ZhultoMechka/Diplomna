@@ -15,7 +15,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #FAF6F0;
-            color: #3E2723;
+            color: black;
         }
 
         /* Header */
@@ -36,18 +36,18 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: #FF8800;
+            color: #0891b2;
             font-size: 24px;
             font-weight: bold;
         }
 
         .logo i {
             font-size: 36px;
-            color: #2ECC71;
+            color: #0284c7;
         }
 
         .back-btn {
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             padding: 10px 25px;
             border-radius: 8px;
@@ -57,13 +57,13 @@
         }
 
         .back-btn:hover {
-            background: #E67700;
+            background: #0369a1;
             transform: translateY(-2px);
         }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            background: linear-gradient(135deg, #198dcc 0%, #127799 100%);
             color: white;
             padding: 60px 60px;
             text-align: center;
@@ -96,7 +96,7 @@
 
         .form-section h2 {
             font-size: 2em;
-            color: #3E2723;
+            color: black;
             margin-bottom: 30px;
             text-align: center;
         }
@@ -108,12 +108,12 @@
         .form-group label {
             display: block;
             font-weight: 600;
-            color: #3E2723;
+            color: black;
             margin-bottom: 8px;
         }
 
         .form-group label .required {
-            color: #E74C3C;
+            color: #0369a1;
         }
 
         .form-group input,
@@ -121,7 +121,7 @@
         .form-group textarea {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #FFDAB9;
+            border: 1px solid black;
             border-radius: 8px;
             font-size: 15px;
             transition: all 0.3s;
@@ -131,8 +131,8 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #FF8800;
-            box-shadow: 0 0 0 3px rgba(255, 136, 0, 0.1);
+            border-color: #0891b2;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
 
         .form-group textarea {
@@ -148,7 +148,7 @@
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            background: linear-gradient(135deg, #0891b2, #0284c7);
             color: white;
             padding: 15px;
             border: none;
@@ -162,7 +162,7 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .submit-btn:disabled {
@@ -172,15 +172,15 @@
 
         /* Info Boxes */
         .info-box {
-            background: #FFF5E6;
-            border-left: 4px solid #FF8800;
+            background: #e0f2fe;
+            border-left: 4px solid #0891b2;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 30px;
         }
 
         .info-box h3 {
-            color: #FF8800;
+            color: #0891b2;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -197,18 +197,18 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #6D4C41;
+            color: black;
         }
 
         .info-box ul li i {
-            color: #2ECC71;
+            color: #0284c7;
         }
 
         /* Success Message */
         .success-message {
             display: none;
             background: #d4edda;
-            border: 2px solid #2ECC71;
+            border: 2px solid #0284c7;
             color: #155724;
             padding: 20px;
             border-radius: 8px;
@@ -222,7 +222,7 @@
 
         .success-message i {
             font-size: 48px;
-            color: #2ECC71;
+            color: #0284c7;
             margin-bottom: 10px;
         }
 
@@ -243,7 +243,7 @@
 
         /* Footer */
         .footer {
-            background: #3E2723;
+            background: #015d8f;
             color: white;
             padding: 40px 60px;
             text-align: center;
@@ -404,15 +404,34 @@
     // Service type mapping
     // NOTE: Update these IDs based on your database services table
     const SERVICE_TYPE_MAP = {
-        'repair': 6,              // Ремонт
-        'maintenance': 7,          // Профилактика  
-        'repair_maintenance': 5    // Ремонт и профилактика
+        'repair': 5,              // Ремонт
+        'maintenance': 6,         // Профилактика
+        'repair_maintenance': 5   // Ремонт и профилактика (използваме Ремонт)
     };
 
     // Set minimum date to today
     const dateInput = document.getElementById('preferredDate');
     const today = new Date().toISOString().split('T')[0];
     dateInput.setAttribute('min', today);
+
+    // Автоматично попълване на данните ако е логнат
+    const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+    if (currentUser) {
+        if (currentUser.full_name) {
+            document.getElementById('fullName').value = currentUser.full_name;
+        }
+        if (currentUser.phone) {
+            document.getElementById('phone').value = currentUser.phone;
+        }
+        // Ако имаме адрес от профила
+        if (currentUser.address) {
+            document.getElementById('address').value = currentUser.address;
+        }
+        if (currentUser.city) {
+            document.getElementById('city').value = currentUser.city;
+        }
+    }
+
 
     // Submit repair request
     async function submitRepairRequest(e) {
@@ -443,13 +462,16 @@
         }
         
         const formData = {
+            user_id: currentUser ? currentUser.user_id : null,
             service_id: serviceId,
             contact_phone: document.getElementById('phone').value,
             address: document.getElementById('address').value,
             city: document.getElementById('city').value,
             description: document.getElementById('description').value,
             preferred_date: document.getElementById('preferredDate').value || null,
-            preferred_time: document.getElementById('preferredTime').value || null,
+            preferred_time: document.getElementById('preferredTime').value 
+                ? document.getElementById('preferredTime').value.split('-')[0].trim()
+                : null,
             full_name: document.getElementById('fullName').value
         };
 

@@ -48,7 +48,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: #FF8800;
+            color: #0891b2;
             font-size: 24px;
             font-weight: bold;
         }
@@ -69,7 +69,7 @@
         }
 
         .search-bar:focus-within {
-            border-color: #FF8800;
+            border-color: #0891b2;
         }
 
         .search-bar input {
@@ -81,7 +81,7 @@
         }
 
         .search-bar button {
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             border: none;
             padding: 0 25px;
@@ -90,7 +90,7 @@
         }
 
         .search-bar button:hover {
-            background: #E67700;
+            background: #0369a1;
         }
 
         .contact-phone {
@@ -103,13 +103,13 @@
 
         .contact-phone i {
             font-size: 28px;
-            color: #FF8800;
+            color: #0891b2;
         }
 
         .phone-number {
             font-weight: bold;
             font-size: 20px;
-            color: #FF8800;
+            color: #0891b2;
         }
 
         .contact-phone small {
@@ -121,7 +121,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
             padding: 0 60px;
             position: relative;
         }
@@ -199,8 +199,8 @@
         }
 
         .dropdown a:hover {
-            background: #FFF5E6;
-            color: #FF8800;
+            background: #e0f2fe;
+            color: #0891b2;
             padding-left: 25px;
         }
 
@@ -266,7 +266,7 @@
 
         .cta-btn {
             background: white;
-            color: #FF8800;
+            color: #0891b2;
             border: none;
             padding: 15px 40px;
             border-radius: 50px;
@@ -278,7 +278,7 @@
         }
 
         .cta-btn:hover {
-            background: #FF8800;
+            background: #0891b2;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
@@ -317,12 +317,12 @@
         .service-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(8,145,178,0.2);
-            border-color: #FF8800;
+            border-color: #0891b2;
         }
 
         .service-card i {
             font-size: 50px;
-            color: #FF8800;
+            color: #0891b2;
             margin-bottom: 20px;
         }
 
@@ -375,7 +375,7 @@
 
         .cat-image {
             height: 250px;
-            background: linear-gradient(135deg, #FF8800, #2ECC71);
+            background: linear-gradient(135deg, #0891b2, #0284c7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -399,7 +399,7 @@
         }
 
         .view-all-btn button {
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
             color: white;
             border: none;
             padding: 15px 50px;
@@ -416,9 +416,9 @@
             box-shadow: 0 6px 20px rgba(8,145,178,0.5);
         }
 
-        /* FOOTER */
+                /* FOOTER */
         .footer {
-            background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+            background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
             color: white;
             padding: 40px 60px;
         }
@@ -568,6 +568,129 @@
                 gap: 30px;
             }
         }
+
+        /* BRANDS CAROUSEL */
+        .brands-carousel-wrapper {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .brands-carousel {
+            display: flex;
+            gap: 0;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .brand-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .brand-slide:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .brand-slide-image {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .brand-slide-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        .brand-slide-image .brand-placeholder {
+            font-size: 60px;
+            color: #0891b2;
+        }
+
+        .brand-slide-name {
+            padding: 16px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 46px;
+            height: 46px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #0891b2;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-arrow:hover {
+            background: #0891b2;
+            color: white;
+            box-shadow: 0 6px 20px rgba(8,145,178,0.4);
+        }
+
+        .carousel-arrow.prev { left: 5px; }
+        .carousel-arrow.next { right: 5px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .carousel-dot.active {
+            background: #0891b2;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 968px) {
+            .brand-slide { flex: 0 0 calc(50% - 10px); }
+            .brands-carousel-wrapper { padding: 0 40px; }
+        }
+
+        @media (max-width: 580px) {
+            .brand-slide { flex: 0 0 100%; }
+        }
     </style>
 </head>
 <body>
@@ -624,8 +747,7 @@
                     <li><a href="repair.html">Ремонт и профилактика</a></li>
                 </ul>
             </li>
-            <li><a href="#promotions">Промоции</a></li>
-            <li><a href="#contact">Контакти</a></li>
+                        <li><a href="#contact">Контакти</a></li>
         </ul>
 
         <div class="nav-icons">
@@ -684,23 +806,90 @@
 </section>
 
 <!-- CATEGORIES -->
-<section class="categories">
+<section class="categories" id="brands-section">
     <h2>Нашите продукти</h2>
-    <div class="category-grid">
-        <a href="products.html" class="cat">
-            <div class="cat-image">
-                <i class="fas fa-wind"></i>
-            </div>
-            <h3>Климатици</h3>
-        </a>
+
+    <div class="brands-carousel-wrapper">
+        <button class="carousel-arrow prev" onclick="carouselPrev()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="brands-carousel" id="brandsCarousel">
+            <a href="products.html?brand=Panasonic" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/panasonic.jpg" 
+                         alt="Panasonic"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">Panasonic</div>
+            </a>
+
+            <a href="products.html?brand=Daikin" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/daikin.jpg"
+                         alt="Daikin"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">Daikin</div>
+            </a>
+
+            <a href="products.html?brand=Mitsubishi" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/mitsubishi.jpg"
+                         alt="Mitsubishi"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">Mitsubishi Electric</div>
+            </a>
+
+            <a href="products.html?brand=Bosch" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/bosch.jpg"
+                         alt="Bosch"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">Bosch</div>
+            </a>
+
+            <a href="products.html?brand=LG" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/lg.jpg"
+                         alt="LG"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">LG</div>
+            </a>
+
+            <a href="products.html?brand=Gree" class="brand-slide">
+                <div class="brand-slide-image">
+                    <img src="assets/images/brands/gree.jpg"
+                         alt="Gree"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="brand-placeholder" style="display:none;"><i class="fas fa-wind"></i></div>
+                </div>
+                <div class="brand-slide-name">Gree</div>
+            </a>
+        </div>
+
+        <button class="carousel-arrow next" onclick="carouselNext()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
-    
-    <div class="view-all-btn">
+
+    <div class="carousel-dots" id="carouselDots"></div>
+
+    <div class="view-all-btn" style="margin-top:35px;">
         <button onclick="window.location.href='products.html'">
             <i class="fas fa-th"></i> Виж всички продукти
         </button>
     </div>
 </section>
+
 
 <!-- FOOTER -->
 <footer class="footer" id="contact">
@@ -915,7 +1104,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+    background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
     color: white;
     border: none;
     box-shadow: 0 4px 20px rgba(255, 136, 0, 0.4);
@@ -979,7 +1168,7 @@
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+    background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
     color: white;
     padding: 20px;
     display: flex;
@@ -1002,7 +1191,7 @@
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    color: #FF8800;
+    color: #0891b2;
 }
 
 .chat-header-text h3 {
@@ -1061,7 +1250,7 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+    background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1079,7 +1268,7 @@
 }
 
 .chat-message.sent .message-bubble {
-    background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+    background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
     color: white;
 }
 
@@ -1149,14 +1338,14 @@
 }
 
 .chat-input input:focus {
-    border-color: #FF8800;
+    border-color: #0891b2;
 }
 
 .chat-send-btn {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF8800 0%, #2ECC71 100%);
+    background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
     border: none;
     color: white;
     cursor: pointer;
@@ -1182,7 +1371,7 @@
     background: rgba(255, 136, 0, 0.1);
     border-radius: 10px;
     font-size: 13px;
-    color: #FF8800;
+    color: #0891b2;
 }
 
 @media (max-width: 480px) {
@@ -1209,7 +1398,7 @@
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
-    background: #FF8800;
+    background: #0891b2;
     border-radius: 3px;
 }
 </style>
@@ -1472,6 +1661,53 @@
         if (pollInterval) clearInterval(pollInterval);
     });
 })();
+
+    // BRANDS CAROUSEL
+    var _brandIdx = 0;
+
+    function _showBrand(idx) {
+        var slides = document.querySelectorAll('.brand-slide');
+        var dots   = document.querySelectorAll('.carousel-dot');
+        if (!slides.length) return;
+        _brandIdx = (idx + slides.length) % slides.length;
+        slides.forEach(function(s, i) {
+            s.style.display = i === _brandIdx ? 'block' : 'none';
+        });
+        dots.forEach(function(d, i) {
+            d.classList.toggle('active', i === _brandIdx);
+        });
+    }
+
+    function carouselNext() { _showBrand(_brandIdx + 1); _resetBrandTimer(); }
+    function carouselPrev() { _showBrand(_brandIdx - 1); _resetBrandTimer(); }
+
+    var _brandTimer = null;
+    function _resetBrandTimer() {
+        clearInterval(_brandTimer);
+        _brandTimer = setInterval(function() { _showBrand(_brandIdx + 1); }, 3500);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        var slides = document.querySelectorAll('.brand-slide');
+        var dotsEl = document.getElementById('carouselDots');
+        if (!slides.length || !dotsEl) return;
+
+        slides.forEach(function(s, i) {
+            s.style.display = i === 0 ? 'block' : 'none';
+        });
+
+        dotsEl.innerHTML = '';
+        slides.forEach(function(s, i) {
+            var d = document.createElement('button');
+            d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            d.onclick = (function(idx){ return function(){ _showBrand(idx); _resetBrandTimer(); }; })(i);
+            dotsEl.appendChild(d);
+        });
+
+        _resetBrandTimer();
+    });
+
+
 </script>
 
 <!-- ============================================ -->
