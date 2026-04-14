@@ -949,7 +949,9 @@
                         <div class="order-total">
                             ${formatEUR(parseFloat(order.total_amount))}
                         </div>
-                        
+                        <button class="view-details-btn" onclick="viewOrder(${order.order_id})">
+                            <i class="fas fa-eye"></i> Детайли
+                        </button>
                     </div>
                 </div>
             `;
@@ -1171,6 +1173,7 @@
     function logout() {
         if (confirm('Сигурни ли сте, че искате да излезете?')) {
             localStorage.removeItem('user');
+            localStorage.removeItem('klimatici_cart');
             window.location.href = 'login.html';
         }
     }
