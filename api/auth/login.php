@@ -99,7 +99,7 @@ try {
     $additional_info = null;
     if ($user['user_type'] === 'client') {
         $stmt = $conn->prepare("
-            SELECT delivery_address, city, postal_code, company_name 
+            SELECT receive_promotions 
             FROM clients 
             WHERE user_id = :user_id
         ");
@@ -112,7 +112,7 @@ try {
     // Ако е служител, вземаме служителската информация
     elseif ($user['user_type'] === 'employee' || $user['user_type'] === 'admin') {
         $stmt = $conn->prepare("
-            SELECT position, specialization, rating 
+            SELECT position, rating 
             FROM employees 
             WHERE user_id = :user_id
         ");

@@ -71,7 +71,6 @@ try {
         INSERT INTO service_requests (
             user_id,
             service_id,
-            product_id,
             address,
             city,
             contact_phone,
@@ -83,7 +82,6 @@ try {
         ) VALUES (
             :user_id,
             :service_id,
-            :product_id,
             :address,
             :city,
             :contact_phone,
@@ -99,7 +97,6 @@ try {
     $stmt->execute([
         ':user_id' => $user_id,
         ':service_id' => $service_id,
-        ':product_id' => $product_id,
         ':address' => $address,
         ':city' => $city,
         ':contact_phone' => $contact_phone,

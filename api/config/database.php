@@ -1,8 +1,5 @@
 <?php
-// ============================================
-// DATABASE CONNECTION CLASS
-// ============================================
-// File: api/config/database.php
+
 // Purpose: Database connection and configuration
 
 class Database {
@@ -10,7 +7,7 @@ class Database {
     private $host = "localhost";
     private $db_name = "klimatici_db";  // ВАЖНО: klimatici_db (не klimatici)
     private $username = "root";
-    private $password = "qwe123";  // Твоята MySQL парола (ако имаш)
+    private $password = "qwe123";  //MySQL парола (ако имате)
     private $charset = "utf8mb4";
     
     public $conn;

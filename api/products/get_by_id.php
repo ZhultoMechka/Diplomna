@@ -62,22 +62,9 @@ try {
         ]);
     }
     
-    // Вземаме допълнителни снимки на продукта (ако има)
-    $sql_images = "
-        SELECT image_url, is_primary
-        FROM product_images
-        WHERE product_id = :product_id
-        ORDER BY is_primary DESC
-    ";
-    
-    $stmt_images = $conn->prepare($sql_images);
-    $stmt_images->bindValue(':product_id', $product_id, PDO::PARAM_INT);
-    $stmt_images->execute();
-    
-    $images = $stmt_images->fetchAll();
-    
-    // Ако няма снимки в product_images таблицата, използваме main_image_url
-    if (empty($images) && !empty($product['main_image_url'])) {
+    // Използваме main_image_url от products таблицата
+    $images = [];
+    if (!empty($product['main_image_url'])) {
         $images = [
             [
                 'image_url' => $product['main_image_url'],
