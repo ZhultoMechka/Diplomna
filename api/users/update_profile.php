@@ -1,7 +1,6 @@
 <?php
 // ============================================
 // update_profile.php - Обновяване на профил
-// POST: api/users/update_profile.php
 // ============================================
 
 require_once '../config.php';
@@ -36,7 +35,6 @@ try {
     }
 
     {
-        // Без смяна на парола
         $stmt = $conn->prepare("
             UPDATE users 
             SET full_name = :full_name,

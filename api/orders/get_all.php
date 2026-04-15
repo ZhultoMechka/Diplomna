@@ -1,16 +1,9 @@
 <?php
 // ============================================
 // get_all.php - Всички поръчки
-// GET: api/orders/get_all.php
 // ============================================
 
 require_once '../config.php';
-
-// Проверка дали е admin (по-късно)
-// requireLogin();
-// if ($_SESSION['user_type'] !== 'admin') {
-//     sendResponse(403, ['success' => false, 'message' => 'Нямате права']);
-// }
 
 try {
     $conn = getDBConnection();
@@ -43,7 +36,7 @@ try {
 
     // За всяка поръчка вземаме продуктите и услугите
     foreach ($orders as &$order) {
-        // Продукти - ПРАВИЛНИ КОЛОНИ!
+        // Продукти
         $sql_items = "
             SELECT 
                 oi.quantity,
@@ -76,7 +69,7 @@ try {
         $stmt_services->execute([':order_id' => $order['order_id']]);
         $order['services'] = $stmt_services->fetchAll();
 
-        // Плащане - ПРАВИЛНИ КОЛОНИ!
+        // Плащане
         $sql_payment = "
             SELECT payment_method, payment_status
             FROM payments

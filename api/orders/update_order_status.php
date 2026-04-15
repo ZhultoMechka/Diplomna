@@ -1,8 +1,6 @@
 <?php
 // ============================================
 // update_order_status.php - Simple Status Update
-// POST: api/orders/update_order_status.php
-// For technician dashboard
 // ============================================
 
 require_once '../config.php';
@@ -20,7 +18,7 @@ if (!$data) {
     sendResponse(400, ['success' => false, 'message' => 'Невалидни данни']);
 }
 
-// Check required fields
+// проверка на задължителните полета
 if (empty($data['order_id'])) {
     sendResponse(400, ['success' => false, 'message' => 'Липсва order_id']);
 }
@@ -32,7 +30,7 @@ if (empty($data['order_status'])) {
 $order_id = intval($data['order_id']);
 $new_status = $data['order_status'];
 
-// Validate status
+// валидиране на статуса
 $allowed_statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
 if (!in_array($new_status, $allowed_statuses)) {
     sendResponse(400, ['success' => false, 'message' => 'Невалиден статус']);
@@ -41,7 +39,7 @@ if (!in_array($new_status, $allowed_statuses)) {
 try {
     $conn = getDBConnection();
 
-    // Update order status
+    // Актуализиране на статуса на поръчката
     $sql = "UPDATE orders SET order_status = :order_status WHERE order_id = :order_id";
     $stmt = $conn->prepare($sql);
     $stmt->execute([

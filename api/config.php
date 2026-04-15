@@ -155,7 +155,7 @@ function isEmployee() {
 
 // ============================================
 // DEBUG MODE
-// Постави на false когато deploy-ваш на production
+// Постави на false когато на production
 // ============================================
 define('DEBUG_MODE', true);
 

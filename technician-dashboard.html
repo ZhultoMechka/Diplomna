@@ -1441,11 +1441,11 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64 = e.target.result;
-            // Показваме preview
+            // Показва preview
             const preview = document.getElementById('editAvatarPreview');
             preview.innerHTML = `<img src="${base64}" alt="Аватар"><div class="avatar-overlay"><i class="fas fa-camera"></i></div>`;
 
-            // Запазваме временно
+            // Запазва временно
             window._pendingAvatar = base64;
         };
         reader.readAsDataURL(file);
@@ -1467,7 +1467,7 @@
     }
 
     function applyAvatarToUI(avatarBase64, fullName) {
-        // Обновяваме главния аватар на страницата
+        // Обновява главния аватар на страницата
         const mainAvatar = document.getElementById('techAvatar');
         if (!mainAvatar) return;
 
@@ -1558,7 +1558,7 @@
                 localStorage.setItem('user', JSON.stringify(user));
                 applyAvatarToUI(user.avatar, fullName);
 
-                // Обновяваме аватара и името в хедъра
+                // Обновява аватара и името в хедъра
                 document.getElementById('techName').textContent   = fullName;
                 document.getElementById('techAvatar').textContent = fullName.charAt(0).toUpperCase();
 
@@ -1590,7 +1590,6 @@
             return;
         }
 
-        // Optional: Show warning if not technician, but allow access
         if (user.user_type !== 'technician' && user.user_type !== 'employee' && user.user_type !== 'employee' && user.user_type !== 'admin') {
             console.warn('User is not a technician, but allowing access for testing');
         }

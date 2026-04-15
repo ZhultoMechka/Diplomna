@@ -1,6 +1,6 @@
 // ============================================
 // CURRENCY CONVERTER
-// Converts all prices from BGN to EUR
+// в момента мисля че не се използва!!!!
 // ============================================
 
 const CURRENCY_CONFIG = {
@@ -9,20 +9,16 @@ const CURRENCY_CONFIG = {
     locale: 'bg-BG'
 };
 
-// Convert BGN to EUR
 function convertToEUR(bgnAmount) {
     return bgnAmount / CURRENCY_CONFIG.exchangeRate;
 }
 
-// Format EUR price
 function formatEUR(amount) {
     const eurAmount = convertToEUR(amount);
     return eurAmount.toFixed(2) + ' ' + CURRENCY_CONFIG.symbol;
 }
 
-// Convert all prices on page
 function convertAllPrices() {
-    // Find all elements with "лв" or price classes
     const priceElements = document.querySelectorAll(
         '.product-price, .price, [id*="price"], [id*="Price"], ' +
         '.total-price, .service-price, .add-to-cart-btn, ' +
@@ -44,7 +40,6 @@ function convertAllPrices() {
         }
     });
     
-    // Also convert prices in data attributes
     const elementsWithDataPrice = document.querySelectorAll('[data-price]');
     elementsWithDataPrice.forEach(element => {
         const bgnPrice = parseFloat(element.dataset.price);
@@ -55,16 +50,13 @@ function convertAllPrices() {
     });
 }
 
-// Override price display functions
 const originalToFixed = Number.prototype.toFixed;
 
-// Helper to convert price when displaying
 function displayPrice(bgnPrice) {
     const eurPrice = convertToEUR(parseFloat(bgnPrice));
     return eurPrice.toFixed(2) + ' €';
 }
 
-// Auto-convert on page load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(convertAllPrices, 100); // Small delay to ensure content is loaded
@@ -77,7 +69,6 @@ if (document.readyState === 'loading') {
     setTimeout(convertAllPrices, 500);
 }
 
-// Watch for changes and re-convert
 const observer = new MutationObserver((mutations) => {
     let shouldConvert = false;
     
@@ -98,7 +89,6 @@ const observer = new MutationObserver((mutations) => {
     }
 });
 
-// Start observing
 observer.observe(document.body, {
     childList: true,
     subtree: true,
@@ -106,12 +96,10 @@ observer.observe(document.body, {
     characterDataOldValue: true
 });
 
-// Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { convertToEUR, formatEUR, displayPrice };
 }
 
-// Global helpers
 window.convertToEUR = convertToEUR;
 window.formatEUR = formatEUR;
 window.displayPrice = displayPrice;

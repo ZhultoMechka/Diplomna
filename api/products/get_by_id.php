@@ -1,12 +1,11 @@
 <?php
 // ============================================
 // get_by_id.php - Вземане на един продукт по ID
-// GET: api/products/get_by_id.php?id=5
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само GET заявки
+// Приема само GET заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     sendResponse(405, [
         'success' => false,
@@ -38,7 +37,7 @@ if ($product_id <= 0) {
 try {
     $conn = getDBConnection();
     
-    // Вземаме детайлите на продукта
+    // Взема детайлите на продукта
     $sql = "
         SELECT 
             p.*,
@@ -62,7 +61,7 @@ try {
         ]);
     }
     
-    // Използваме main_image_url от products таблицата
+    // Използва main_image_url от products таблицата
     $images = [];
     if (!empty($product['main_image_url'])) {
         $images = [
@@ -73,10 +72,10 @@ try {
         ];
     }
     
-    // Добавяме снимките към продукта
+    // Добавя снимките към продукта
     $product['images'] = $images;
     
-    // Вземаме свързани продукти (същата марка, същ BTU диапазон)
+    // Взема свързани продукти (същата марка, същ BTU диапазон)
     $sql_related = "
         SELECT 
             p.product_id,
@@ -107,10 +106,10 @@ try {
     
     $related_products = $stmt_related->fetchAll();
     
-    // Добавяме свързаните продукти
+    // Добавя свързаните продукти
     $product['related_products'] = $related_products;
     
-    // Форматираме отговора
+    // Форматира отговора
     sendResponse(200, [
         'success' => true,
         'product' => $product

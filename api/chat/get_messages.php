@@ -2,9 +2,7 @@
 // ============================================
 // GET MESSAGES API
 // ============================================
-// Endpoint: api/chat/get_messages.php
-// Method: GET
-// Params: order_id, [after_id], [user_id]
+
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -12,7 +10,7 @@ header('Access-Control-Allow-Origin: *');
 require_once '../config/database.php';
 
 try {
-    // Get parameters
+    // взимат се параметрите
     if (!isset($_GET['order_id'])) {
         throw new Exception('Missing required parameter: order_id');
     }
@@ -21,11 +19,11 @@ try {
     $after_id = isset($_GET['after_id']) ? intval($_GET['after_id']) : 0;
     $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
     
-    // Connect to database
+    // Връзна с базата данни
     $database = new Database();
     $db = $database->getConnection();
     
-    // Get messages
+    // Взима съобщенията
     $query = "
         SELECT 
             m.message_id,
@@ -47,7 +45,7 @@ try {
     $stmt->execute([$order_id, $after_id]);
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Get unread count for this user
+    // Бройка непрочетени съобщения за user_id 
     $unread_count = 0;
     if ($user_id) {
         $unread_query = "
@@ -62,7 +60,7 @@ try {
         $unread_result = $unread_stmt->fetch(PDO::FETCH_ASSOC);
         $unread_count = intval($unread_result['unread_count']);
         
-        // Mark messages as read (messages not sent by current user)
+        // маркираме тези съобщения като прочетени
         $mark_read = $db->prepare("
             UPDATE chat_messages 
             SET is_read = 1 
@@ -73,7 +71,7 @@ try {
         $mark_read->execute([$order_id, $user_id]);
     }
     
-    // Return messages
+    // връща съобщенията
     echo json_encode([
         'success' => true,
         'messages' => $messages,

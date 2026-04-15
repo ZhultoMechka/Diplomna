@@ -1,8 +1,4 @@
 <?php
-// ============================================
-// add-technician-DEBUG.php - Debug Version
-// POST: api/admin/add-technician-DEBUG.php
-// ============================================
 
 session_start();
 header('Content-Type: application/json');

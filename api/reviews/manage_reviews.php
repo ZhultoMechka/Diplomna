@@ -1,13 +1,11 @@
 <?php
 // ============================================
 // manage_reviews.php - Управление на отзиви
-// GET:  api/reviews/manage_reviews.php          → всички чакащи одобрение
-// POST: api/reviews/manage_reviews.php          → одобри / отхвърли отзив
 // ============================================
 
 require_once '../config.php';
 
-// ---- GET: Вземи всички неодобрени отзиви ----
+//GET: Вземи всички неодобрени отзиви
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $conn = getDBConnection();
@@ -42,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
-// ---- POST: Одобри или отхвърли отзив ----
+//POST: Одобри или отхвърли отзив
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
 

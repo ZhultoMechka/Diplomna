@@ -1786,12 +1786,12 @@ async function submitReview(e) {
             totalPrice: totalPrice.toFixed(2) + ' €'
         });
 
-        // Обновяваме display
+        // Обновява display
         document.getElementById('productPriceCalc').textContent = productPrice.toFixed(2) + ' €';
         document.getElementById('servicesPriceCalc').textContent = servicesPrice.toFixed(2) + ' €';
         document.getElementById('totalPrice').textContent = totalPrice.toFixed(2) + ' €';
 
-        // Показваме/скриваме ред за услуги
+        // Показва/скрива ред за услуги
         const servicesRow = document.getElementById('servicesRow');
         if (selectedServices.length > 0) {
             servicesRow.style.display = 'flex';
@@ -1800,7 +1800,7 @@ async function submitReview(e) {
             servicesRow.style.display = 'none';
         }
 
-        // Обновяваме tooltip с разбивка (показва се в бележка под услугите)
+        // Обновява tooltip с разбивка (показва се в бележка под услугите)
         updateServicesBreakdown(serviceDetails, quantity);
     }
 
@@ -1906,8 +1906,6 @@ async function submitReview(e) {
         `).join('');
     }
     
-    // ============================================
-    // FAVORITES & COMPARE FUNCTIONS
     // ============================================
     // FAVORITES & COMPARE FUNCTIONS
     // ============================================

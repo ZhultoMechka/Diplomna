@@ -1,8 +1,4 @@
 <?php
-// ============================================
-// get-technicians-DEBUG.php - Debug Version
-// GET: api/admin/get-technicians-DEBUG.php
-// ============================================
 
 session_start();
 header('Content-Type: application/json');

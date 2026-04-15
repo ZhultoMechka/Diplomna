@@ -1,8 +1,4 @@
 <?php
-// ============================================
-// delete-technician.php - Изтриване на техник (САМО ADMIN)
-// DELETE: api/admin/delete-technician.php?user_id=X
-// ============================================
 
 require_once '../config.php';
 
@@ -38,7 +34,7 @@ if ($user_id <= 0) {
     ]);
 }
 
-// Защита: не може да изтриеш самия себе си
+// Защита: не може да изтрием себе си
 if ($user_id == $_SESSION['user_id']) {
     sendResponse(400, [
         'success' => false,

@@ -1,12 +1,11 @@
 <?php
 // ============================================
 // login.php - Влизане в системата
-// POST: api/auth/login.php
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само POST заявки
+// Само POST заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(405, [
         'success' => false,
@@ -51,7 +50,7 @@ if (!validateEmail($email)) {
 try {
     $conn = getDBConnection();
     
-    // Вземаме потребителя по имейл
+    // Потребителя по имейл
     $stmt = $conn->prepare("
         SELECT user_id, email, password, full_name, phone, user_type, is_active 
         FROM users 
@@ -60,7 +59,7 @@ try {
     $stmt->bindParam(':email', $email);
     $stmt->execute();
     
-    // Проверяваме дали потребителят съществува
+    // Проверка дали потребителят съществува
     if ($stmt->rowCount() === 0) {
         sendResponse(401, [
             'success' => false,
@@ -70,7 +69,7 @@ try {
     
     $user = $stmt->fetch();
     
-    // Проверяваме дали акаунтът е активен
+    // Проверка дали акаунтът е активен
     if (!$user['is_active']) {
         sendResponse(403, [
             'success' => false,
@@ -78,7 +77,7 @@ try {
         ]);
     }
     
-    // Проверяваме паролата
+    // Проверка дали паролата е вярна
     if (!password_verify($password, $user['password'])) {
         sendResponse(401, [
             'success' => false,
@@ -87,7 +86,7 @@ try {
     }
     
     // ============================================
-    // УСПЕШНО ВЛИЗАНЕ - СЪЗДАВАМЕ СЕСИЯ
+    // УСПЕШНО ВЛИЗАНЕ - СЪЗДАВА СЕ СЕСИЯ
     // ============================================
     
     $_SESSION['user_id'] = $user['user_id'];
@@ -124,12 +123,8 @@ try {
         }
     }
     
-    // Актуализираме последното влизане (можем да добавим поле last_login в users таблицата)
-    // $stmt = $conn->prepare("UPDATE users SET last_login = NOW() WHERE user_id = :user_id");
-    // $stmt->bindParam(':user_id', $user['user_id']);
-    // $stmt->execute();
     
-    // Връщаме успешен отговор
+    // Връща се успешен отговор
     sendResponse(200, [
         'success' => true,
         'message' => 'Успешно влизане!',

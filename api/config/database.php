@@ -1,9 +1,9 @@
 <?php
 
-// Purpose: Database connection and configuration
+// database.php - Клас за връзка с базата данни
 
 class Database {
-    // Database credentials
+    // базови настройки за връзка с базата данни
     private $host = "localhost";
     private $db_name = "klimatici_db";  // ВАЖНО: klimatici_db (не klimatici)
     private $username = "root";
@@ -20,7 +20,7 @@ class Database {
         $this->conn = null;
         
         try {
-            // Create PDO connection
+            // създаваме DSN (Data Source Name) за PDO връзката
             $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=" . $this->charset;
             
             $this->conn = new PDO(
@@ -29,7 +29,6 @@ class Database {
                 $this->password
             );
             
-            // Set PDO attributes
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -43,7 +42,7 @@ class Database {
     }
     
     /**
-     * Close database connection
+     * Затваря връзката с базата данни
      */
     public function closeConnection() {
         $this->conn = null;

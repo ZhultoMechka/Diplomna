@@ -2,9 +2,6 @@
 // ============================================
 // SEND MESSAGE API
 // ============================================
-// Endpoint: api/chat/send_message.php
-// Method: POST
-// Body: { order_id, sender_id, message_text }
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -19,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Only accept POST
+// Само POST заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
@@ -27,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    // Get JSON input
+    // вземат се данните от POST заявката
     $input = json_decode(file_get_contents('php://input'), true);
     
-    // Validate input
+    // валидация на входните данни
     if (!isset($input['order_id']) || !isset($input['sender_id']) || !isset($input['message_text'])) {
         throw new Exception('Missing required fields: order_id, sender_id, message_text');
     }
@@ -47,11 +44,11 @@ try {
         throw new Exception('Message too long (max 1000 characters)');
     }
     
-    // Connect to database
+    // връзка с базата данни
     $database = new Database();
     $db = $database->getConnection();
     
-    // Verify that order exists (skip for order_id = 0 which means general inquiry)
+    // Проверка дали order_id съществува (ако е > 0, т.е. не е системно съобщение)
     if ($order_id > 0) {
         $check_order = $db->prepare("SELECT order_id FROM orders WHERE order_id = ?");
         $check_order->execute([$order_id]);
@@ -60,14 +57,14 @@ try {
         }
     }
     
-    // Verify that sender exists
+    // Проверка дали sender_id съществува
     $check_user = $db->prepare("SELECT user_id FROM users WHERE user_id = ?");
     $check_user->execute([$sender_id]);
     if ($check_user->rowCount() === 0) {
         throw new Exception('User not found');
     }
     
-    // Insert message
+    // Вкарване на съобщението в базата данни
     $insert = $db->prepare("
         INSERT INTO chat_messages (order_id, sender_id, message_text, sent_at) 
         VALUES (?, ?, ?, NOW())
@@ -77,7 +74,7 @@ try {
     
     $message_id = $db->lastInsertId();
     
-    // Return success
+    // връща се успех
     echo json_encode([
         'success' => true,
         'message' => 'Message sent successfully',

@@ -1,13 +1,12 @@
 <?php
 // ============================================
 // create_product.php - Създаване на нов продукт
-// POST: api/products/create_product.php
-// САМО ЗА ADMIN!
+// за администраторския панел
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само POST заявки
+// Приема само POST заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(405, [
         'success' => false,
@@ -15,17 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
 }
 
-// Auth се проверява на frontend ниво
-// requireLogin(); // не се ползват PHP сесии в тази система
-
-// Вземаме JSON данните от request-а
+// Взема JSON данните от request-а
 $data = getJSONInput();
 
 // ============================================
 // ВАЛИДАЦИЯ НА ВХОДНИТЕ ДАННИ
 // ============================================
 
-// Проверяваме задължителните полета
+// Проверява задължителните полета
 $required_fields = ['brand_id', 'model_name', 'price', 'btu_power', 'energy_class'];
 $errors = validateRequired($data, $required_fields);
 
@@ -126,10 +122,10 @@ try {
     
     $stmt->execute();
     
-    // Вземаме ID на новосъздадения продукт
+    // Взема ID на новосъздадения продукт
     $product_id = $conn->lastInsertId();
     
-    // Вземаме пълната информация за продукта
+    // Взема пълната информация за продукта
     $stmt = $conn->prepare("
         SELECT p.*, b.brand_name 
         FROM products p 
@@ -140,7 +136,7 @@ try {
     $stmt->execute();
     $product = $stmt->fetch();
     
-    // Връщаме успешен отговор
+    // Връща успешен отговор
     sendResponse(201, [
         'success' => true,
         'message' => 'Продуктът беше добавен успешно!',

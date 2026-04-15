@@ -1,8 +1,6 @@
 <?php
 // ============================================
 // service_requests/create.php - Create Service Request
-// POST: api/service_requests/create.php
-// Creates repair/installation/consultation requests
 // ============================================
 
 require_once '../config.php';
@@ -20,7 +18,7 @@ if (!$data) {
     sendResponse(400, ['success' => false, 'message' => 'Невалидни данни']);
 }
 
-// Validate required fields
+// валидация на задължителните полета
 if (empty($data['service_id'])) {
     sendResponse(400, ['success' => false, 'message' => 'Липсва service_id']);
 }
@@ -51,13 +49,13 @@ $preferred_date = !empty($data['preferred_date']) ? $data['preferred_date'] : nu
 $preferred_time = !empty($data['preferred_time']) ? $data['preferred_time'] : null;
 $full_name = !empty($data['full_name']) ? trim($data['full_name']) : null;
 
-// Get user_id if logged in (optional)
+// вземе user_id от данните, ако е предоставен (за регистрирани потребители)
 $user_id = null;
 if (!empty($data['user_id'])) {
     $user_id = intval($data['user_id']);
 }
 
-// product_id is optional
+// product_id е незадължително поле
 $product_id = null;
 if (!empty($data['product_id'])) {
     $product_id = intval($data['product_id']);

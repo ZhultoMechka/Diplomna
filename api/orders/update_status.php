@@ -1,7 +1,6 @@
 <?php
 // ============================================
 // update_status.php - Промяна на статус на поръчка
-// POST: api/orders/update_status.php
 // ============================================
 
 require_once '../config.php';

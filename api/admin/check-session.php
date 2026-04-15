@@ -1,8 +1,4 @@
 <?php
-// ============================================
-// check-session.php - Session Debug Tool
-// URL: api/admin/check-session.php
-// ============================================
 
 session_start();
 header('Content-Type: application/json');

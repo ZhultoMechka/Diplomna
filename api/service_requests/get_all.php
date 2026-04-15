@@ -1,8 +1,6 @@
 <?php
 // ============================================
 // service_requests/get_all.php - Get All Service Requests
-// GET: api/service_requests/get_all.php
-// Returns all service requests (for technicians/admin)
 // ============================================
 
 require_once '../config.php';

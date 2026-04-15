@@ -5,7 +5,7 @@
 
 class CompareManager {
     constructor() {
-        // Get current user for user-specific storage
+        // вземаме текущия потребител (ако има такъв) и използваме неговото ID за ключа в localStorage
         const user = this.getCurrentUser();
         const userId = user ? user.user_id : 'guest';
         
@@ -18,7 +18,7 @@ class CompareManager {
         this.migrateOldCompare();
     }
     
-    // Get current logged in user
+    //вземане на текущия потребител от localStorage (ако е логнат)
     getCurrentUser() {
         try {
             const userData = localStorage.getItem('user');
@@ -72,14 +72,14 @@ class CompareManager {
         }
     }
 
-    // Add product to compare
+    // добавяне на продукт за сравнение
     addToCompare(product) {
         // Check if already in compare
         if (this.isInCompare(product.product_id)) {
             return { success: false, message: 'Продуктът вече е добавен за сравнение' };
         }
 
-        // Check max limit
+        // проверка за максимален брой продукти
         if (this.compareList.length >= this.maxProducts) {
             return { 
                 success: false, 
@@ -87,7 +87,7 @@ class CompareManager {
             };
         }
 
-        // Add to compare
+        // добавяне на продукта в списъка за сравнение (с всички необходими данни)
         this.compareList.push({
             product_id: product.product_id,
             product_name: product.product_name,
@@ -111,7 +111,7 @@ class CompareManager {
         return { success: true, message: 'Продуктът е добавен за сравнение' };
     }
 
-    // Remove product from compare
+    // махаме продукт от сравнение
     removeFromCompare(productId) {
         const initialLength = this.compareList.length;
         this.compareList = this.compareList.filter(item => item.product_id !== productId);
@@ -123,7 +123,7 @@ class CompareManager {
         return false;
     }
 
-    // Toggle compare
+    //превключваме състоянието на продукта в сравнение (добавяне/премахване)
     toggleCompare(product) {
         if (this.isInCompare(product.product_id)) {
             this.removeFromCompare(product.product_id);
@@ -134,33 +134,33 @@ class CompareManager {
         }
     }
 
-    // Check if product is in compare
+    // проверка дали продуктът е в списъка за сравнение
     isInCompare(productId) {
         return this.compareList.some(item => item.product_id === productId);
     }
 
-    // Get compare list
+    // вземане на текущия списък за сравнение
     getCompareList() {
         return this.compareList;
     }
 
-    // Get compare count
+    //вземане на броя на продуктите в сравнение
     getCount() {
         return this.compareList.length;
     }
 
-    // Check if can add more products
+    // проверка дали може да се добави още продукт за сравнение (до максимум 4)
     canAddMore() {
         return this.compareList.length < this.maxProducts;
     }
 
-    // Clear compare list
+    // изчистване на списъка за сравнение
     clearCompare() {
         this.compareList = [];
         this.saveCompare();
     }
 
-    // Update badge counters in navigation
+    // обновяване на броячите на значки в навигацията
     updateBadges() {
         const badges = document.querySelectorAll('.compare-badge');
         const count = this.getCount();
@@ -171,7 +171,7 @@ class CompareManager {
         });
     }
 
-    // Trigger update event for other components
+    // превключване на състоянието на бутоните за сравнение на страницата
     triggerUpdate() {
         window.dispatchEvent(new CustomEvent('compareUpdated', {
             detail: {
@@ -181,7 +181,7 @@ class CompareManager {
         }));
     }
 
-    // Update compare icons on page
+    // актуализиране на иконите на бутоните за сравнение (оцветяване при добавяне)
     updateCompareIcons() {
         const compareBtns = document.querySelectorAll('.compare-btn');
         compareBtns.forEach(btn => {
@@ -198,10 +198,10 @@ class CompareManager {
     }
 }
 
-// Create global instance
+// създаване на глобален екземпляр на CompareManager
 const Compare = new CompareManager();
 
-// Export for modules (if needed)
+// експортиране на CompareManager за използване в други модули (ако е необходимо)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = CompareManager;
 }

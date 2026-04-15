@@ -1,14 +1,10 @@
 <?php
 // ============================================
 // get_user_orders.php - Поръчки на потребител
-// GET: api/orders/get_user_orders.php?user_id=1
 // ============================================
 
 require_once '../config.php';
 
-// За production - вземи user_id от сесията
-// requireLogin();
-// $user_id = $_SESSION['user_id'];
 
 // За development - вземи от параметър
 $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
@@ -20,7 +16,7 @@ if (!$user_id) {
 try {
     $conn = getDBConnection();
 
-    // Взимаме поръчките на потребителя
+    // Взима поръчките на потребителя
     $sql = "
         SELECT 
             o.order_id,
@@ -39,7 +35,7 @@ try {
     $stmt->execute([':user_id' => $user_id]);
     $orders = $stmt->fetchAll();
 
-    // За всяка поръчка вземаме продуктите
+    // За всяка поръчка взема продуктите
     foreach ($orders as &$order) {
         $sql_items = "
             SELECT 

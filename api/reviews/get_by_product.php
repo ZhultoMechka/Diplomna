@@ -1,7 +1,6 @@
 <?php
 // ============================================
 // get_by_product.php - Отзиви за продукт
-// GET: api/reviews/get_by_product.php?product_id=1
 // ============================================
 
 require_once '../config.php';
@@ -23,7 +22,7 @@ try {
         sendResponse(404, ['success' => false, 'message' => 'Продуктът не съществува']);
     }
 
-    // Вземаме всички одобрени отзиви за продукта
+    // Взема всички одобрени отзиви за продукта
     $sql = "
         SELECT 
             review_id,

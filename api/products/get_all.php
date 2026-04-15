@@ -1,12 +1,11 @@
 <?php
 // ============================================
 // get_all.php - Вземане на всички продукти
-// GET: api/products/get_all.php
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само GET заявки
+// Приема само GET заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     sendResponse(405, [
         'success' => false,
@@ -44,7 +43,7 @@ if (!in_array($sort_by, $valid_sort_fields)) {
 try {
     $conn = getDBConnection();
     
-    // Започваме със базовата заявка
+    // Започва със базовата заявка
     $sql = "
         SELECT 
             p.*,
@@ -57,7 +56,7 @@ try {
     
     $params = [];
     
-    // Добавяме филтри ако има
+    // Добавя филтри ако има
     if ($brand_id !== null) {
         $sql .= " AND p.brand_id = :brand_id";
         $params[':brand_id'] = $brand_id;
@@ -94,10 +93,10 @@ try {
         $params[':search'] = '%' . $search . '%';
     }
     
-    // Добавяме сортиране
+    // Добавя сортиране
     $sql .= " ORDER BY p.$sort_by $sort_order";
     
-    // Изпълняваме заявката
+    // Изпълнява заявката
     $stmt = $conn->prepare($sql);
     
     // Bind параметрите
@@ -108,12 +107,12 @@ try {
     $stmt->execute();
     $products = $stmt->fetchAll();
     
-    // Вземаме общия брой продукти (без филтри) за статистика
+    // Взема общия брой продукти (без филтри) за статистика
     $stmt_total = $conn->prepare("SELECT COUNT(*) as total FROM products WHERE is_active = 1");
     $stmt_total->execute();
     $total_active = $stmt_total->fetch()['total'];
     
-    // Форматираме отговора
+    // Форматира отговора
     sendResponse(200, [
         'success' => true,
         'count' => count($products),

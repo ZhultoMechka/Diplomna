@@ -1,7 +1,6 @@
 <?php
 // ============================================
 // create.php - Създаване на нова поръчка
-// POST: api/orders/create.php
 // ============================================
 
 require_once '../config.php';
@@ -32,13 +31,13 @@ try {
     $conn = getDBConnection();
     $conn->beginTransaction();
 
-    // Вземаме user_id ако е логнат (опционално)
+    // Взема user_id ако е логнат (опционално)
     $user_id = isset($data['user_id']) ? intval($data['user_id']) : null;
 
-    // Изчисляваме общата сума
+    // Изчислява общата сума
     $total_amount = floatval($data['total_amount']);
 
-    // 1. Създаваме поръчката
+    // 1. Създава поръчката
     $sql_order = "
         INSERT INTO orders (
             user_id, 
@@ -75,7 +74,7 @@ try {
 
     $order_id = $conn->lastInsertId();
 
-    // 2. Добавяме продуктите (order_items) - ПРАВИЛНИ КОЛОНИ!
+    // 2. Добавя продуктите (order_items) 
     $sql_item = "
         INSERT INTO order_items (order_id, product_id, quantity, unit_price, subtotal)
         VALUES (:order_id, :product_id, :quantity, :unit_price, :subtotal)
@@ -95,7 +94,7 @@ try {
             ':subtotal'    => $subtotal
         ]);
 
-        // 3. Добавяме услугите за всеки продукт (order_services)
+        // 3. Добавя услугите за всеки продукт (order_services)
         if (!empty($item['services'])) {
             $sql_service = "
                 INSERT INTO order_services (order_id, service_id, quantity, service_price)
@@ -114,9 +113,9 @@ try {
         }
     }
 
-    // 4. Записваме плащането - ПРАВИЛНИ КОЛОНИ И ENUM VALUES!
+    // 4. Записва плащането
     
-    // Конвертираме payment_method към DB enum values
+    // Конвертира payment_method към DB enum values
     $payment_method_map = [
         'cash' => 'cash_on_delivery',
         'bank' => 'bank_transfer',
@@ -142,7 +141,7 @@ try {
 
     $conn->commit();
 
-    // Връщаме успех с order_id
+    // Връща успех с order_id
     sendResponse(200, [
         'success'  => true,
         'message'  => 'Поръчката е направена успешно!',

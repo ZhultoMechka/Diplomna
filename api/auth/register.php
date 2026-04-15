@@ -1,12 +1,11 @@
 <?php
 // ============================================
 // register.php - Регистрация на нов потребител
-// PUT: api/auth/register.php
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само POST заявки
+// Само POST заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(405, [
         'success' => false,
@@ -14,14 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
 }
 
-// Вземаме JSON данните от request-а
+//JSON данните от request-а
 $data = getJSONInput();
 
 // ============================================
 // ВАЛИДАЦИЯ НА ВХОДНИТЕ ДАННИ
 // ============================================
 
-// Проверяваме задължителните полета
+// Проверяват се задължителните полета
 $required_fields = ['email', 'password', 'full_name', 'phone', 'user_type'];
 $errors = validateRequired($data, $required_fields);
 
@@ -33,14 +32,13 @@ if (!empty($errors)) {
     ]);
 }
 
-// Sanitize входните данни
 $email = sanitizeInput($data['email']);
 $password = $data['password'];
 $full_name = sanitizeInput($data['full_name']);
 $phone = sanitizeInput($data['phone']);
 $user_type = sanitizeInput($data['user_type']);
 
-// Валидираме имейла
+// Валидиране на имейла
 if (!validateEmail($email)) {
     sendResponse(400, [
         'success' => false,
@@ -48,7 +46,7 @@ if (!validateEmail($email)) {
     ]);
 }
 
-// Валидираме телефона
+// Валидиране на телефона
 if (!validatePhone($phone)) {
     sendResponse(400, [
         'success' => false,
@@ -56,7 +54,7 @@ if (!validatePhone($phone)) {
     ]);
 }
 
-// Проверяваме типа потребител
+// Проверява типа потребител
 if (!in_array($user_type, ['client', 'employee', 'admin'])) {
     sendResponse(400, [
         'success' => false,
@@ -64,7 +62,7 @@ if (!in_array($user_type, ['client', 'employee', 'admin'])) {
     ]);
 }
 
-// Проверяваме дължината на паролата
+// Проверява дължината на паролата
 if (strlen($password) < 6) {
     sendResponse(400, [
         'success' => false,
@@ -79,7 +77,7 @@ if (strlen($password) < 6) {
 try {
     $conn = getDBConnection();
     
-    // Проверяваме дали имейлът вече съществува
+    // Проверява дали имейлът вече съществува
     $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -91,10 +89,10 @@ try {
         ]);
     }
     
-    // Криптираме паролата с bcrypt (най-сигурният метод)
+    // Криптира паролата с bcrypt
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
     
-    // Вмъкваме новия потребител в базата
+    // Вмъква новия потребител в базата
     $stmt = $conn->prepare("
         INSERT INTO users (email, password, full_name, phone, user_type, is_active) 
         VALUES (:email, :password, :full_name, :phone, :user_type, 1)
@@ -108,15 +106,15 @@ try {
     
     $stmt->execute();
     
-    // Вземаме ID на новосъздадения потребител
+    // Взема ID на новосъздадения потребител
     $user_id = $conn->lastInsertId();
     
     // ============================================
-    // СЪЗДАВАМЕ ДОПЪЛНИТЕЛЕН ЗАПИС СПОРЕД ТИПА
+    // ДОПЪЛНИТЕЛЕН ЗАПИС СПОРЕД ТИПА
     // ============================================
     
     if ($user_type === 'client') {
-        // Ако е клиент, създаваме запис в clients таблицата
+        // Ако е клиент, създава запис в clients таблицата
         $stmt = $conn->prepare("
             INSERT INTO clients (user_id, receive_promotions) 
             VALUES (:user_id, 1)
@@ -125,7 +123,7 @@ try {
         $stmt->execute();
         
     } elseif ($user_type === 'employee' || $user_type === 'admin') {
-        // Ако е служител, създаваме запис в employees таблицата
+        // Ако е служител, създава запис в employees таблицата
         $position = isset($data['position']) ? sanitizeInput($data['position']) : 'customer_service';
         
         $stmt = $conn->prepare("
@@ -146,7 +144,7 @@ try {
     $_SESSION['full_name'] = $full_name;
     $_SESSION['user_type'] = $user_type;
     
-    // Връщаме успешен отговор
+    // Връща се успешен отговор
     sendResponse(201, [
         'success' => true,
         'message' => 'Регистрацията беше успешна!',

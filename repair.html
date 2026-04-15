@@ -402,7 +402,6 @@
     const API_URL = 'http://localhost/Diplomna/api';
     
     // Service type mapping
-    // NOTE: Update these IDs based on your database services table
     const SERVICE_TYPE_MAP = {
         'repair': 5,              // Ремонт
         'maintenance': 6,         // Профилактика
@@ -423,7 +422,7 @@
         if (currentUser.phone) {
             document.getElementById('phone').value = currentUser.phone;
         }
-        // Ако имаме адрес от профила
+        // Ако има адрес от профила
         if (currentUser.address) {
             document.getElementById('address').value = currentUser.address;
         }

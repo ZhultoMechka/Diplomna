@@ -1,21 +1,15 @@
 <?php
 // ============================================
 // update.php - Обновяване на продукт
-// PUT/POST: api/products/update.php
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме POST или PUT
+// Приема POST или PUT
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $_SERVER['REQUEST_METHOD'] !== 'PUT') {
     sendResponse(405, ['success' => false, 'message' => 'Позволени са само POST/PUT методи']);
 }
 
-// Проверка дали е admin (по-късно)
-// requireLogin();
-// if ($_SESSION['user_type'] !== 'admin') {
-//     sendResponse(403, ['success' => false, 'message' => 'Нямате права за това действие']);
-// }
 
 $data = json_decode(file_get_contents('php://input'), true);
 

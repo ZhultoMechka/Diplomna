@@ -1,23 +1,19 @@
 // ============================================
 // FAVORITES MANAGER
-// Manages favorite/wishlist products
+
 // ============================================
 
 class FavoritesManager {
     constructor() {
-        // Get current user for user-specific storage
         const user = this.getCurrentUser();
         const userId = user ? user.user_id : 'guest';
         
-        // User-specific storage key
         this.storageKey = `klimatici_favorites_${userId}`;
         this.favorites = this.loadFavorites();
         
-        // Migrate old global favorites to user-specific (one-time)
         this.migrateOldFavorites();
     }
     
-    // Get current logged in user
     getCurrentUser() {
         try {
             const userData = localStorage.getItem('user');
@@ -27,12 +23,10 @@ class FavoritesManager {
         }
     }
     
-    // Migrate old global favorites to user-specific storage (one-time migration)
     migrateOldFavorites() {
         const oldKey = 'klimatici_favorites';
         const oldData = localStorage.getItem(oldKey);
         
-        // Only migrate if old key exists and current key is empty
         if (oldData && !localStorage.getItem(this.storageKey)) {
             try {
                 const user = this.getCurrentUser();
@@ -49,7 +43,6 @@ class FavoritesManager {
         }
     }
 
-    // Load favorites from localStorage
     loadFavorites() {
         try {
             const data = localStorage.getItem(this.storageKey);
@@ -60,7 +53,6 @@ class FavoritesManager {
         }
     }
 
-    // Save favorites to localStorage
     saveFavorites() {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.favorites));
@@ -71,14 +63,11 @@ class FavoritesManager {
         }
     }
 
-    // Add product to favorites
     addFavorite(product) {
-        // Check if already exists
         if (this.isFavorite(product.product_id)) {
             return false;
         }
 
-        // Add to favorites
         this.favorites.push({
             product_id: product.product_id,
             product_name: product.product_name,
@@ -94,7 +83,6 @@ class FavoritesManager {
         return true;
     }
 
-    // Remove product from favorites
     removeFavorite(productId) {
         const initialLength = this.favorites.length;
         this.favorites = this.favorites.filter(item => item.product_id !== productId);
@@ -106,7 +94,6 @@ class FavoritesManager {
         return false;
     }
 
-    // Toggle favorite
     toggleFavorite(product) {
         if (this.isFavorite(product.product_id)) {
             this.removeFavorite(product.product_id);
@@ -117,28 +104,23 @@ class FavoritesManager {
         }
     }
 
-    // Check if product is favorite
     isFavorite(productId) {
         return this.favorites.some(item => item.product_id === productId);
     }
 
-    // Get all favorites
     getFavorites() {
         return this.favorites;
     }
 
-    // Get favorites count
     getCount() {
         return this.favorites.length;
     }
 
-    // Clear all favorites
     clearFavorites() {
         this.favorites = [];
         this.saveFavorites();
     }
 
-    // Update badge counters in navigation
     updateBadges() {
         const badges = document.querySelectorAll('.favorites-badge');
         const count = this.getCount();
@@ -149,7 +131,6 @@ class FavoritesManager {
         });
     }
 
-    // Trigger update event for other components
     triggerUpdate() {
         window.dispatchEvent(new CustomEvent('favoritesUpdated', {
             detail: {
@@ -159,7 +140,6 @@ class FavoritesManager {
         }));
     }
 
-    // Update heart icons on page
     updateHeartIcons() {
         const heartBtns = document.querySelectorAll('.favorite-btn');
         heartBtns.forEach(btn => {
@@ -177,10 +157,8 @@ class FavoritesManager {
     }
 }
 
-// Create global instance
 const Favorites = new FavoritesManager();
 
-// Export for modules (if needed)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = FavoritesManager;
 }

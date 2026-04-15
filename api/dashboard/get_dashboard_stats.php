@@ -1,16 +1,10 @@
 <?php
 // ============================================
 // get_dashboard_stats.php - Dashboard статистики
-// GET: api/dashboard/get_dashboard_stats.php
 // ============================================
 
 require_once '../config.php';
 
-// Проверка дали е admin (по-късно)
-// requireLogin();
-// if ($_SESSION['user_type'] !== 'admin') {
-//     sendResponse(403, ['success' => false, 'message' => 'Нямате права']);
-// }
 
 try {
     $conn = getDBConnection();

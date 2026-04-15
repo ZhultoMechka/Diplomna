@@ -2,9 +2,6 @@
 // ============================================
 // GET CONVERSATIONS API (for technicians)
 // ============================================
-// Endpoint: api/chat/get_conversations.php
-// Method: GET
-// Params: technician_id (optional for testing)
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -12,16 +9,14 @@ header('Access-Control-Allow-Origin: *');
 require_once '../config/database.php';
 
 try {
-    // Get parameter (optional - shows all conversations if not provided)
+
     $technician_id = isset($_GET['technician_id']) ? intval($_GET['technician_id']) : null;
     
-    // Connect to database
+    // Връзна с базата данни
     $database = new Database();
     $db = $database->getConnection();
     
-    // Get all conversations
-    // Shows ALL conversations regardless of technician for now (easier for testing)
-    // Can be filtered by technician later if needed
+    // Взима всички разговори, свързани с този техник
     
     $query = "
         SELECT 
@@ -71,7 +66,7 @@ try {
         }
     }
     
-    // Format conversations
+    // форматираме разговорите
     foreach ($uniqueConversations as &$conv) {
         $conv['order_id'] = intval($conv['order_id']);
         $conv['total_messages'] = intval($conv['total_messages']);
@@ -79,7 +74,7 @@ try {
         $conv['last_sender_is_customer'] = intval($conv['last_sender_id']) !== ($technician_id ?? 0);
     }
     
-    // Return conversations
+    // връща се отговор
     echo json_encode([
         'success' => true,
         'conversations' => $uniqueConversations,

@@ -1,12 +1,11 @@
 <?php
 // ============================================
 // get_all.php - Вземане на всички услуги
-// GET: api/services/get_all.php
 // ============================================
 
 require_once '../config.php';
 
-// Приемаме само GET заявки
+// Приема само GET заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     sendResponse(405, [
         'success' => false,
@@ -30,7 +29,7 @@ try {
         }
     }
     
-    // Вземаме всички услуги с динамично име на ценовата колона
+    // Взема всички услуги с динамично име на ценовата колона
     $sql = "
         SELECT 
             service_id,
@@ -46,12 +45,12 @@ try {
     $stmt->execute();
     $services = $stmt->fetchAll();
     
-    // Добавяме is_active поле за всички услуги (всички са активни)
+    // Добавя is_active поле за всички услуги (всички са активни)
     foreach ($services as &$service) {
         $service['is_active'] = 1;
     }
     
-    // Форматираме отговора
+    // Форматира отговора
     sendResponse(200, [
         'success' => true,
         'count' => count($services),

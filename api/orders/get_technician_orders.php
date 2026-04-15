@@ -1,11 +1,6 @@
 <?php
 // ============================================
 // get_technician_orders.php - Orders for Technicians
-// GET: api/orders/get_technician_orders.php
-// Returns ALL orders (with or without services)
-// FIXED: Uses DISTINCT to avoid duplicates
-// FIXED: Uses LEFT JOIN to show all orders
-// FIXED: Always returns services as array (may be empty)
 // ============================================
 
 require_once '../config.php';
@@ -13,8 +8,7 @@ require_once '../config.php';
 try {
     $conn = getDBConnection();
 
-    // Get ALL orders (not just those with services)
-    // Use DISTINCT to avoid duplicates
+    // Взимане на всички поръчки
     $sql = "
         SELECT DISTINCT
             o.order_id,
@@ -65,10 +59,10 @@ try {
         $services_stmt->execute([':order_id' => $order['order_id']]);
         $services = $services_stmt->fetchAll();
         
-        // Always set services as array (may be empty)
+        //Винаги връщаме масив
         $order['services'] = $services ? $services : [];
 
-        // Get products count
+        //Взимаме броя на продуктите за всяка поръчка
         $products_sql = "
             SELECT COUNT(*) as product_count
             FROM order_items
@@ -80,7 +74,7 @@ try {
         $order['product_count'] = $result ? $result['product_count'] : 0;
     }
 
-    // Calculate statistics
+    // Изчисляване на статистики за статусите
     $stats = [
         'total' => count($orders),
         'pending' => 0,
