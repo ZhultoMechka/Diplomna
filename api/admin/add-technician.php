@@ -8,7 +8,7 @@ error_log("=== ADD TECHNICIAN DEBUG ===");
 error_log("Session data: " . json_encode($_SESSION));
 error_log("Method: " . $_SERVER['REQUEST_METHOD']);
 
-// Приемаме само POST заявки
+// Приема само POST заявки
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
         'success' => false,
@@ -52,7 +52,7 @@ if (!isset($_SESSION['user_type'])) {
     exit;
 }
 
-// CRITICAL: Само admin може да добавя техници
+//Само admin може да добавя техници
 if ($_SESSION['user_type'] !== 'admin') {
     echo json_encode([
         'success' => false,
@@ -68,7 +68,7 @@ if ($_SESSION['user_type'] !== 'admin') {
 }
 
 // ============================================
-// ВЗЕМАМЕ ДАННИТЕ
+// ВЗЕМАНЕ НА ДАННИТЕ
 // ============================================
 
 $input = file_get_contents('php://input');
@@ -143,7 +143,7 @@ try {
     // Криптираме паролата
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
     
-    // Създаваме user запис
+    // Създава user запис
     $stmt = $conn->prepare("
         INSERT INTO users (email, password, full_name, phone, user_type, is_active) 
         VALUES (:email, :password, :full_name, :phone, 'employee', 1)
@@ -158,7 +158,7 @@ try {
     
     $user_id = $conn->lastInsertId();
     
-    // Създаваме employee запис
+    // Създава employee запис
     $stmt = $conn->prepare("
         INSERT INTO employees (user_id, position, hire_date, is_available) 
         VALUES (:user_id, :position, CURDATE(), 1)
