@@ -84,14 +84,42 @@ try {
         $unit_price = floatval($item['unitPrice']);
         $quantity = intval($item['quantity']);
         $subtotal = $unit_price * $quantity;
+        $product_id = $item['product']['product_id'];
+
+        // Проверка дали има достатъчна наличност
+        $sql_check = "SELECT stock_quantity FROM products WHERE product_id = :product_id FOR UPDATE";
+        $stmt_check = $conn->prepare($sql_check);
+        $stmt_check->execute([':product_id' => $product_id]);
+        $product = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+        if (!$product) {
+            $conn->rollBack();
+            sendResponse(400, ['success' => false, 'message' => "Продуктът не е намерен (ID: $product_id)"]);
+        }
+
+        if ($product['stock_quantity'] < $quantity) {
+            $conn->rollBack();
+            sendResponse(400, [
+                'success' => false,
+                'message' => "Недостатъчна наличност. Налични: {$product['stock_quantity']} бр."
+            ]);
+        }
 
         $stmt = $conn->prepare($sql_item);
         $stmt->execute([
             ':order_id'    => $order_id,
-            ':product_id'  => $item['product']['product_id'],
+            ':product_id'  => $product_id,
             ':quantity'    => $quantity,
             ':unit_price'  => $unit_price,
             ':subtotal'    => $subtotal
+        ]);
+
+        // Намаляване на наличността
+        $sql_stock = "UPDATE products SET stock_quantity = stock_quantity - :quantity WHERE product_id = :product_id";
+        $stmt_stock = $conn->prepare($sql_stock);
+        $stmt_stock->execute([
+            ':quantity'   => $quantity,
+            ':product_id' => $product_id
         ]);
 
         // 3. Добавя услугите за всеки продукт (order_services)
