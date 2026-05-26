@@ -550,11 +550,11 @@
                     <label>Телефон</label>
                     <div class="input-icon">
                         <i class="fas fa-phone"></i>
-                        <input type="tel" id="phone" placeholder="0888 123 456" required>
+                        <input type="tel" id="phone" placeholder="0888123456 или +359888123456" required>
                         <i class="fas validation-icon"></i>
                     </div>
                     <div class="error-message" id="phone-error"></div>
-                    <div class="helper-text">Български мобилен номер (10 цифри)</div>
+                    <div class="helper-text">Български мобилен номер </div>
                 </div>
 
                 <div class="form-group">
@@ -604,17 +604,13 @@
     // Validate phone number
     function validatePhone(phone) {
         const cleaned = phone.replace(/[\s\-\(\)]/g, '');
-        
-        if (cleaned.startsWith('+359')) {
-            const number = cleaned.substring(4);
-            return /^(87|88|89)\d{7}$/.test(number);
-        } else if (cleaned.startsWith('359')) {
-            const number = cleaned.substring(3);
-            return /^(87|88|89)\d{7}$/.test(number);
-        } else if (cleaned.startsWith('0')) {
-            return /^0(87|88|89)\d{7}$/.test(cleaned);
-        }
-        
+
+        // 0888123456 — мобилен
+        if (/^0(87|88|89)\d{7}$/.test(cleaned)) return true;
+
+        // +359888123456 — международен
+        if (/^\+359(87|88|89)\d{7}$/.test(cleaned)) return true;
+
         return false;
     }
 
@@ -736,7 +732,7 @@
                 } else if (validatePhone(value)) {
                     showValidation('phone', true);
                 } else {
-                    showValidation('phone', false, 'Невалиден телефонен номер (напр. 0888123456)');
+                    showValidation('phone', false, 'Форматите: 0888123456 или +359888123456');
                 }
             });
         }
@@ -900,7 +896,7 @@
         }
         
         if (!validatePhone(phone)) {
-            showValidation('phone', false, 'Невалиден телефон');
+            showValidation('phone', false, 'Форматите: 0888123456 или +359888123456');
             hasErrors = true;
         }
         
